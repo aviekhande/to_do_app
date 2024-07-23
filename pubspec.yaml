@@ -1,0 +1,30 @@
+name: to_do_app
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  auto_route: ^8.1.4
+  auto_route_generator: ^8.1.0
+  flutter:
+    sdk: flutter
+  flutter_screenutil: ^5.9.3
+  flutter_svg: ^2.0.10+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  build_runner: ^2.4.11
+
+flutter:
+  uses-material-design: true
+  assets:
+   - assets/images/welcome_banner.svg
+   - assets/images/profile_image.png
+   - assets/icons/back_ic.svg
+   - assets/images/mobile_number_banner.svg
+   - assets/images/empty_img.svg
