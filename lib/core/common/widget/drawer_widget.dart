@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/theme/colors.dart';
 
 class CommonDrawer extends StatefulWidget {
@@ -10,6 +11,14 @@ class CommonDrawer extends StatefulWidget {
 }
 
 class _CommonDrawerState extends State<CommonDrawer> {
+  bool isDarkTheme = false;
+  void changeTheme() {
+    isDarkTheme = !isDarkTheme;
+    setState(() {});
+  }
+
+  String selectedValue = "English";
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -32,16 +41,18 @@ class _CommonDrawerState extends State<CommonDrawer> {
                   SizedBox(
                     height: 10.h,
                   ),
-                  const Text(
+                  Text(
                     "Name ",
-                    style: TextStyle(color: kColorWhite),
+                    style: GoogleFonts.poppins(
+                        color: kColorWhite, fontSize: 14.sp),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text(
+                  Text(
                     "Email",
-                    style: TextStyle(color: kColorWhite),
+                    style: GoogleFonts.poppins(
+                        color: kColorWhite, fontSize: 14.sp),
                   )
                 ],
               ),
@@ -55,15 +66,42 @@ class _CommonDrawerState extends State<CommonDrawer> {
                 SizedBox(
                   width: 250.w,
                 ),
-                const Text(
+                Text(
                   "Translate",
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600, fontSize: 14.sp),
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
-                const Row(
-                  children: [Icon(Icons.g_translate_sharp)],
+                Row(
+                  children: [
+                    const Icon(Icons.g_translate_sharp),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    DropdownButton(
+                        isDense: true,
+                        autofocus: true,
+                        value: selectedValue,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedValue = newValue!;
+                          });
+                        },
+                        items: [
+                          DropdownMenuItem(
+                              value: "English",
+                              child: Text(
+                                "English",
+                                style: GoogleFonts.poppins(fontSize: 12.sp),
+                              )),
+                          DropdownMenuItem(
+                              value: "Hindi",
+                              child: Text("Hindi",
+                                  style: GoogleFonts.poppins(fontSize: 12.sp))),
+                        ])
+                  ],
                 ),
                 SizedBox(
                   height: 30.h,
@@ -75,23 +113,54 @@ class _CommonDrawerState extends State<CommonDrawer> {
                       Icons.sunny,
                       color: Colors.amber,
                     ),
-                    Container(
-                      height: 20.h,
-                      width: 50.w,
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 10,
-                            decoration: const BoxDecoration(
-                                color: kColorLightBlack,
-                                shape: BoxShape.circle),
-                          )
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        changeTheme();
+                      },
+                      child: Container(
+                        height: 23.h,
+                        width: 44.w,
+                        decoration: BoxDecoration(
+                            // color: const Color.fromARGB(255, 205, 203, 203),
+                            color: isDarkTheme
+                                ? const Color.fromARGB(255, 54, 14, 135)
+                                : const Color.fromARGB(255, 205, 203, 203),
+                            borderRadius: BorderRadius.circular(20),
+                            border:
+                                Border.all(color: kColorLightBlack, width: 2)),
+                        child: Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.all(4.h),
+                              width: 12.w,
+                              height: 12.h,
+                              decoration: BoxDecoration(
+                                  // color: kColorLightBlack,
+                                  color: isDarkTheme
+                                      ? const Color.fromARGB(255, 54, 14, 135)
+                                      : kColorLightBlack,
+                                  shape: BoxShape.circle),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(1.h),
+                              width: 17.w,
+                              height: 17.h,
+                              decoration: BoxDecoration(
+                                  color: isDarkTheme
+                                      ? kColorWhite
+                                      : const Color.fromARGB(
+                                          255, 205, 203, 203),
+                                  shape: BoxShape.circle),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                    const Icon(
+                    Icon(
                       Icons.dark_mode,
-                      // color: Colors.amber,
+                      color: isDarkTheme
+                          ? const Color.fromARGB(255, 54, 14, 135)
+                          : kColorLightBlack,
                     )
                   ],
                 ),
@@ -104,9 +173,10 @@ class _CommonDrawerState extends State<CommonDrawer> {
                     SizedBox(
                       width: 10.w,
                     ),
-                    const Text(
+                    Text(
                       "Logout",
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600, fontSize: 14.sp),
                     )
                   ],
                 )

@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:to_do_app/core/theme/routes/app_router.dart';
 
 class Commonbottomnavigationbar extends StatefulWidget {
   const Commonbottomnavigationbar({super.key});
@@ -36,15 +37,17 @@ class _CommonbottomnavigationbarState extends State<Commonbottomnavigationbar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 45.h,
-      color: Colors.green[100],
+      height: 50.h,
+      color: Color.fromARGB(255, 214, 232, 215),
       child: Padding(
         padding: const EdgeInsets.only(right: 25.0, left: 25),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                AutoRouter.of(context).push(const HomeScreenRoute());
+              },
               child: const Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -53,11 +56,13 @@ class _CommonbottomnavigationbarState extends State<Commonbottomnavigationbar> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                AutoRouter.of(context).push(const AddTaskScreenRoute());
+              },
               child: const Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.calendar_month),
+                  Icon(Icons.calendar_month_outlined),
                 ],
               ),
             ),
@@ -69,12 +74,14 @@ class _CommonbottomnavigationbarState extends State<Commonbottomnavigationbar> {
               child: const Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.data_saver_off_rounded),
+                  Icon(Icons.timelapse_outlined),
                 ],
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                AutoRouter.of(context).push(const ProfileScreenRoute());
+              },
               child: const Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -107,7 +114,7 @@ class _CommonbottomnavigationbarState extends State<Commonbottomnavigationbar> {
     //     ),
     //   ],
     //   showUnselectedLabels: true,
-    //   unselectedLabelStyle: const TextStyle(color: Colors.grey, fontSize: 12.0),
+    //   unselectedLabelStyle: const GoogleFonts.poppins(color: Colors.grey, fontSize: 12.0),
     //   currentIndex: selectedIndex,
     //   selectedItemColor: Colors.grey,
     //   unselectedItemColor: Colors.grey,

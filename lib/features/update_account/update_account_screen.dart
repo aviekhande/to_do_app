@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,14 +8,14 @@ import '../../../core/common/widget/authmethod.dart';
 import '../../../core/theme/colors.dart';
 
 @RoutePage()
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class UpdateAccountScreen extends StatefulWidget {
+  const UpdateAccountScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<UpdateAccountScreen> createState() => _UpdateAccountScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
   GlobalKey<FormState> checkkey = GlobalKey();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -80,15 +78,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                    child: Text(
-                  "Register",
-                  style: GoogleFonts.poppins(
-                      fontSize: 24.sp, fontWeight: FontWeight.w800),
-                )),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Center(
                   child: Stack(
                     children: [
                       Container(
@@ -134,10 +123,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "First Name",
-                          style: GoogleFonts.poppins(fontSize: 14.sp),
-                        ),
+                        const Text("First Name"),
                         SizedBox(
                           height: 5.h,
                         ),
@@ -147,18 +133,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             // key: checkkey,
                             controller: firstNameController,
                             decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: kColorTextfieldBordered, width: 1.0),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              fillColor: kColorWhite,
-                              filled: true,
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: kColorLightBlack, width: 1.0),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
                               hintStyle:
                                   GoogleFonts.poppins(color: kColorLightBlack),
                               contentPadding: const EdgeInsets.only(
@@ -180,10 +154,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Last Name",
-                          style: GoogleFonts.poppins(fontSize: 14.sp),
-                        ),
+                        const Text("Last Name"),
                         SizedBox(
                           height: 5.h,
                         ),
@@ -193,18 +164,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             // key: checkkey,
                             controller: lastNameController,
                             decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: kColorTextfieldBordered, width: 1.0),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              fillColor: kColorWhite,
-                              filled: true,
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: kColorLightBlack, width: 1.0),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
                               hintStyle:
                                   GoogleFonts.poppins(color: kColorLightBlack),
                               contentPadding: const EdgeInsets.only(
@@ -226,144 +185,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 10.h,
-                ),
-                Text(
-                  "E-mail",
-                  style: GoogleFonts.poppins(fontSize: 14.sp),
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                TextFormField(
-                  // key: checkkey,
-                  controller: emailController,
-                  decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: kColorTextfieldBordered, width: 1.0),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      fillColor: kColorWhite,
-                      filled: true,
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: kColorLightBlack, width: 1.0),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      hintText: "Enter your email",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      hintStyle: GoogleFonts.poppins(color: kColorLightBlack)),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Enter Email";
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Text(
-                  "Password",
-                  style: GoogleFonts.poppins(fontSize: 14.sp),
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                TextFormField(
-                  // key: checkkey,
-                  obscureText: unShowPass1,
-                  obscuringCharacter: "*",
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          color: kColorTextfieldBordered, width: 1.0),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    fillColor: kColorWhite,
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: kColorLightBlack, width: 1.0),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    suffixIcon: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            unShowPass1 = !unShowPass1;
-                          });
-                          toggleIcon1();
-                        },
-                        child: toggleIcon1()),
-                    hintStyle: GoogleFonts.poppins(color: kColorLightBlack),
-                    // contentPadding: const EdgeInsets.only(
-                    //     left: 15, bottom: 20, top: 8, right: 10),
-                    hintText: "*********",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Enter Password";
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Text(
-                  "Confirm Password",
-                  style: GoogleFonts.poppins(fontSize: 14.sp),
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                TextFormField(
-                  // key: checkkey,
-                  obscureText: unShowPass,
-                  obscuringCharacter: "*",
-                  controller: confirmPasswordController,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          color: kColorTextfieldBordered, width: 1.0),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    fillColor: kColorWhite,
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: kColorLightBlack, width: 1.0),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    suffixIcon: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            unShowPass = !unShowPass;
-                          });
-                          toggleIcon();
-                        },
-                        child: toggleIcon()),
-                    hintStyle: GoogleFonts.poppins(color: kColorLightBlack),
-                    // contentPadding: const EdgeInsets.only(
-                    //     left: 15, bottom: 10, top: 25, right: 10),
-                    hintText: "**********",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Enter Password";
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: 50.h,
+                  height: 300.h,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -379,7 +201,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         borderRadius: BorderRadius.circular(30)),
                     child: Center(
                         child: Text(
-                      "Create Account",
+                      "Update Account",
                       style: GoogleFonts.poppins(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,

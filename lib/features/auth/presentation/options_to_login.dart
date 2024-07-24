@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/constants/constants.dart';
 import 'package:to_do_app/core/theme/colors.dart';
 
@@ -46,7 +47,7 @@ class _OptionScreenState extends State<OptionScreen> {
                     child: Center(
                         child: Text(
                       "Register",
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                           fontSize: 14.sp, fontWeight: FontWeight.w500),
                     )),
                   ),
@@ -64,7 +65,7 @@ class _OptionScreenState extends State<OptionScreen> {
                     child: Center(
                         child: Text(
                       "Login",
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
                           color: kColorWhite),
@@ -83,15 +84,15 @@ class _OptionScreenState extends State<OptionScreen> {
               },
               child: Container(
                 padding: EdgeInsets.only(
-                    left: 50.w, right: 50.w, top: 10, bottom: 10),
+                    left: 50.w, right: 50.w, top: 10.h, bottom: 10.h),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black38, width: 2.w),
                     borderRadius: BorderRadius.circular(30)),
                 child: Center(
                     child: Text(
                   "SignIn with mobile number",
-                  style:
-                      TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+                  style: GoogleFonts.poppins(
+                      fontSize: 14.sp, fontWeight: FontWeight.w500),
                 )),
               ),
             ),
