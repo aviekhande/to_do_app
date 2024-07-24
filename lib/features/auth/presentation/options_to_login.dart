@@ -40,7 +40,7 @@ class _OptionScreenState extends State<OptionScreen> {
                   },
                   child: Container(
                     padding: EdgeInsets.only(
-                        left: 50.w, right: 50.w, top: 10.h, bottom: 10.h),
+                        left: 48.w, right: 48.w, top: 10.h, bottom: 10.h),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.black, width: 2.w),
                         borderRadius: BorderRadius.circular(30)),
@@ -58,7 +58,7 @@ class _OptionScreenState extends State<OptionScreen> {
                   },
                   child: Container(
                     padding: EdgeInsets.only(
-                        left: 60.w, right: 60.w, top: 12.h, bottom: 12.h),
+                        left: 55.w, right: 55.w, top: 12.h, bottom: 12.h),
                     decoration: BoxDecoration(
                         color: kColorPrimary,
                         borderRadius: BorderRadius.circular(30)),

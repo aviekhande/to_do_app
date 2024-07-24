@@ -6,7 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:to_do_app/core/theme/routes/app_router.dart';
 import '../../../core/common/widget/authmethod.dart';
+import '../../../core/common/widget/snackbar_widget.dart';
 import '../../../core/theme/colors.dart';
 
 @RoutePage()
@@ -36,7 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         unShowPass1 ? Icons.remove_red_eye_outlined : Icons.remove_red_eye);
   }
 
-  void signUpUser() async {
+  void signUpUser(context) async {
     // set is loading to true.
 
     String res = await AuthMethod().signUpUser(
@@ -46,11 +48,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     // if string return is success, user has been creaded and navigate to next screen other witse show error.
     if (res == "success") {
       //navigate to the next screen
-      // AutoRouter.of(context).push(const SplashScreenRoute());
-      // showSnackBar(context, res);
+      AutoRouter.of(context).push(const HomeScreenRoute());
+      showSnackBar(context, res);
     } else {
       // show error
-      // showSnackBar(context, res);
+      showSnackBar(context, "Account not crate");
     }
   }
 
@@ -73,7 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(top: 10.h, right: 15.w, left: 15.w),
+          padding: EdgeInsets.only(right: 15.w, left: 15.w),
           child: Form(
             key: checkkey,
             child: Column(
@@ -159,8 +161,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     color: kColorLightBlack, width: 1.0),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              hintStyle:
-                                  GoogleFonts.poppins(color: kColorLightBlack),
+                              hintStyle: GoogleFonts.poppins(
+                                  color: kColorLightBlack, fontSize: 14.sp),
                               contentPadding: const EdgeInsets.only(
                                   left: 15, bottom: 20, top: 8, right: 10),
                               hintText: "Jhon",
@@ -205,8 +207,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     color: kColorLightBlack, width: 1.0),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              hintStyle:
-                                  GoogleFonts.poppins(color: kColorLightBlack),
+                              hintStyle: GoogleFonts.poppins(
+                                  color: kColorLightBlack, fontSize: 14.sp),
                               contentPadding: const EdgeInsets.only(
                                   left: 15, bottom: 20, top: 8, right: 10),
                               hintText: "Doe",
@@ -254,7 +256,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       hintText: "Enter your email",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      hintStyle: GoogleFonts.poppins(color: kColorLightBlack)),
+                      hintStyle: GoogleFonts.poppins(
+                          color: kColorLightBlack, fontSize: 14.sp)),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Enter Email";
@@ -298,7 +301,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           toggleIcon1();
                         },
                         child: toggleIcon1()),
-                    hintStyle: GoogleFonts.poppins(color: kColorLightBlack),
+                    hintStyle: GoogleFonts.poppins(
+                        color: kColorLightBlack, fontSize: 14.sp),
                     // contentPadding: const EdgeInsets.only(
                     //     left: 15, bottom: 20, top: 8, right: 10),
                     hintText: "*********",
@@ -348,7 +352,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           toggleIcon();
                         },
                         child: toggleIcon()),
-                    hintStyle: GoogleFonts.poppins(color: kColorLightBlack),
+                    hintStyle: GoogleFonts.poppins(
+                        color: kColorLightBlack, fontSize: 14.sp),
                     // contentPadding: const EdgeInsets.only(
                     //     left: 15, bottom: 10, top: 25, right: 10),
                     hintText: "**********",
@@ -363,12 +368,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                 ),
                 SizedBox(
-                  height: 50.h,
+                  height: 45.h,
                 ),
                 GestureDetector(
                   onTap: () {
                     if (checkkey.currentState!.validate()) {
-                      signUpUser();
+                      signUpUser(context);
                     }
                   },
                   child: Container(

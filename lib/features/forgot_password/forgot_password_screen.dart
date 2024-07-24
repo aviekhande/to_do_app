@@ -82,7 +82,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   focusColor: kColorPrimary,
                   fillColor: Colors.white,
                   hintText: "Enter your email",
-                  hintStyle: GoogleFonts.poppins(color: kColorLightBlack)),
+                  hintStyle: GoogleFonts.poppins(
+                      color: kColorLightBlack, fontSize: 14.sp)),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Enter Email";

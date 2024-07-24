@@ -133,8 +133,8 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                             // key: checkkey,
                             controller: firstNameController,
                             decoration: InputDecoration(
-                              hintStyle:
-                                  GoogleFonts.poppins(color: kColorLightBlack),
+                              hintStyle: GoogleFonts.poppins(
+                                  color: kColorLightBlack, fontSize: 14.sp),
                               contentPadding: const EdgeInsets.only(
                                   left: 15, bottom: 20, top: 8, right: 10),
                               hintText: "Jhon",
@@ -165,7 +165,7 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                             controller: lastNameController,
                             decoration: InputDecoration(
                               hintStyle:
-                                  GoogleFonts.poppins(color: kColorLightBlack),
+                                  GoogleFonts.poppins(color: kColorLightBlack, fontSize: 14.sp),
                               contentPadding: const EdgeInsets.only(
                                   left: 15, bottom: 20, top: 8, right: 10),
                               hintText: "Doe",

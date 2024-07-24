@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/theme/routes/app_router.dart';
 
+import '../../../core/common/widget/authmethod.dart';
+import '../../../core/common/widget/snackbar_widget.dart';
 import '../../../core/theme/colors.dart';
 
 @RoutePage()
@@ -22,6 +24,23 @@ class _LoginScreenState extends State<LoginScreen> {
   Icon toggleicon() {
     return Icon(
         unshowpass ? Icons.remove_red_eye_outlined : Icons.remove_red_eye);
+  }
+
+  void loginUser(context) async {
+    // signUp user using our authMethod
+    String res = await AuthMethod().loginUser(
+        email: emailController.text, password: passwordController.text);
+
+    if (res == "success") {
+      // navigate to the home screen
+      AutoRouter.of(context).push(const HomeScreenRoute());
+      emailController.clear();
+      passwordController.clear();
+      showSnackBar(context, "Login successful");
+    } else {
+      // show error
+      showSnackBar(context, "User not found");
+    }
   }
 
   @override
@@ -69,7 +88,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: "Enter your email",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    hintStyle: GoogleFonts.poppins(color: kColorLightBlack)),
+                    hintStyle: GoogleFonts.poppins(
+                        color: kColorLightBlack, fontSize: 14.sp)),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Enter Email";
@@ -112,7 +132,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         toggleicon();
                       },
                       child: toggleicon()),
-                  hintStyle: GoogleFonts.poppins(color: kColorLightBlack),
+                  hintStyle: GoogleFonts.poppins(
+                      color: kColorLightBlack, fontSize: 14.sp),
                   contentPadding: const EdgeInsets.only(
                       left: 15, bottom: 20, top: 8, right: 10),
                   hintText: "Enter your password",
@@ -156,9 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
               GestureDetector(
                 onTap: () {
                   if (loginKey.currentState!.validate()) {
-                    AutoRouter.of(context).push(const HomeScreenRoute());
-                    emailController.clear();
-                    passwordController.clear();
+                    loginUser(context);
                   }
                 },
                 child: Container(

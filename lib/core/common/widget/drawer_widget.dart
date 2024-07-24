@@ -119,7 +119,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                       },
                       child: Container(
                         height: 23.h,
-                        width: 44.w,
+                        width: 45.w,
                         decoration: BoxDecoration(
                             // color: const Color.fromARGB(255, 205, 203, 203),
                             color: isDarkTheme
