@@ -48,7 +48,7 @@ class _OptionScreenState extends State<OptionScreen> {
                         child: Text(
                       "Register",
                       style: GoogleFonts.poppins(
-                          fontSize: 14.sp, fontWeight: FontWeight.w500),
+                          fontSize: 16.sp, fontWeight: FontWeight.w500),
                     )),
                   ),
                 ),
@@ -58,7 +58,7 @@ class _OptionScreenState extends State<OptionScreen> {
                   },
                   child: Container(
                     padding: EdgeInsets.only(
-                        left: 55.w, right: 55.w, top: 12.h, bottom: 12.h),
+                        left: 60.w, right: 60.w, top: 12.h, bottom: 12.h),
                     decoration: BoxDecoration(
                         color: kColorPrimary,
                         borderRadius: BorderRadius.circular(30)),
@@ -66,7 +66,7 @@ class _OptionScreenState extends State<OptionScreen> {
                         child: Text(
                       "Login",
                       style: GoogleFonts.poppins(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                           color: kColorWhite),
                     )),
@@ -92,7 +92,7 @@ class _OptionScreenState extends State<OptionScreen> {
                     child: Text(
                   "SignIn with mobile number",
                   style: GoogleFonts.poppins(
-                      fontSize: 14.sp, fontWeight: FontWeight.w500),
+                      fontSize: 16.sp, fontWeight: FontWeight.w500),
                 )),
               ),
             ),

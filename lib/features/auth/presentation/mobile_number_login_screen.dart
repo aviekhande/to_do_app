@@ -61,7 +61,7 @@ class _MobileNumberLoginScreenState extends State<MobileNumberLoginScreen> {
                   ],
                 ),
                 hintStyle: GoogleFonts.poppins(
-                    color: kColorLightBlack, fontSize: 14.sp),
+                    color: kColorLightBlack, fontSize: 16.sp),
                 contentPadding: const EdgeInsets.only(
                     left: 15, bottom: 20, top: 8, right: 10),
                 hintText: "Mobile Number",
@@ -90,7 +90,7 @@ class _MobileNumberLoginScreenState extends State<MobileNumberLoginScreen> {
                     child: Text(
                   "Continue",
                   style: GoogleFonts.poppins(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: kColorWhite),
                 )),

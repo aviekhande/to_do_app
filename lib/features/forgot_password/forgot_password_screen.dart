@@ -44,7 +44,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               child: Text(
                 "Forgot password",
                 style: GoogleFonts.poppins(
-                    fontSize: 24.sp, fontWeight: FontWeight.w600),
+                    fontSize: 28.sp, fontWeight: FontWeight.w600),
               ),
             ),
             SizedBox(
@@ -59,7 +59,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             ),
             Text(
               "E-mail",
-              style: GoogleFonts.poppins(fontSize: 14.sp),
+              style: GoogleFonts.poppins(fontSize: 16.sp),
             ),
             SizedBox(
               height: 5.h,
@@ -83,7 +83,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   fillColor: Colors.white,
                   hintText: "Enter your email",
                   hintStyle: GoogleFonts.poppins(
-                      color: kColorLightBlack, fontSize: 14.sp)),
+                      color: kColorLightBlack, fontSize: 16.sp)),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Enter Email";
@@ -109,7 +109,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     child: Text(
                   "Send Reset Instruction",
                   style: GoogleFonts.poppins(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: kColorWhite),
                 )),

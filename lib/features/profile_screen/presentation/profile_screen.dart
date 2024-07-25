@@ -1,11 +1,18 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:to_do_app/core/common/widget/bottomnav_widget.dart';
+import 'package:to_do_app/core/common/widget/common_floating_action_button.dart';
 import 'package:to_do_app/core/theme/routes/app_router.dart';
-import '../../core/theme/colors.dart';
+import 'package:to_do_app/features/profile_screen/presentation/bloc/bloc/profile_bloc.dart';
+import '../../../core/theme/colors.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
@@ -15,7 +22,18 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
+DocumentSnapshot? docSnap;
+
 class _ProfileScreenState extends State<ProfileScreen> {
+  String email = "Email";
+  String name = "Name";
+  String imageUrl = "";
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileBloc>().add(ProfileEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,40 +75,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         offset: Offset(0, 3),
                         blurRadius: 10)
                   ]),
-              child: Row(
-                children: [
-                  // SizedBox(
-                  //   width: 15.w,
-                  // ),
-                  Container(
-                    padding: const EdgeInsets.all(2),
-                    height: 55.h,
-                    width: 55.w,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: kColorWhite,
-                    ),
-                    child: Image.asset(
-                      "assets/images/profile_image.png",
-                      height: 40.h,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15.w,
-                  ),
-                  Column(
+              child: BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  if (state is ProfileLoading) {
+                    log("${state.docSnap['email']}");
+                    email = state.docSnap['email'];
+                    name = state.docSnap['name'];
+                    imageUrl = state.docSnap['image'];
+                  }
+                  return Row(
                     children: [
-                      Text(
-                        "Email ",
-                        style: GoogleFonts.poppins(color: kColorWhite),
+                      // SizedBox(
+                      //   width: 15.w,
+                      // ),
+                      Container(
+                        padding: const EdgeInsets.all(2),
+                        height: 55.h,
+                        width: 55.w,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: kColorWhite,
+                        ),
+                        child: imageUrl.isEmpty
+                            ? Image.asset(
+                                "assets/images/profile_image.png",
+                                height: 40.h,
+                              )
+                            : Image.network(imageUrl),
                       ),
-                      Text(
-                        "Name",
-                        style: GoogleFonts.poppins(color: kColorWhite),
+                      SizedBox(
+                        width: 15.w,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "$email ",
+                            style: GoogleFonts.poppins(color: kColorWhite),
+                          ),
+                          Text(
+                            "$name",
+                            style: GoogleFonts.poppins(color: kColorWhite),
+                          )
+                        ],
                       )
                     ],
-                  )
-                ],
+                  );
+                },
               ),
             ),
             SizedBox(
@@ -118,7 +149,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Text("My Account",
                                   style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 14.sp)),
+                                      fontSize: 16.sp)),
                               Text("Make changes to your account",
                                   style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w400,
@@ -157,7 +188,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Text("Change Password",
                                 style: GoogleFonts.poppins(
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 14.sp)),
+                                    fontSize: 16.sp)),
                             Text("Manage your password",
                                 style: GoogleFonts.poppins(
                                     fontWeight: FontWeight.w400,
@@ -177,6 +208,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: const Commonbottomnavigationbar(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: const CommonFloatingActionButton(),
     );
   }
 }

@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/theme/colors.dart';
+
+import '../../../features/profile_screen/presentation/bloc/bloc/profile_bloc.dart';
 
 class CommonDrawer extends StatefulWidget {
   const CommonDrawer({super.key});
@@ -19,6 +24,15 @@ class _CommonDrawerState extends State<CommonDrawer> {
 
   String selectedValue = "English";
 
+  String email = "Email";
+  String name = "Name";
+  String imageUrl = "";
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileBloc>().add(ProfileEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -28,33 +42,48 @@ class _CommonDrawerState extends State<CommonDrawer> {
             color: kColorPrimary,
             child: Padding(
               padding: EdgeInsets.all(10.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 50.h,
-                  ),
-                  Image.asset(
-                    "assets/images/profile_image.png",
-                    height: 40.h,
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Text(
-                    "Name ",
-                    style: GoogleFonts.poppins(
-                        color: kColorWhite, fontSize: 14.sp),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "Email",
-                    style: GoogleFonts.poppins(
-                        color: kColorWhite, fontSize: 14.sp),
-                  )
-                ],
+              child: BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  if (state is ProfileLoading) {
+                    log("${state.docSnap['email']}");
+                    email = state.docSnap['email'];
+                    name = state.docSnap['name'];
+                    imageUrl = state.docSnap['image'];
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 50.h,
+                      ),
+                      imageUrl.isEmpty
+                          ? Image.asset(
+                              "assets/images/profile_image.png",
+                              height: 40.h,
+                            )
+                          : Image.network(
+                              imageUrl,
+                              height: 40.h,
+                            ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Text(
+                        "$name ",
+                        style: GoogleFonts.poppins(
+                            color: kColorWhite, fontSize: 16.sp),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "$email ",
+                        style: GoogleFonts.poppins(
+                            color: kColorWhite, fontSize: 16.sp),
+                      )
+                    ],
+                  );
+                },
               ),
             ),
           ),
@@ -69,7 +98,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                 Text(
                   "Translate",
                   style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600, fontSize: 14.sp),
+                      fontWeight: FontWeight.w600, fontSize: 16.sp),
                 ),
                 SizedBox(
                   height: 15.h,
@@ -176,7 +205,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                     Text(
                       "Logout",
                       style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w600, fontSize: 14.sp),
+                          fontWeight: FontWeight.w600, fontSize: 16.sp),
                     )
                   ],
                 )

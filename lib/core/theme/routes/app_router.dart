@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:to_do_app/features/forgot_password/forgot_password_screen.dart';
-import 'package:to_do_app/features/profile_screen/profile_screen.dart';
+import 'package:to_do_app/features/profile_screen/presentation/profile_screen.dart';
 import '../../../features/add_task/add_task_screen.dart';
 import '../../../features/auth/presentation/login.dart';
 import '../../../features/auth/presentation/mobile_number_login_screen.dart';

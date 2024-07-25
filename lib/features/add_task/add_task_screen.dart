@@ -1,8 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:to_do_app/core/common/widget/bottomnav_widget.dart';
+import 'package:to_do_app/core/common/widget/common_floating_action_button.dart';
+import 'package:to_do_app/core/common/widget/session_controller.dart';
 import '../../core/theme/colors.dart';
 import 'package:intl/intl.dart';
 
@@ -15,6 +19,7 @@ class AddTaskScreen extends StatefulWidget {
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   TextEditingController taskController = TextEditingController();
   GlobalKey<FormState> addKey = GlobalKey();
   DateTime? selectedDate;
@@ -173,8 +178,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               ),
               SizedBox(height: 100.h),
               GestureDetector(
-                onTap: () {
-                  if (addKey.currentState!.validate()) {}
+                onTap: () async {
+                  if (addKey.currentState!.validate()) {
+                    await _fireStore
+                        .collection("todo")
+                        .doc(SessionController().userId)
+                        .set({
+                      'task': taskController.text,
+                      'date': _formattedDate,
+                      'time': _formattedTime,
+                    });
+                  }
                 },
                 child: Container(
                   padding: EdgeInsets.only(
@@ -186,7 +200,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       child: Text(
                     "Add Task",
                     style: GoogleFonts.poppins(
-                        fontSize: 14.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
                         color: kColorWhite),
                   )),
@@ -196,6 +210,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: const CommonFloatingActionButton(),
+      bottomNavigationBar: const Commonbottomnavigationbar(),
     );
   }
 }
