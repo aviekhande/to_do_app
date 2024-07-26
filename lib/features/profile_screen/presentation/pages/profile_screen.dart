@@ -8,11 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:to_do_app/core/common/widget/bottomnav_widget.dart';
-import 'package:to_do_app/core/common/widget/common_floating_action_button.dart';
-import 'package:to_do_app/core/theme/routes/app_router.dart';
+import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/features/profile_screen/presentation/bloc/bloc/profile_bloc.dart';
-import '../../../core/theme/colors.dart';
+import '../../../../core/theme/colors.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
@@ -37,11 +35,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: GestureDetector(
           onTap: () {
-            AutoRouter.of(context).popForced();
+            // AutoRouter.of(context).popForced();
           },
           child: Container(
               decoration: const BoxDecoration(
@@ -208,9 +207,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: const Commonbottomnavigationbar(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: const CommonFloatingActionButton(),
+      // bottomNavigationBar: const Commonbottomnavigationbar(),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: const CommonFloatingActionButton(),
     );
   }
 }

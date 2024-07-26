@@ -68,7 +68,7 @@ class AuthMethod {
           SessionController().userId = value.user!.uid.toString();
         });
         res = "success";
-      return response.user.uid;
+        return response.user.uid;
       } else {
         res = "Please enter all the fields";
       }

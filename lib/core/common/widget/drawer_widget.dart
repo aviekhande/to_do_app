@@ -1,12 +1,17 @@
 import 'dart:developer';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:to_do_app/core/common/widget/logout_alert_dialog_box.dart';
 import 'package:to_do_app/core/theme/colors.dart';
-
+import 'package:to_do_app/core/routes/app_router.dart';
+import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginbloc.dart';
+import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginstate.dart';
 import '../../../features/profile_screen/presentation/bloc/bloc/profile_bloc.dart';
+import '../../theme/app_theme.dart';
+import '../../theme/bloc/theme_bloc_bloc.dart';
 
 class CommonDrawer extends StatefulWidget {
   const CommonDrawer({super.key});
@@ -15,8 +20,9 @@ class CommonDrawer extends StatefulWidget {
   State<CommonDrawer> createState() => _CommonDrawerState();
 }
 
+bool isDarkTheme = false;
+
 class _CommonDrawerState extends State<CommonDrawer> {
-  bool isDarkTheme = false;
   void changeTheme() {
     isDarkTheme = !isDarkTheme;
     setState(() {});
@@ -35,6 +41,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    isDarkTheme = Theme.of(context).colorScheme.surface == Colors.grey.shade700;
     return Drawer(
       child: Column(
         children: [
@@ -144,7 +151,15 @@ class _CommonDrawerState extends State<CommonDrawer> {
                     ),
                     GestureDetector(
                       onTap: () {
+                        isDarkTheme
+                            ? context
+                                .read<ThemeBlocBloc>()
+                                .add(ThemeBlocEvent(themeData: lightMode))
+                            : context
+                                .read<ThemeBlocBloc>()
+                                .add(ThemeBlocEvent(themeData: darkMode));
                         changeTheme();
+                        log("changeTheme");
                       },
                       child: Container(
                         height: 23.h,
@@ -196,19 +211,32 @@ class _CommonDrawerState extends State<CommonDrawer> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Row(
-                  children: [
-                    Icon(Icons.logout),
-                    SizedBox(
-                      width: 10.w,
+                BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+                  if (state is Logout) {
+                    AutoRouter.of(context)
+                        .replaceAll([const OptionScreenRoute()]);
+                  }
+                  return GestureDetector(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => const LogoutAlertDialogBox());
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(Icons.logout),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Text(
+                          "Logout",
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600, fontSize: 16.sp),
+                        )
+                      ],
                     ),
-                    Text(
-                      "Logout",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w600, fontSize: 16.sp),
-                    )
-                  ],
-                )
+                  );
+                })
               ],
             ),
           )

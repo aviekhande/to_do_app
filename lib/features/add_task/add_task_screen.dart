@@ -38,11 +38,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: GestureDetector(
           onTap: () {
-            AutoRouter.of(context).popForced();
+            // AutoRouter.of(context).popForced();
           },
           child: Container(
               decoration: const BoxDecoration(
@@ -111,8 +112,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   }
                 },
                 child: Container(
-                  height: 40.h,
-                  padding: EdgeInsets.all(10),
+                  height: 45.h,
+                  padding: EdgeInsets.all(10.h),
                   decoration: BoxDecoration(
                     color: kColorWhite,
                     borderRadius: BorderRadius.circular(8),
@@ -152,8 +153,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   }
                 },
                 child: Container(
-                  height: 40.h,
-                  padding: EdgeInsets.all(10),
+                  height: 45.h,
+                  padding: EdgeInsets.all(10.h),
                   decoration: BoxDecoration(
                     color: kColorWhite,
                     borderRadius: BorderRadius.circular(8),
@@ -210,9 +211,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: const CommonFloatingActionButton(),
-      bottomNavigationBar: const Commonbottomnavigationbar(),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: const CommonFloatingActionButton(),
+      // bottomNavigationBar: const Commonbottomnavigationbar(),
     );
   }
 }

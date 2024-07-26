@@ -5,9 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/common/widget/bottomnav_widget.dart';
 import 'package:to_do_app/core/theme/colors.dart';
-import 'package:to_do_app/core/theme/routes/app_router.dart';
+import 'package:to_do_app/core/routes/app_router.dart';
 
-import '../../../core/common/widget/drawer_widget.dart';
+import '../../../../core/common/widget/drawer_widget.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -22,16 +22,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         actions: [
           Icon(
             Icons.sunny,
             size: 18.h,
+            color: Theme.of(context).colorScheme.surface == Colors.grey.shade700
+                ? Colors.black
+                : Colors.amber,
           ),
           SizedBox(
             width: 20.w,
@@ -115,32 +119,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        margin: const EdgeInsets.only(top: 10),
-        decoration: const BoxDecoration(shape: BoxShape.circle, boxShadow: [
-          BoxShadow(
-              color: Color.fromARGB(255, 148, 170, 153),
-              spreadRadius: 2,
-              offset: Offset(0, 4),
-              blurRadius: 10)
-        ]),
-        child: FloatingActionButton(
-          backgroundColor: kColorPrimary,
-          elevation: 0,
-          onPressed: () {
-            AutoRouter.of(context).push(const AddTaskScreenRoute());
-          },
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100),
-          ),
-          child: const Icon(
-            Icons.add,
-            color: kColorWhite,
-          ),
-        ),
-      ),
-      bottomNavigationBar: const Commonbottomnavigationbar(),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton:
+      // Container(
+      //   margin: const EdgeInsets.only(top: 10),
+      //   decoration: const BoxDecoration(shape: BoxShape.circle, boxShadow: [
+      //     BoxShadow(
+      //         color: Color.fromARGB(255, 148, 170, 153),
+      //         spreadRadius: 2,
+      //         offset: Offset(0, 4),
+      //         blurRadius: 10)
+      //   ]),
+      //   child: FloatingActionButton(
+      //     backgroundColor: kColorPrimary,
+      //     elevation: 0,
+      //     onPressed: () {
+      //       AutoRouter.of(context).push(const AddTaskScreenRoute());
+      //     },
+      //     shape: RoundedRectangleBorder(
+      //       borderRadius: BorderRadius.circular(100),
+      //     ),
+      //     child: const Icon(
+      //       Icons.add,
+      //       color: kColorWhite,
+      //     ),
+      //   ),
+      // ),
       drawer: const CommonDrawer(),
     );
   }

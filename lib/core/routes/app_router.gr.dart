@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AddTaskScreen(),
       );
     },
+    CommonbottomnavigationbarRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const Commonbottomnavigationbar(),
+      );
+    },
     ForgotPasswordScreenRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -82,6 +88,20 @@ class AddTaskScreenRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AddTaskScreenRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [Commonbottomnavigationbar]
+class CommonbottomnavigationbarRoute extends PageRouteInfo<void> {
+  const CommonbottomnavigationbarRoute({List<PageRouteInfo>? children})
+      : super(
+          CommonbottomnavigationbarRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CommonbottomnavigationbarRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

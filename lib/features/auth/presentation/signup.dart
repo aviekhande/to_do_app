@@ -10,7 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:to_do_app/core/theme/routes/app_router.dart';
+import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/bloc/signup_bloc.dart';
 import '../../../core/common/widget/authmethod.dart';
 import '../../../core/common/widget/snackbar_widget.dart';
@@ -173,99 +173,106 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "First Name",
-                            style: GoogleFonts.poppins(fontSize: 16.sp),
-                          ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          SizedBox(
-                            width: 150.w,
-                            child: TextFormField(
-                              // key: checkkey,
-                              controller: firstNameController,
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: kColorTextfieldBordered,
-                                      width: 1.0),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                fillColor: kColorWhite,
-                                filled: true,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: kColorLightBlack, width: 1.0),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                hintStyle: GoogleFonts.poppins(
-                                    color: kColorLightBlack, fontSize: 16.sp),
-                                contentPadding: const EdgeInsets.only(
-                                    left: 15, bottom: 20, top: 8, right: 10),
-                                hintText: "Jhon",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Enter Name";
-                                }
-                                return null;
-                              },
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "First Name",
+                              style: GoogleFonts.poppins(fontSize: 16.sp),
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            SizedBox(
+                              // width: 150.w,
+                              child: TextFormField(
+                                // key: checkkey,
+                                controller: firstNameController,
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: kColorTextfieldBordered,
+                                        width: 1.0),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  fillColor: kColorWhite,
+                                  filled: true,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: kColorLightBlack, width: 1.0),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: kColorLightBlack, fontSize: 16.sp),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15, bottom: 20, top: 8, right: 10),
+                                  hintText: "Jhon",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Enter Name";
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Last Name",
-                            style: GoogleFonts.poppins(fontSize: 16.sp),
-                          ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          SizedBox(
-                            width: 150.w,
-                            child: TextFormField(
-                              // key: checkkey,
-                              controller: lastNameController,
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: kColorTextfieldBordered,
-                                      width: 1.0),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                fillColor: kColorWhite,
-                                filled: true,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: kColorLightBlack, width: 1.0),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                hintStyle: GoogleFonts.poppins(
-                                    color: kColorLightBlack, fontSize: 16.sp),
-                                contentPadding: const EdgeInsets.only(
-                                    left: 15, bottom: 20, top: 8, right: 10),
-                                hintText: "Doe",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Enter Last Name";
-                                }
-                                return null;
-                              },
+                      SizedBox(
+                        width: 15.w,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Last Name",
+                              style: GoogleFonts.poppins(fontSize: 16.sp),
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            SizedBox(
+                              // width: 150.w,
+                              child: TextFormField(
+                                // key: checkkey,
+                                controller: lastNameController,
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: kColorTextfieldBordered,
+                                        width: 1.0),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  fillColor: kColorWhite,
+                                  filled: true,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: kColorLightBlack, width: 1.0),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: kColorLightBlack, fontSize: 16.sp),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15, bottom: 20, top: 8, right: 10),
+                                  hintText: "Doe",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Enter Last Name";
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -415,7 +422,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   BlocConsumer<SignupBloc, SignupState>(
                     listener: (context, state) {
                       if (state is SignupSuccess) {
-                        AutoRouter.of(context).push(const HomeScreenRoute());
+                        AutoRouter.of(context).replaceAll(
+                            [const CommonbottomnavigationbarRoute()]);
                         clearController();
                       } else if (state is SignupFailed) {
                         showSnackBar(context, "Login fail");
@@ -425,12 +433,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return GestureDetector(
                         onTap: () {
                           if (checkkey.currentState!.validate()) {
-                            context.read<SignupBloc>().add(SignupRequest(
-                                email: emailController.text,
-                                password: passwordController.text,
-                                name: firstNameController.text,
-                                lastName: lastNameController.text,
-                                image: imageUrl!));
+                            if (passwordController.text ==
+                                confirmPasswordController.text) {
+                              context.read<SignupBloc>().add(SignupRequest(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  name: firstNameController.text,
+                                  lastName: lastNameController.text,
+                                  image: imageUrl!));
+                            } else {
+                              showSnackBar(context,
+                                  "Confirm password and password not match");
+                            }
                           }
                         },
                         child: Container(

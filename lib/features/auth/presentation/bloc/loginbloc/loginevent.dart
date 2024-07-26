@@ -5,3 +5,5 @@ class IsUserPresent extends LoginEvent{
   String password;
   IsUserPresent({required this.email, required this.password});
 }
+class LogoutEvent extends LoginEvent{}
+class LoadingEvent extends LoginEvent{}
