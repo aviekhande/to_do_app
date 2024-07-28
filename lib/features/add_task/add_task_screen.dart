@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:to_do_app/core/common/widget/bottomnav_widget.dart';
-import 'package:to_do_app/core/common/widget/common_floating_action_button.dart';
 import 'package:to_do_app/core/common/widget/session_controller.dart';
 import '../../core/theme/colors.dart';
 import 'package:intl/intl.dart';
@@ -162,7 +160,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   ),
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.alarm,
                         color: kColorLightBlack,
                       ),

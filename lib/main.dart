@@ -62,9 +62,9 @@ class _MainAppState extends State<MainApp> {
           BlocProvider(
             create: (context) => ForgotPassBloc(),
           ),
-           BlocProvider(
-            create: (context) => UpdateProfileBloc(),
-          ),
+          //    BlocProvider(
+          //     create: (context) => UpdateProfileBloc(),
+          //   ),
         ],
         child: ScreenUtilInit(
             designSize: const Size(411.42857142857144, 867.4285714285714),

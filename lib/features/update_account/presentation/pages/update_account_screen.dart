@@ -236,7 +236,7 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                         SizedBox(
                           height: 300.h,
                         ),
-                        BlocListener<UpdateProfileBloc, UpdateProfileState>(
+                        BlocListener<ProfileBloc, ProfileState>(
                           listener: (context, state) {
                             if (state is UpdateProfileSuccess) {
                               showSnackBarWidget(
@@ -249,10 +249,10 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                           child: GestureDetector(
                             onTap: () {
                               if (checkkey.currentState!.validate()) {
-                                context.read<UpdateProfileBloc>().add(
+                                context.read<ProfileBloc>().add(
                                     UpdateRequest(
                                         email: email,
-                                        image: imageUrl,
+                                        image: uploadImage,
                                         lastName: lastNameController.text,
                                         name: firstNameController.text));
                               }
@@ -281,7 +281,7 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
               ),
             ),
           ),
-          BlocBuilder<UpdateProfileBloc, UpdateProfileState>(
+          BlocBuilder<ProfileBloc, ProfileState>(
               builder: (context, state) {
             if (state is UpdateProfileLoading) {
               return const LoaderWidget();

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/features/profile_screen/presentation/bloc/bloc/profile_bloc.dart';
@@ -49,6 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       //         ),
       //         child: SvgPicture.asset("assets/icons/back_ic.svg")),
       //   ),
+      
       // ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
