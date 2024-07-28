@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/colors.dart';
+import '../../../../core/theme/colors.dart';
 
 @RoutePage()
 class ForgotPasswordScreen extends StatefulWidget {
@@ -21,25 +21,28 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: GestureDetector(
-          onTap: () {
-            AutoRouter.of(context).popForced();
-          },
-          child: Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: kColorWhite,
-              ),
-              child: SvgPicture.asset("assets/icons/back_ic.svg")),
-        ),
-      ),
       body: Padding(
-        padding: EdgeInsets.all(20.w),
+        padding: EdgeInsets.all(15.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 45.h,
+            ),
+            GestureDetector(
+              onTap: () {
+                AutoRouter.of(context).popForced();
+              },
+              child: Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: kColorWhite,
+                  ),
+                  child: SvgPicture.asset("assets/icons/back_ic.svg")),
+            ),
+            SizedBox(
+              height: 30.h,
+            ),
             Center(
               child: Text(
                 "Forgot password",
@@ -97,7 +100,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             const Spacer(),
             GestureDetector(
               onTap: () {
-                if (passKey.currentState!.validate()) {}
+                if (passKey.currentState!.validate()) {
+                  
+                }
               },
               child: Container(
                 padding: EdgeInsets.only(

@@ -11,7 +11,6 @@ import 'package:to_do_app/features/auth/presentation/bloc/bloc/signup_bloc.dart'
 import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginbloc.dart';
 import 'package:to_do_app/features/profile_screen/presentation/bloc/bloc/profile_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-
 import 'core/theme/app_theme.dart';
 import 'core/theme/bloc/theme_bloc_bloc.dart';
 
@@ -50,7 +49,7 @@ class _MainAppState extends State<MainApp> {
             create: (context) => LoginBloc(),
           ),
           BlocProvider(
-            create: (context) => SignupBloc(),
+            create: (context) => SignUpBloc(),
           ),
           BlocProvider(
             create: (context) => ProfileBloc(),

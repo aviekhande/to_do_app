@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/constants/constants.dart';
 import 'package:to_do_app/core/theme/colors.dart';
 
-import '../../../core/routes/app_router.dart';
+import '../../../../core/routes/app_router.dart';
 
 @RoutePage()
 class OptionScreen extends StatefulWidget {

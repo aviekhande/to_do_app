@@ -1,12 +1,23 @@
-part of 'signup_bloc.dart';
 
- class SignupEvent {
-}
-class SignupRequest extends SignupEvent {
+import 'dart:io';
+
+class SignUpEvent {}
+
+class SignUpRequest extends SignUpEvent {
   String email;
   String password;
   String name;
   String lastName;
   String image;
-  SignupRequest({required  this.email,required this.password,required this.name,required this.lastName,required this.image,});
+  SignUpRequest({
+    required this.email,
+    required this.password,
+    required this.name,
+    required this.lastName,
+    required this.image,
+  });
+}
+class ProfileImageSelect extends SignUpEvent {
+  String image;
+  ProfileImageSelect({required this.image});
 }

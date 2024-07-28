@@ -198,7 +198,7 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                     GestureDetector(
                       onTap: () {
                         if (checkkey.currentState!.validate()) {
-                          // signUpUser();
+                          // SignUpUser();
                         }
                       },
                       child: Container(

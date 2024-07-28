@@ -9,8 +9,8 @@ import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginbloc.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginevent.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginstate.dart';
-import '../../../core/common/widget/snackbar_widget.dart';
-import '../../../core/theme/colors.dart';
+import '../../../../core/common/widget/snackbar_widget.dart';
+import '../../../../core/theme/colors.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget {
@@ -30,8 +30,15 @@ class _LoginScreenState extends State<LoginScreen> {
         unshowpass ? Icons.remove_red_eye_outlined : Icons.remove_red_eye);
   }
 
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
+
   // void loginUser(context) async {
-  //   // signUp user using our authMethod
+  //   // SignUp user using our authMethod
   //   String res = await AuthMethod().loginUser(
   //       email: emailController.text, password: passwordController.text);
 
@@ -191,12 +198,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             [const CommonbottomnavigationbarRoute()]);
                         clearController();
                       } else if (state is LoginFailure) {
-                        showSnackBar(context, "Login fail");
+                        showSnackBarWidget(
+                            context, "Please Enter Valid Credentials");
                       }
                     },
                     builder: (context, state) {
                       return GestureDetector(
                         onTap: () {
+                          FocusScope.of(context).unfocus();
                           if (loginKey.currentState!.validate()) {
                             context.read<LoginBloc>().add(IsUserPresent(
                                 email: emailController.text,
@@ -243,7 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             clearController();
                           },
                           child: Text(
-                            "Signup",
+                            "SignUp",
                             style: GoogleFonts.poppins(
                                 color: Colors.blue[500], fontSize: 16.sp),
                           ),
@@ -260,7 +269,6 @@ class _LoginScreenState extends State<LoginScreen> {
               return const LoaderWidget();
             }
             return const SizedBox();
-            
           })
         ],
       ),

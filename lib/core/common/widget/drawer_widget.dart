@@ -63,15 +63,21 @@ class _CommonDrawerState extends State<CommonDrawer> {
                       Container(
                         height: 50.h,
                       ),
-                      imageUrl.isEmpty
-                          ? Image.asset(
-                              "assets/images/profile_image.png",
-                              height: 40.h,
-                            )
-                          : Image.network(
-                              imageUrl,
-                              height: 40.h,
-                            ),
+                      SizedBox(
+                        height: 80.h,
+                        width: 80.w,
+                        child: ClipOval(
+                          child: imageUrl.isEmpty
+                              ? Image.asset(
+                                  "assets/images/profile_image.png",
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.network(
+                                  imageUrl,
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                      ),
                       SizedBox(
                         height: 10.h,
                       ),
@@ -213,6 +219,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                 ),
                 BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
                   if (state is Logout) {
+                    log("IN LogoutState");
                     AutoRouter.of(context)
                         .replaceAll([const OptionScreenRoute()]);
                   }

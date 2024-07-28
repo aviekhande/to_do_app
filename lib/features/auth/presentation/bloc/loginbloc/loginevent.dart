@@ -7,3 +7,4 @@ class IsUserPresent extends LoginEvent{
 }
 class LogoutEvent extends LoginEvent{}
 class LoadingEvent extends LoginEvent{}
+class LoginInitial extends LoginEvent{}

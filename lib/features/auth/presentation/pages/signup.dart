@@ -10,11 +10,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:to_do_app/core/common/widget/loader_widget.dart';
 import 'package:to_do_app/core/routes/app_router.dart';
-import 'package:to_do_app/features/auth/presentation/bloc/bloc/signup_bloc.dart';
-import '../../../core/common/widget/authmethod.dart';
-import '../../../core/common/widget/snackbar_widget.dart';
-import '../../../core/theme/colors.dart';
+import 'package:to_do_app/features/auth/presentation/bloc/bloc/signup_event.dart';
+import 'package:to_do_app/features/auth/presentation/bloc/bloc/signup_state.dart';
+import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginbloc.dart';
+import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginevent.dart';
+import '../../../../core/common/widget/snackbar_widget.dart';
+import '../../../../core/common/widget/upload_photo.dart';
+import '../../../../core/theme/colors.dart';
+import '../bloc/bloc/signup_bloc.dart';
 
 @RoutePage()
 class SignUpScreen extends StatefulWidget {
@@ -35,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController confirmPasswordController = TextEditingController();
   bool unShowPass1 = true;
   bool unShowPass = true;
-
+  String uploadImage = "";
   @override
   void initState() {
     super.initState();
@@ -60,10 +65,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     confirmPasswordController.clear();
   }
 
-  // void signUpUser(context) async {
+  // void SignUpUser(context) async {
   //   // set is loading to true.
 
-  //   String res = await AuthMethod().signUpUser(
+  //   String res = await AuthMethod().SignUpUser(
   //       email: emailController.text,
   //       password: passwordController.text,
   //       name: firstNameController.text,
@@ -84,22 +89,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: GestureDetector(
-          onTap: () {
-            AutoRouter.of(context).popForced();
-          },
-          child: Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: kColorWhite,
-              ),
-              child: SvgPicture.asset("assets/icons/back_ic.svg")),
-        ),
-      ),
-      body: LoaderOverlay(
-        child: SingleChildScrollView(
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   automaticallyImplyLeading: false,
+      //   title: GestureDetector(
+      //     onTap: () {
+      //       AutoRouter.of(context).popForced();
+      //     },
+      //     child: Container(
+      //         decoration: const BoxDecoration(
+      //           shape: BoxShape.circle,
+      //           // color: kColorWhite,
+      //         ),
+      //         child: SvgPicture.asset("assets/icons/back_ic.svg")),
+      //   ),
+      // ),
+      body: Stack(children: [
+        SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(right: 15.w, left: 15.w),
             child: Form(
@@ -107,6 +113,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    height: 60.h,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      AutoRouter.of(context).popForced();
+                    },
+                    child: Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          // color: kColorWhite,
+                        ),
+                        child: SvgPicture.asset("assets/icons/back_ic.svg")),
+                  ),
+                  SizedBox(
+                    height: 30.h,
+                  ),
                   Center(
                       child: Text(
                     "Register",
@@ -119,29 +142,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Center(
                     child: Stack(
                       children: [
-                        Container(
-                          height: 85.h,
-                          width: 85.w,
-                          child: ClipOval(
-                            // borderRadius: BorderRadius.circular(
-                            //     100.0), // Adjust the radius as needed
-                            child: (imageUrl == null || imageUrl!.isEmpty)
-                                ? Image.asset(
-                                    "assets/images/profile_image.png",
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.network(
-                                    imageUrl!,
-                                    fit: BoxFit.cover,
+                        BlocBuilder<SignUpBloc, SignUpState>(
+                          builder: (context, state) {
+                            if (state is ProfileSelect) {
+                              uploadImage = state.image;
+                            }
+                            return Container(
+                              height: 85.h,
+                              width: 85.w,
+                              child: ClipOval(
+                                  // borderRadius: BorderRadius.circular(
+                                  //     100.0), // Adjust the radius as needed
+                                  child: uploadImage.isNotEmpty
+                                      ? Image.file(
+                                          File(uploadImage),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          "assets/images/profile_image.png",
+                                          fit: BoxFit.cover,
+                                        )
+                                  // : Image.network(
+                                  //     imageUrl!,
+                                  //     fit: BoxFit.cover,
+                                  //   ),
                                   ),
-                          ),
+                            );
+                          },
                         ),
                         Positioned(
                           bottom: 3.h,
                           left: 50.w,
                           child: GestureDetector(
                             onTap: () {
-                              showOptionBottomSheet();
+                              showOptionBottomSheet(context);
                             },
                             child: Container(
                               decoration: const BoxDecoration(
@@ -311,6 +345,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if (value == null || value.isEmpty) {
                         return "Enter Email";
                       }
+
                       return null;
                     },
                   ),
@@ -361,6 +396,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Enter Password";
+                      }
+                      if (value.length < 6) {
+                        return "Password Must greater than 6";
                       }
                       return null;
                     },
@@ -419,30 +457,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(
                     height: 45.h,
                   ),
-                  BlocConsumer<SignupBloc, SignupState>(
+                  BlocConsumer<SignUpBloc, SignUpState>(
                     listener: (context, state) {
-                      if (state is SignupSuccess) {
+                      if (state is SignUpSuccess) {
                         AutoRouter.of(context).replaceAll(
                             [const CommonbottomnavigationbarRoute()]);
                         clearController();
-                      } else if (state is SignupFailed) {
-                        showSnackBar(context, "Login fail");
+                      } else if (state is SignUpFailed) {
+                        showSnackBarWidget(context, state.response);
                       }
                     },
                     builder: (context, state) {
                       return GestureDetector(
-                        onTap: () {
+                        onTap: () async {
+                          log("InCreate");
+
+                          FocusScope.of(context).unfocus();
                           if (checkkey.currentState!.validate()) {
                             if (passwordController.text ==
                                 confirmPasswordController.text) {
-                              context.read<SignupBloc>().add(SignupRequest(
+                              if (state is ProfileSelect) {
+                                imageUrl = state.image;
+                              }
+                              context.read<SignUpBloc>().add(SignUpRequest(
                                   email: emailController.text,
                                   password: passwordController.text,
                                   name: firstNameController.text,
                                   lastName: lastNameController.text,
                                   image: imageUrl!));
+                              context.read<LoginBloc>().add(LoginInitial());
                             } else {
-                              showSnackBar(context,
+                              showSnackBarWidget(context,
                                   "Confirm password and password not match");
                             }
                           }
@@ -470,98 +515,104 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ),
         ),
-      ),
+        BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
+          if (state is SignUpLoading) {
+            return const LoaderWidget();
+          }
+          return const SizedBox();
+        })
+      ]),
     );
   }
 
-  Future<void> showOptionBottomSheet() async {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return SizedBox(
-          height: 120.h,
-          width: 411.42857142857144.w,
-          child: Padding(
-            padding: EdgeInsets.all(20.w),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    uploadPhoto("cam");
-                  },
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.camera,
-                        color: kColorPrimary,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Text(
-                        "Camera",
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(height: 25.w),
-                GestureDetector(
-                  onTap: () {
-                    uploadPhoto("gal");
-                  },
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.photo,
-                        color: kColorPrimary,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Text(
-                        "Gallery",
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
+  // Future<void> showOptionBottomSheet() async {
+  //   showModalBottomSheet<void>(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return SizedBox(
+  //         height: 120.h,
+  //         width: 411.42857142857144.w,
+  //         child: Padding(
+  //           padding: EdgeInsets.all(20.w),
+  //           child: Column(
+  //             mainAxisAlignment: MainAxisAlignment.start,
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: <Widget>[
+  //               GestureDetector(
+  //                 onTap: () {
+  //                   uploadPhoto("cam");
+  //                 },
+  //                 child: Row(
+  //                   children: [
+  //                     const Icon(
+  //                       Icons.camera,
+  //                       color: kColorPrimary,
+  //                     ),
+  //                     SizedBox(
+  //                       width: 10.w,
+  //                     ),
+  //                     Text(
+  //                       "Camera",
+  //                       style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+  //                     )
+  //                   ],
+  //                 ),
+  //               ),
+  //               SizedBox(height: 25.w),
+  //               GestureDetector(
+  //                 onTap: () {
+  //                   uploadPhoto("gal");
+  //                 },
+  //                 child: Row(
+  //                   children: [
+  //                     const Icon(
+  //                       Icons.photo,
+  //                       color: kColorPrimary,
+  //                     ),
+  //                     SizedBox(
+  //                       width: 10.w,
+  //                     ),
+  //                     Text(
+  //                       "Gallery",
+  //                       style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+  //                     )
+  //                   ],
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
-  Future<void> uploadPhoto(String option) async {
-    final ImagePicker picker = ImagePicker();
-    String uniqueFileName = DateTime.now().microsecondsSinceEpoch.toString();
-    XFile? file = await picker.pickImage(
-        source: option == "cam" ? ImageSource.camera : ImageSource.gallery);
-    AutoRouter.of(context).popForced();
-    if (file == null) return;
+  // Future<void> uploadPhoto(String option) async {
+  //   final ImagePicker picker = ImagePicker();
+  //   String uniqueFileName = DateTime.now().microsecondsSinceEpoch.toString();
+  //   XFile? file = await picker.pickImage(
+  //       source: option == "cam" ? ImageSource.camera : ImageSource.gallery);
+  //   AutoRouter.of(context).popForced();
+  //   if (file == null) return;
 
-    Reference referenceToUpload =
-        FirebaseStorage.instance.ref().child('images').child(uniqueFileName);
+  //   Reference referenceToUpload =
+  //       FirebaseStorage.instance.ref().child('images').child(uniqueFileName);
 
-    try {
-      // context.read<ProfiledataBloc>().add(ProfileUpdate(image: file.path));
-      context.loaderOverlay.show();
-      await referenceToUpload.putFile(File(file.path));
-      imageUrl = await referenceToUpload.getDownloadURL();
-      // context.read<ProfiledataBloc>().add(ProfileUpdate(image: file.path));
+  //   try {
+  //     // context.read<ProfiledataBloc>().add(ProfileUpdate(image: file.path));
+  //     context.loaderOverlay.show();
+  //     await referenceToUpload.putFile(File(file.path));
+  //     imageUrl = await referenceToUpload.getDownloadURL();
+  //     // context.read<ProfiledataBloc>().add(ProfileUpdate(image: file.path));
 
-      context.loaderOverlay.hide();
-      setState(() {});
-      log(imageUrl!);
-    } catch (e) {
-      log("IN Catch");
-      context.loaderOverlay.hide();
-      rethrow;
-    }
-  }
+  //     context.loaderOverlay.hide();
+  //     setState(() {});
+  //     log(imageUrl!);
+  //   } catch (e) {
+  //     log("IN Catch");
+  //     context.loaderOverlay.hide();
+  //     rethrow;
+  //   }
+  // }
 }

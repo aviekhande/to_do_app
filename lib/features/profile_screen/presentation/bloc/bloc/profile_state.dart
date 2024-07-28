@@ -1,5 +1,6 @@
 part of 'profile_bloc.dart';
-class ProfileState {}
+class ProfileState {
+}
 
 final class ProfileInitial extends ProfileState {}
 class ProfileLoading extends ProfileState {

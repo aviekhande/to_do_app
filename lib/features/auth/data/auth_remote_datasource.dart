@@ -3,13 +3,15 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:counterapp/features/auth/domain/usecases/sessioncontroller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:to_do_app/core/common/widget/session_controller.dart';
+import 'package:to_do_app/core/common/widget/snackbar_widget.dart';
 
 class AuthMethod {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<String> signUpUser(
+  Future<List> SignUpUser(
       {required String email,
       required String password,
       required String name,
@@ -39,14 +41,14 @@ class AuthMethod {
         //   'display_lang': true,
         //   'display_switch': true,
         // });
-
+        // log("${cred.}");
         res = "success";
       }
     } catch (err) {
       log("$err");
-      return err.toString();
+      return [false, err.toString()];
     }
-    return res;
+    return [true, res];
   }
 
   // logIn user
@@ -81,5 +83,16 @@ class AuthMethod {
   // for signOut
   signOut() async {
     await _auth.signOut();
+  }
+
+  Future<List> resetPassword({required String email}) async {
+    try {
+      if (email.isNotEmpty) {
+        await _auth.sendPasswordResetEmail(email: email);
+      }
+    } catch (e) {
+      return [false, e.toString()];
+    }
+    return [true, "success"];
   }
 }
