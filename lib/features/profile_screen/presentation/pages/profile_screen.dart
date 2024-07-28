@@ -36,25 +36,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: GestureDetector(
-          onTap: () {
-            // AutoRouter.of(context).popForced();
-          },
-          child: Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: kColorWhite,
-              ),
-              child: SvgPicture.asset("assets/icons/back_ic.svg")),
-        ),
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   title: GestureDetector(
+      //     onTap: () {
+      //       // AutoRouter.of(context).popForced();
+      //     },
+      //     child: Container(
+      //         decoration: const BoxDecoration(
+      //           shape: BoxShape.circle,
+      //           color: kColorWhite,
+      //         ),
+      //         child: SvgPicture.asset("assets/icons/back_ic.svg")),
+      //   ),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 60.h,
+            ),
             Text(
               "Profile",
               style: GoogleFonts.poppins(
@@ -64,7 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 20.h,
             ),
             Container(
-              padding: EdgeInsets.all(15),
+              padding: EdgeInsets.all(15.h),
               decoration: BoxDecoration(
                   color: kColorPrimary,
                   borderRadius: BorderRadius.circular(8),
@@ -88,35 +91,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       //   width: 15.w,
                       // ),
                       Container(
-                        padding: const EdgeInsets.all(2),
-                        height: 55.h,
-                        width: 55.w,
+                        padding: const EdgeInsets.all(4),
+                        height: 85.h,
+                        width: 85.w,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: kColorWhite,
                         ),
-                        child: imageUrl.isEmpty
-                            ? Image.asset(
-                                "assets/images/profile_image.png",
-                                height: 40.h,
-                              )
-                            : Image.network(imageUrl),
+                        child: SizedBox(
+                          height: 70.h,
+                          width: 70.w,
+                          child: ClipOval(
+                            child: imageUrl.isEmpty
+                                ? Image.asset(
+                                    "assets/images/profile_image.png",
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.network(
+                                    imageUrl,
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
+                        ),
                       ),
                       SizedBox(
                         width: 15.w,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "$email ",
-                            style: GoogleFonts.poppins(color: kColorWhite),
-                          ),
-                          Text(
-                            "$name",
-                            style: GoogleFonts.poppins(color: kColorWhite),
-                          )
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              email,
+                              style: GoogleFonts.poppins(
+                                  color: kColorWhite, fontSize: 16.sp),
+                            ),
+                            Text(
+                              name,
+                              style: GoogleFonts.poppins(
+                                  color: kColorWhite, fontSize: 16.sp),
+                            )
+                          ],
+                        ),
                       )
                     ],
                   );

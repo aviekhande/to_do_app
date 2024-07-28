@@ -8,9 +8,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/bloc/signup_bloc.dart';
+import 'package:to_do_app/features/auth/presentation/bloc/forgotpassbloc/forgotpass_bloc.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginbloc.dart';
 import 'package:to_do_app/features/profile_screen/presentation/bloc/bloc/profile_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:to_do_app/features/update_account/presentation/bloc/updateprofile_bloc.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/bloc/theme_bloc_bloc.dart';
 
@@ -56,6 +58,12 @@ class _MainAppState extends State<MainApp> {
           ),
           BlocProvider(
             create: (context) => ThemeBlocBloc(),
+          ),
+          BlocProvider(
+            create: (context) => ForgotPassBloc(),
+          ),
+           BlocProvider(
+            create: (context) => UpdateProfileBloc(),
           ),
         ],
         child: ScreenUtilInit(

@@ -198,8 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             [const CommonbottomnavigationbarRoute()]);
                         clearController();
                       } else if (state is LoginFailure) {
-                        showSnackBarWidget(
-                            context, "Please Enter Valid Credentials");
+                        showSnackBarWidget(context, state.res);
                       }
                     },
                     builder: (context, state) {

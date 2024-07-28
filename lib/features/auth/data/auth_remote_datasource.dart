@@ -3,9 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:counterapp/features/auth/domain/usecases/sessioncontroller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:to_do_app/core/common/widget/session_controller.dart';
-import 'package:to_do_app/core/common/widget/snackbar_widget.dart';
 
 class AuthMethod {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
@@ -52,7 +50,7 @@ class AuthMethod {
   }
 
   // logIn user
-  Future<String> loginUser({
+  Future<List> loginUser({
     required String email,
     required String password,
   }) async {
@@ -70,14 +68,14 @@ class AuthMethod {
           SessionController().userId = value.user!.uid.toString();
         });
         res = "success";
-        return response.user.uid;
+        return [true,SessionController().userId!];
       } else {
         res = "Please enter all the fields";
       }
     } catch (err) {
-      return err.toString();
+      return[false, err.toString()];
     }
-    return "";
+    return [true];
   }
 
   // for signOut

@@ -17,10 +17,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   void _onFetchData(IsUserPresent event, Emitter<LoginState> emit) async {
     emit(LoginLoading());
-    String res = await AuthMethod()
+    var res = await AuthMethod()
         .loginUser(email: event.email, password: event.password);
     log("$res");
-    res == "success" ? emit(LoginSuccess()) : emit(LoginFailure());
+    res[0] ? emit(LoginSuccess()) : emit(LoginFailure(res:res[1]));
   }
 
   void _onLogout(LogoutEvent event, Emitter<LoginState> emit) async {
