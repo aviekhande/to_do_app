@@ -1,0 +1,38 @@
+import 'dart:developer';
+
+import 'package:bloc/bloc.dart';
+import 'package:to_do_app/core/repo/task_repo.dart';
+
+import '../../../../home_screen/data/datasource/remote_get_tasks_datasource.dart';
+import '../../../../home_screen/data/model/task_model.dart';
+
+part 'add_tasks_event.dart';
+part 'add_tasks_state.dart';
+
+class AddTasksBloc extends Bloc<AddTasksEvent, AddTasksState> {
+  final ProductRepo taskRepo;
+  AddTasksBloc({required this.taskRepo}) : super(AddTasksInitial()) {
+    on<TaskAdd1>(_onTaskAdd);
+    on<TaskAdd>(_onFetchTask);
+    on<TaskDelete>(_onDeleteTask);
+  }
+  void _onDeleteTask(TaskDelete event, Emitter<AddTasksState> emit) async{
+    emit(TasksDeleteLoading());
+     List<Tasks> res = await taskRepo.removeTask(event.time);
+    emit(AddTaskSuccess(task: res));
+  }
+
+  void _onFetchTask(TaskAdd event, Emitter<AddTasksState> emit) async {
+    emit(AddTaskLoading());
+    List<Tasks> task = await getTodoData();
+    log("${task}");
+    emit(AddTaskSuccess(task: task));
+  }
+
+  void _onTaskAdd(TaskAdd1 event, Emitter<AddTasksState> emit) async {
+    emit(AddTaskLoading());
+    log("In OnTaskAdd");
+    List<Tasks> res = await taskRepo.addTask(event.task);
+    emit(AddTaskSuccess(task: res));
+  }
+}

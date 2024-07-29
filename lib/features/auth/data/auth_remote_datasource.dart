@@ -29,6 +29,10 @@ class AuthMethod {
         // });
         SessionController().userId = cred.user!.uid.toString();
         log("message");
+        await FirebaseFirestore.instance
+            .collection("todo")
+            .doc(SessionController().userId)
+            .set({"data": {}});
         await _fireStore.collection("users").doc(cred.user!.uid).set({
           'name': name,
           'lastName': lastName,
@@ -68,12 +72,12 @@ class AuthMethod {
           SessionController().userId = value.user!.uid.toString();
         });
         res = "success";
-        return [true,SessionController().userId!];
+        return [true, SessionController().userId!];
       } else {
         res = "Please enter all the fields";
       }
     } catch (err) {
-      return[false, err.toString()];
+      return [false, err.toString()];
     }
     return [true];
   }

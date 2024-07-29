@@ -19,6 +19,7 @@ dependencies:
   flutter_date_pickers: ^0.4.3
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.0.10+1
+  get_it: ^7.7.0
   google_fonts: ^6.2.1
   hydrated_bloc: ^9.1.5
   image_picker: ^1.1.2

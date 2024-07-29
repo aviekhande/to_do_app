@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/theme/colors.dart';
-import 'package:to_do_app/features/add_task/add_task_screen.dart';
+import 'package:to_do_app/features/add_task_details/presentation/pages/add_task_dialog.dart';
+import 'package:to_do_app/features/calender_details/presentation/pages/add_task_screen.dart';
 import 'package:to_do_app/features/blank_screen/presentation/blank_screen.dart';
 import 'package:to_do_app/features/home_screen/presentation/pages/home_screen.dart';
 import 'package:to_do_app/features/profile_screen/presentation/pages/profile_screen.dart';
@@ -185,7 +186,12 @@ class _CommonbottomnavigationbarState extends State<Commonbottomnavigationbar> {
           backgroundColor: kColorPrimary,
           elevation: 0,
           onPressed: () {
-            AutoRouter.of(context).push(const AddTaskScreenRoute());
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const AddTaskDialog();
+              },
+            );
           },
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),

@@ -62,7 +62,7 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
         automaticallyImplyLeading: false,
         title: GestureDetector(
           onTap: () {
-            AutoRouter.of(context).popForced();
+            AutoRouter.of(context).back();
           },
           child: Container(
               decoration: const BoxDecoration(
@@ -249,12 +249,11 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                           child: GestureDetector(
                             onTap: () {
                               if (checkkey.currentState!.validate()) {
-                                context.read<ProfileBloc>().add(
-                                    UpdateRequest(
-                                        email: email,
-                                        image: uploadImage,
-                                        lastName: lastNameController.text,
-                                        name: firstNameController.text));
+                                context.read<ProfileBloc>().add(UpdateRequest(
+                                    email: email,
+                                    image: uploadImage,
+                                    lastName: lastNameController.text,
+                                    name: firstNameController.text));
                               }
                             },
                             child: Container(
@@ -281,8 +280,7 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
               ),
             ),
           ),
-          BlocBuilder<ProfileBloc, ProfileState>(
-              builder: (context, state) {
+          BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
             if (state is UpdateProfileLoading) {
               return const LoaderWidget();
             }

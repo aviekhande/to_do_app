@@ -10,11 +10,12 @@ import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/bloc/signup_bloc.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/forgotpassbloc/forgotpass_bloc.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginbloc.dart';
+import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
 import 'package:to_do_app/features/profile_screen/presentation/bloc/bloc/profile_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:to_do_app/features/update_account/presentation/bloc/updateprofile_bloc.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/bloc/theme_bloc_bloc.dart';
+import 'injection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +32,7 @@ void main() async {
         ? HydratedStorage.webStorageDirectory
         : await getApplicationDocumentsDirectory(),
   );
+  locatior();
   runApp(const MainApp());
 }
 
@@ -62,9 +64,12 @@ class _MainAppState extends State<MainApp> {
           BlocProvider(
             create: (context) => ForgotPassBloc(),
           ),
-          //    BlocProvider(
-          //     create: (context) => UpdateProfileBloc(),
-          //   ),
+          BlocProvider(
+            create: (context) => AddTasksBloc(taskRepo: getIt()),
+          ),
+          //  BlocProvider(
+          //   create: (context) => TaskBloc(),
+          // ),
         ],
         child: ScreenUtilInit(
             designSize: const Size(411.42857142857144, 867.4285714285714),
