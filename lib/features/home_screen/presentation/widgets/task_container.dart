@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:to_do_app/core/theme/colors.dart';
 import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
 
 import '../../data/model/task_model.dart';
@@ -22,20 +25,39 @@ class _TaskContainerState extends State<TaskContainer> {
       padding: EdgeInsets.all(10.w),
       margin: EdgeInsets.only(bottom: 20.h),
       decoration: BoxDecoration(
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-                color: Color.fromARGB(255, 195, 194, 194),
+                color: Theme.of(context).colorScheme.shadow,
                 blurRadius: 5,
-                offset: Offset(0, 3))
+                offset: const Offset(0, 3))
           ],
-          color: const Color.fromARGB(255, 237, 236, 236),
+          color: Theme.of(context).colorScheme.surface == Colors.grey.shade700
+              ? Theme.of(context).colorScheme.surface
+              : const Color.fromARGB(255, 238, 245, 238),
           borderRadius: BorderRadius.circular(10)),
       child: Row(
         children: [
           SizedBox(
             width: 10.w,
           ),
-          const Icon(Icons.check_box_outline_blank),
+          GestureDetector(
+            onTap: () {
+              log("msg");
+              !widget.taskData.done!
+                  ? context
+                      .read<AddTasksBloc>()
+                      .add(TaskDone(id: widget.taskData.id!))
+                  : context
+                      .read<AddTasksBloc>()
+                      .add(TaskUnDone(id: widget.taskData.id!));
+            },
+            child: !widget.taskData.done!
+                ? const Icon(Icons.check_box_outline_blank)
+                : const Icon(
+                    Icons.check_box,
+                    color: kColorPrimary,
+                  ),
+          ),
           SizedBox(
             width: 20.w,
           ),
@@ -44,12 +66,18 @@ class _TaskContainerState extends State<TaskContainer> {
             children: [
               Text(
                 widget.taskData.task!,
-                style: GoogleFonts.poppins(),
+                style: GoogleFonts.poppins(fontSize: 16.sp),
               ),
-              Text(
-                "${widget.taskData.date}" + "     ${widget.taskData.time}",
-                style: GoogleFonts.poppins(),
-              )
+              widget.taskData.time != null
+                  ? Text(
+                      "${widget.taskData.date}" +
+                          "     ${widget.taskData.time}",
+                      style: GoogleFonts.poppins(fontSize: 12.sp),
+                    )
+                  : Text(
+                      "${widget.taskData.date}",
+                      style: GoogleFonts.poppins(),
+                    )
             ],
           ),
           const Spacer(),
@@ -57,7 +85,7 @@ class _TaskContainerState extends State<TaskContainer> {
               onTap: () {
                 context
                     .read<AddTasksBloc>()
-                    .add(TaskDelete(time: widget.taskData.time!));
+                    .add(TaskDelete(id: widget.taskData.id!));
               },
               child: const Icon(Icons.delete))
         ],

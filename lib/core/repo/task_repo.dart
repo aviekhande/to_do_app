@@ -8,6 +8,7 @@ import '../common/widget/session_controller.dart';
 class ProductRepo {
   List<Tasks> taskList = [];
   Future<List<Tasks>> addTask(Tasks model) async {
+    log("id:${model.id}");
     taskList = [];
     taskList.add(model);
     List<Tasks> task = await getTodoData();
@@ -23,18 +24,46 @@ class ProductRepo {
         .set({
       "data": taskList
           .map((e) => Tasks(
-                task: e.task,
-                date: e.date,
-                time: e.time,
-              ).toJson())
+                  task: e.task,
+                  date: e.date,
+                  time: e.time,
+                  id: e.id,
+                  done: e.done)
+              .toJson())
           .toList()
     });
   }
 
-  Future<List<Tasks>> removeTask(String? id)async {
-    taskList.removeWhere((element) => element.time == id);
-    //  List<Tasks> task = await getTodoData();
-    // taskList.addAll(task);
+  Future<List<Tasks>> doneTask(String? id) async {
+    List<Tasks> task = await getTodoData();
+    taskList = [];
+    taskList.addAll(task);
+    log("IN task Done");
+    taskList.forEach((element) {
+      if (element.id == id) {
+        element.done = true;
+      }
+    });
+    addData();
+    return taskList;
+  }
+
+  Future<List<Tasks>> unDoneTask(String? id) async {
+    List<Tasks> task = await getTodoData();
+    taskList = [];
+    taskList.addAll(task);
+    taskList.forEach((element) {
+      if (element.id == id) {
+        element.done = false;
+      }
+    });
+    addData();
+    return taskList;
+  }
+
+  Future<List<Tasks>> removeTask(String? id) async {
+    taskList.removeWhere((element) => element.id == id);
+
     addData();
     return taskList;
   }

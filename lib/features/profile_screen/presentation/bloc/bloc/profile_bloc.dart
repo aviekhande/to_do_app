@@ -14,30 +14,36 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileInitial()) {
     on<ProfileEvent>(_onFetchProfileData);
-   on<UpdateRequest>(_onProfileUp);
+    on<UpdateRequest>(_onProfileUp);
   }
-  void _onProfileUp(
-      UpdateRequest event, Emitter<ProfileState> emit) async {
+  void _onProfileUp(UpdateRequest event, Emitter<ProfileState> emit) async {
     emit(UpdateProfileLoading());
     var imageUrl = "";
-    if (event.image.isNotEmpty) {
+    if (!event.isImage) {
+      log("Imageisalrady:${event.isImage}2");
       imageUrl = await uploadPhoto1(File(event.image));
+    } else {
+      imageUrl = event.image;
     }
-    log("$imageUrl");
+  
     List res = await UpdateProfile().updateProfile(
         name: event.name,
         lastName: event.lastName,
         email: event.email,
         image: imageUrl);
-
-    res[0]
-        ? emit(UpdateProfileSuccess())
-        : emit(UpdateProfileFailed(res: res[1]));
+    if (res[0]) {
+      log("INOnProfileup}");
+      DocumentSnapshot? doc = await getUserData();
+      emit(ProfileLoading(docSnap: doc!));
+      // emit(UpdateProfileSuccess());
+    } else {
+      emit(UpdateProfileFailed(res: res[1]));
+    }
   }
+
   void _onFetchProfileData(
       ProfileEvent event, Emitter<ProfileState> emit) async {
     DocumentSnapshot? doc = await getUserData();
-    log("${doc?["name"]}");
     emit(ProfileLoading(docSnap: doc!));
   }
 }

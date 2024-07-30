@@ -116,6 +116,7 @@ class _CommonbottomnavigationbarState extends State<Commonbottomnavigationbar> {
 //       ),
 //     );
         Scaffold(
+      resizeToAvoidBottomInset: false,
       body: IndexedStack(
         index: selectedIndex,
         children: _widgetOptions,
@@ -164,7 +165,7 @@ class _CommonbottomnavigationbarState extends State<Commonbottomnavigationbar> {
           unselectedLabelStyle:
               GoogleFonts.poppins(color: Colors.grey, fontSize: 12.0),
           currentIndex: selectedIndex,
-          selectedItemColor: Color.fromARGB(255, 98, 97, 97),
+          selectedItemColor: const Color.fromARGB(255, 98, 97, 97),
           unselectedItemColor: Colors.grey,
           // selectedIconTheme:
           //     const IconThemeData(size: 24.0),
@@ -175,11 +176,11 @@ class _CommonbottomnavigationbarState extends State<Commonbottomnavigationbar> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
         margin: const EdgeInsets.only(top: 10),
-        decoration: const BoxDecoration(shape: BoxShape.circle, boxShadow: [
+        decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
           BoxShadow(
-              color: Color.fromARGB(255, 148, 170, 153),
+              color: Theme.of(context).colorScheme.shadow,
               spreadRadius: 2,
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
               blurRadius: 10)
         ]),
         child: FloatingActionButton(

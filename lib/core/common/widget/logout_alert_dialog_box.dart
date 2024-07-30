@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:to_do_app/core/theme/colors.dart';
 import '../../../features/auth/presentation/bloc/loginbloc/loginbloc.dart';
 import '../../../features/auth/presentation/bloc/loginbloc/loginevent.dart';
 
@@ -11,15 +12,24 @@ class LogoutAlertDialogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Confirm Logout...!!!",
-            style: GoogleFonts.poppins(fontSize: 18.sp),
+          // Text(
+          //   "Confirm Logout...!!!",
+          //   style: GoogleFonts.poppins(fontSize: 18.sp),
+          // ),
+          const Center(
+            child: Icon(
+              Icons.question_mark_rounded,
+            ),
+          ),
+          SizedBox(
+            height: 20.h,
           ),
           Text(
-            "Are you sure,you want to logout",
+            "Are you sure,you want to Logout?",
             style: GoogleFonts.poppins(fontSize: 14.sp),
           ),
         ],
@@ -32,17 +42,27 @@ class LogoutAlertDialogBox extends StatelessWidget {
                 onPressed: () {
                   context.read<LoginBloc>().add(LogoutEvent());
                 },
-                child: const Text(
+                style: const ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(Colors.red)),
+                child: Text(
                   "Yes",
-                  style: TextStyle(color: Colors.black),
+                  style: GoogleFonts.poppins(
+                    fontSize: 14.sp,
+                    color: kColorWhite,
+                  ),
                 )),
             ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text(
+                style: const ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(kColorPrimary)),
+                child: Text(
                   "No",
-                  style: TextStyle(color: Colors.black),
+                  style: GoogleFonts.poppins(
+                    fontSize: 14.sp,
+                    color: kColorWhite,
+                  ),
                 )),
           ],
         ),

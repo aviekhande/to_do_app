@@ -7,10 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:to_do_app/core/common/widget/loader_widget.dart';
 import 'package:to_do_app/core/common/widget/snackbar_widget.dart';
-import 'package:to_do_app/features/update_account/presentation/bloc/updateprofile_bloc.dart';
+import 'package:to_do_app/features/auth/presentation/pages/signup.dart';
 import '../../../../../core/theme/colors.dart';
 import '../../../../core/common/widget/upload_photo.dart';
 import '../../../auth/presentation/bloc/bloc/signup_bloc.dart';
@@ -52,26 +51,12 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ProfileBloc>().add(ProfileEvent());
+    // context.read<ProfileBloc>().add(ProfileEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: GestureDetector(
-          onTap: () {
-            AutoRouter.of(context).back();
-          },
-          child: Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: kColorWhite,
-              ),
-              child: SvgPicture.asset("assets/icons/back_ic.svg")),
-        ),
-      ),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -91,6 +76,24 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(
+                          height: 40.h,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            AutoRouter.of(context).back();
+                          },
+                          child: Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: kColorWhite,
+                              ),
+                              child:
+                                  SvgPicture.asset("assets/icons/back_ic.svg")),
+                        ),
+                        SizedBox(
+                          height: 25.h,
+                        ),
                         Center(
                           child: Stack(
                             children: [
@@ -98,27 +101,30 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                                 builder: (context, state) {
                                   if (state is ProfileSelect) {
                                     uploadImage = state.image;
+                                    imageUrl = "";
+                                    log("");
                                   }
                                   return Container(
                                     height: 85.h,
                                     width: 85.w,
                                     child: ClipOval(
-                                        // borderRadius: BorderRadius.circular(
-                                        //     100.0), // Adjust the radius as needed
-                                        child: uploadImage.isNotEmpty
-                                            ? Image.file(
-                                                File(uploadImage),
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Image.asset(
-                                                "assets/images/profile_image.png",
-                                                fit: BoxFit.cover,
-                                              )
-                                        // : Image.network(
-                                        //     imageUrl!,
-                                        //     fit: BoxFit.cover,
-                                        //   ),
-                                        ),
+                                      // borderRadius: BorderRadius.circular(
+                                      //     100.0), // Adjust the radius as needed
+                                      child: imageUrl.isEmpty
+                                          ? uploadImage.isNotEmpty
+                                              ? Image.file(
+                                                  File(uploadImage),
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : Image.asset(
+                                                  "assets/images/profile_image.png",
+                                                  fit: BoxFit.cover,
+                                                )
+                                          : Image.network(
+                                              imageUrl,
+                                              fit: BoxFit.cover,
+                                            ),
+                                    ),
                                   );
                                 },
                               ),
@@ -249,11 +255,22 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                           child: GestureDetector(
                             onTap: () {
                               if (checkkey.currentState!.validate()) {
-                                context.read<ProfileBloc>().add(UpdateRequest(
-                                    email: email,
-                                    image: uploadImage,
-                                    lastName: lastNameController.text,
-                                    name: firstNameController.text));
+                                log("upload:$imageUrl");
+                                imageUrl.isNotEmpty
+                                    ? context.read<ProfileBloc>().add(
+                                        UpdateRequest(
+                                            email: email,
+                                            image: uploadImage,
+                                            lastName: lastNameController.text,
+                                            name: firstNameController.text,
+                                            isImage: false))
+                                    : context.read<ProfileBloc>().add(
+                                        UpdateRequest(
+                                            email: email,
+                                            image: imageUrl,
+                                            lastName: lastNameController.text,
+                                            name: firstNameController.text,
+                                            isImage: true));
                               }
                             },
                             child: Container(

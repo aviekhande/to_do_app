@@ -75,20 +75,12 @@ Future<void> showOptionBottomSheet(BuildContext context) async {
 
 Future<void> uploadPhoto(String option, BuildContext context) async {
   final ImagePicker picker = ImagePicker();
-  // String uniqueFileName = DateTime.now().microsecondsSinceEpoch.toString();
   XFile? file = await picker.pickImage(
       source: option == "cam" ? ImageSource.camera : ImageSource.gallery);
 
   if (file == null) return;
-
-  // Reference referenceToUpload =
-  //     FirebaseStorage.instance.ref().child('images').child(uniqueFileName);
-
   try {
-    // await referenceToUpload.putFile(File(file.path));
     context.read<SignUpBloc>().add(ProfileImageSelect(image: file.path));
-    // String imageUrl = await referenceToUpload.getDownloadURL();
-    // log("$imageUrl");
     AutoRouter.of(context).popForced();
   } catch (e) {
     rethrow;

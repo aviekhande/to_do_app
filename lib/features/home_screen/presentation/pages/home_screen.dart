@@ -25,14 +25,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    // FocusScope.of(context).unfocus();
     context.read<AddTasksBloc>().add(TaskAdd()); // Initial fetch of tasks
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      resizeToAvoidBottomInset: false,
+
+      // backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         actions: [
           GestureDetector(
             onTap: () {
@@ -45,7 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       .add(ThemeBlocEvent(themeData: darkMode));
             },
             child: Icon(
-              Icons.sunny,
+              Theme.of(context).colorScheme.surface != Colors.grey.shade700
+                  ? Icons.sunny
+                  : Icons.dark_mode,
               size: 18.h,
               color:
                   Theme.of(context).colorScheme.surface == Colors.grey.shade700
@@ -67,7 +73,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (state is AddTaskLoading) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is AddTaskSuccess) {
-                  log("${state.task.isEmpty}PPPPPPPPPPPPPP");
                   return state.task.isEmpty
                       ? Center(
                           child: Column(

@@ -10,6 +10,14 @@ class TaskAdd1 extends AddTasksEvent {
 class TaskAdd extends AddTasksEvent {}
 
 class TaskDelete extends AddTasksEvent {
-  String time;
-  TaskDelete({required this.time});
+  String id;
+  TaskDelete({required this.id});
+}
+class TaskDone extends AddTasksEvent {
+   String id;
+  TaskDone({required this.id});
+}
+class TaskUnDone extends AddTasksEvent {
+  String id;
+  TaskUnDone({required this.id});
 }

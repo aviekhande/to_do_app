@@ -39,6 +39,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
+                    FocusScope.of(context).unfocus();
                     AutoRouter.of(context).popForced();
                   },
                   child: Container(
@@ -78,6 +79,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 Form(
                   key: passKey1,
                   child: TextFormField(
+                    style: GoogleFonts.poppins(color: Colors.black),
                     controller: emailController,
                     decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
