@@ -1,16 +1,18 @@
 import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/theme/colors.dart';
 import 'package:to_do_app/features/add_task_details/presentation/pages/add_task_dialog.dart';
 import 'package:to_do_app/features/calender_details/presentation/pages/add_task_screen.dart';
-import 'package:to_do_app/features/blank_screen/presentation/blank_screen.dart';
+import 'package:to_do_app/features/graph_screen/presentation/pages/blank_screen.dart';
 import 'package:to_do_app/features/home_screen/presentation/pages/home_screen.dart';
 import 'package:to_do_app/features/profile_screen/presentation/pages/profile_screen.dart';
 
 import '../../routes/app_router.dart';
+import '../../services/network/bloc/internet_bloc/internet_bloc.dart';
 
 @RoutePage()
 class Commonbottomnavigationbar extends StatefulWidget {
@@ -23,9 +25,14 @@ class Commonbottomnavigationbar extends StatefulWidget {
 
 class _CommonbottomnavigationbarState extends State<Commonbottomnavigationbar> {
   int selectedIndex = 0;
+  late InternetBloc internetBloc;
+
   @override
   void initState() {
     log("init state");
+    internetBloc = context.read<InternetBloc>();
+    internetBloc.checkInternet();
+    internetBloc.trackConnectivityChange();
     super.initState();
   }
 
@@ -33,7 +40,7 @@ class _CommonbottomnavigationbarState extends State<Commonbottomnavigationbar> {
     HomeScreen(),
     AddTaskScreen(),
     AddTaskScreen(),
-    BlankScreen(),
+    GraphScreen(),
     ProfileScreen()
   ];
   void _onItemTapped(int index) {
@@ -44,134 +51,80 @@ class _CommonbottomnavigationbarState extends State<Commonbottomnavigationbar> {
 
   @override
   Widget build(BuildContext context) {
-    return
-// Container(
-//       height: 50.h,
-//       color: Color.fromARGB(255, 214, 232, 215),
-//       child: Padding(
-//         padding: const EdgeInsets.only(right: 25.0, left: 25),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             GestureDetector(
-//               onTap: () {
-//                 if (selectedIndex != 0) {
-//                   AutoRouter.of(context).push(const HomeScreenRoute());
-//                   selectedIndex = 0;
-//                 }
-//               },
-//               child: Column(
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: [
-//                   Icon(
-//                     Icons.home,
-//                     color: selectedIndex != 0 ? Colors.black : kColorLightBlack,
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             GestureDetector(
-//               onTap: () {
-//                 log("$selectedIndex");
-//                 if (selectedIndex != 1) {
-//                   AutoRouter.of(context).push(const AddTaskScreenRoute());
-//                   selectedIndex = 1;
-//                 }
-//               },
-//               child: const Column(
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: [
-//                   Icon(Icons.calendar_month_outlined),
-//                 ],
-//               ),
-//             ),
-//             SizedBox(
-//               width: 10.w,
-//             ),
-//             GestureDetector(
-//               onTap: () {},
-//               child: const Column(
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: [
-//                   Icon(Icons.timelapse_outlined),
-//                 ],
-//               ),
-//             ),
-//             GestureDetector(
-//               onTap: () {
-//                 if (selectedIndex != 3) {
-//                   AutoRouter.of(context).push(const ProfileScreenRoute());
-//                   selectedIndex = 3;
-//                 }
-//               },
-//               child: const Column(
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: [
-//                   Icon(Icons.person),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-        Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: IndexedStack(
-        index: selectedIndex,
-        children: _widgetOptions,
+      body: BlocConsumer<InternetBloc, InternetStatus>(
+        listener: (context, state) {
+          if (state.status == ConnectivityStatus.disconnected) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+              "No internet connection",
+              style: GoogleFonts.poppins(),
+            )));
+          }
+        },
+        builder: (context, state) {
+          return state.status == ConnectivityStatus.connected
+              ? IndexedStack(
+                  index: selectedIndex,
+                  children: _widgetOptions,
+                )
+              : Center(
+                  child: Text(
+                    "No Internet",
+                    style: GoogleFonts.poppins(),
+                  ),
+                );
+        },
       ),
-      bottomNavigationBar: Container(
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: const Color.fromARGB(255, 214, 232, 215),
-          items: [
-            BottomNavigationBarItem(
-              icon: Container(
-                  padding: EdgeInsets.all(4.h),
-                  child: const Icon(Icons.home_filled)),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                  padding: EdgeInsets.all(4.h),
-                  child: const Icon(Icons.calendar_month)),
-              label: 'calender',
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: const Color.fromARGB(255, 214, 232, 215),
+        items: [
+          BottomNavigationBarItem(
+            icon: Container(
                 padding: EdgeInsets.all(4.h),
-                child: const Icon(
-                  Icons.do_not_touch,
-                  color: Color.fromARGB(255, 214, 232, 215),
-                ),
+                child: const Icon(Icons.home_filled)),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Container(
+                padding: EdgeInsets.all(4.h),
+                child: const Icon(Icons.calendar_month)),
+            label: 'calender',
+          ),
+          BottomNavigationBarItem(
+            icon: Container(
+              padding: EdgeInsets.all(4.h),
+              child: const Icon(
+                Icons.do_not_touch,
+                color: Color.fromARGB(255, 214, 232, 215),
               ),
-              label: '',
             ),
-            BottomNavigationBarItem(
-              icon: Container(
-                  padding: EdgeInsets.all(4.h),
-                  child: const Icon(Icons.timelapse_outlined)),
-              label: 'Posts',
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                  padding: EdgeInsets.all(4.h),
-                  child: const Icon(Icons.person)),
-              label: 'Profile',
-            ),
-          ],
-          showUnselectedLabels: true,
-          unselectedLabelStyle:
-              GoogleFonts.poppins(color: Colors.grey, fontSize: 12.0),
-          currentIndex: selectedIndex,
-          selectedItemColor: const Color.fromARGB(255, 98, 97, 97),
-          unselectedItemColor: Colors.grey,
-          // selectedIconTheme:
-          //     const IconThemeData(size: 24.0),
-          unselectedIconTheme: const IconThemeData(size: 24.0),
-          onTap: _onItemTapped,
-        ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Container(
+                padding: EdgeInsets.all(4.h),
+                child: const Icon(Icons.timelapse_outlined)),
+            label: 'Graph',
+          ),
+          BottomNavigationBarItem(
+            icon: Container(
+                padding: EdgeInsets.all(4.h), child: const Icon(Icons.person)),
+            label: 'Profile',
+          ),
+        ],
+        showUnselectedLabels: true,
+        unselectedLabelStyle:
+            GoogleFonts.poppins(color: Colors.grey, fontSize: 12.0),
+        currentIndex: selectedIndex,
+        selectedItemColor: const Color.fromARGB(255, 98, 97, 97),
+        unselectedItemColor: Colors.grey,
+        // selectedIconTheme:
+        //     const IconThemeData(size: 24.0),
+        unselectedIconTheme: const IconThemeData(size: 24.0),
+        onTap: _onItemTapped,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(

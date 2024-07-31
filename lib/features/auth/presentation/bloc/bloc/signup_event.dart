@@ -21,3 +21,4 @@ class ProfileImageSelect extends SignUpEvent {
   String image;
   ProfileImageSelect({required this.image});
 }
+class ProfileImageSuccessEvent extends SignUpEvent {}

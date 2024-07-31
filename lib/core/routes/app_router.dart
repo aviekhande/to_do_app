@@ -8,6 +8,7 @@ import '../../features/auth/presentation/pages/mobile_number_login_screen.dart';
 import '../../features/auth/presentation/pages/options_to_login.dart';
 import '../../features/auth/presentation/pages/signup.dart';
 import '../../features/home_screen/presentation/pages/home_screen.dart';
+import '../../features/splash/presentation/pages/splash_screen.dart';
 import '../../features/update_account/presentation/pages/update_account_screen.dart';
 import '../common/widget/bottomnav_widget.dart';
 import '../common/widget/session_controller.dart';
@@ -29,10 +30,11 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         isLogin() != null
-            ? AutoRoute(page: CommonbottomnavigationbarRoute.page, path: "/")
+            ? AutoRoute(page: CommonbottomnavigationbarRoute.page)
             : AutoRoute(
                 page: CommonbottomnavigationbarRoute.page,
               ),
+        AutoRoute(page: SplashScreenRoute.page, path: "/"),
         AutoRoute(page: AddTaskScreenRoute.page),
         AutoRoute(page: ForgotPasswordScreenRoute.page),
         AutoRoute(page: UpdateAccountScreenRoute.page),

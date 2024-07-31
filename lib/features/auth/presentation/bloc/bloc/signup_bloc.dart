@@ -11,6 +11,11 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   SignUpBloc() : super(SignUpInitial()) {
     on<SignUpRequest>(_onSignUpRequest);
     on<ProfileImageSelect>(_onProfileSelect);
+    on<ProfileImageSuccessEvent>(_onProfSuccess);
+  }
+  void _onProfSuccess(ProfileImageSuccessEvent event, Emitter<SignUpState> emit){
+    emit(SignUpInitial());
+
   }
   void _onProfileSelect(ProfileImageSelect event, Emitter<SignUpState> emit) {
     log("InBlocProfile");
@@ -33,4 +38,5 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     log("$res");
     res[0] ? emit(SignUpSuccess()) : emit(SignUpFailed(response: res[1]));
   }
+
 }

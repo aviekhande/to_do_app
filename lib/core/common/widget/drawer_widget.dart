@@ -51,7 +51,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
               padding: EdgeInsets.all(10.h),
               child: BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
-                  if (state is ProfileLoading) {
+                  if (state is ProfileFetch) {
                     log("${state.docSnap['email']}");
                     email = state.docSnap['email'];
                     name = state.docSnap['name'];

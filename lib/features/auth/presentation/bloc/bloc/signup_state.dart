@@ -15,3 +15,4 @@ class ProfileSelect extends SignUpState {
   String image;
   ProfileSelect({required this.image});
 }
+

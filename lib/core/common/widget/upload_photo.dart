@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app/core/theme/colors.dart';
 import '../../../features/auth/presentation/bloc/bloc/signup_bloc.dart';
 import '../../../features/auth/presentation/bloc/bloc/signup_event.dart';
@@ -73,7 +73,7 @@ Future<void> showOptionBottomSheet(BuildContext context) async {
   );
 }
 
-Future<void> uploadPhoto(String option, BuildContext context) async {
+Future<void> uploadPhoto(String option, context) async {
   final ImagePicker picker = ImagePicker();
   XFile? file = await picker.pickImage(
       source: option == "cam" ? ImageSource.camera : ImageSource.gallery);
@@ -83,19 +83,19 @@ Future<void> uploadPhoto(String option, BuildContext context) async {
     context.read<SignUpBloc>().add(ProfileImageSelect(image: file.path));
     AutoRouter.of(context).popForced();
   } catch (e) {
-    rethrow;
+    debugPrint('Error uploading photo: $e');
+    // rethrow ;
   }
 }
 
 Future<String> uploadPhoto1(File file) async {
   String uniqueFileName = DateTime.now().microsecondsSinceEpoch.toString();
-
   Reference referenceToUpload =
       FirebaseStorage.instance.ref().child('images').child(uniqueFileName);
-
   try {
     await referenceToUpload.putFile(File(file.path));
     String imageUrl = await referenceToUpload.getDownloadURL();
+    log("uploadPhoto");
     return imageUrl;
   } catch (e) {
     rethrow;

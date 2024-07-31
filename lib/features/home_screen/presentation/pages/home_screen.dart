@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
-import 'package:to_do_app/features/home_screen/presentation/bloc/task_bloc.dart';
 import 'package:to_do_app/features/home_screen/presentation/widgets/task_container.dart';
 import '../../../../core/common/widget/drawer_widget.dart';
 import '../../../../core/theme/app_theme.dart';
