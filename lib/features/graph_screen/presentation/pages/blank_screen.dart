@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pie_chart/pie_chart.dart';
+import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
 
 class GraphScreen extends StatefulWidget {
@@ -21,13 +22,14 @@ class _GraphScreenState extends State<GraphScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor:
             Theme.of(context).colorScheme.surface == Colors.grey.shade700
                 ? Theme.of(context).colorScheme.secondary
                 : const Color.fromARGB(255, 214, 232, 215),
         title: Text(
-          "Graph",
+          AppLocalizations.of(context)!.graph,
           style: GoogleFonts.poppins(fontSize: 20.sp),
         ),
       ),
@@ -44,8 +46,9 @@ class _GraphScreenState extends State<GraphScreen> {
                   (incompleteTasks / totalTasks) * 100;
 
               dataMap = {
-                "Completed Task": donePercentage,
-                "InComplete Task": incompletePercentage,
+                AppLocalizations.of(context)!.completedTasks: donePercentage,
+                AppLocalizations.of(context)!.incompleteTask:
+                    incompletePercentage,
               };
             }
             return PieChart(

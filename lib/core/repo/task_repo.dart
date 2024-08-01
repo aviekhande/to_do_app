@@ -28,7 +28,9 @@ class ProductRepo {
                   date: e.date,
                   time: e.time,
                   id: e.id,
-                  done: e.done)
+                  done: e.done,
+                  priority: e.priority
+                  )
               .toJson())
           .toList()
     });

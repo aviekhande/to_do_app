@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/common/widget/loader_widget.dart';
 import '../../../../../core/theme/colors.dart';
 import '../../../../core/common/widget/upload_photo.dart';
+import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../auth/presentation/bloc/bloc/signup_bloc.dart';
 import '../../../auth/presentation/bloc/bloc/signup_event.dart';
 import '../../../auth/presentation/bloc/bloc/signup_state.dart';
@@ -55,6 +56,7 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -115,7 +117,7 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                                       uploadImage = state.image;
                                       imageUrl1 = "";
                                     }
-                                    log("InSignupbuild");
+                                    // log("imageUrl1:$imageUrl1 ");
                                     return ClipOval(
                                       child: imageUrl1.isEmpty
                                           ? uploadImage.isNotEmpty
@@ -176,7 +178,7 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("First Name"),
+                                  Text(AppLocalizations.of(context)!.firstName),
                                   SizedBox(
                                     height: 5.h,
                                   ),
@@ -215,7 +217,7 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("Last Name"),
+                                  Text(AppLocalizations.of(context)!.lastName),
                                   SizedBox(
                                     height: 5.h,
                                   ),
@@ -287,7 +289,7 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                                 borderRadius: BorderRadius.circular(30)),
                             child: Center(
                                 child: Text(
-                              "Update Account",
+                              AppLocalizations.of(context)!.updateAcc,
                               style: GoogleFonts.poppins(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,

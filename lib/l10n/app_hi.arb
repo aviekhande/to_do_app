@@ -1,0 +1,28 @@
+{
+    "translate":"अनुवाद",
+    "logout":"लॉग आउट",
+    "home":"होम",
+    "cal":"पंचांग",
+    "graph":"ग्राफ़",
+    "profile":"प्रोफ़ाइल",
+    "addYourTask":"अपना कार्य जोड़ें",
+    "enterYourTask":"अपना कार्य दर्ज करें",
+    "date":"तारीख",
+    "time":"समय (वैकल्पिक)",
+    "addTask":"कार्य जोड़ें",
+    "completedTasks":"पूर्ण कार्य",
+    "incompleteTask":"अपूर्ण कार्य",
+    "myAcc":"मेरा खाता",
+    "makeChangesToYourAcc":"अपने खाते में परिवर्तन करें",
+    "changePass":"पासवर्ड बदलें",
+    "manageYourPass":"अपना पासवर्ड प्रबंधित करें",
+    "firstName":"पहला नाम",
+    "lastName":"अंतिम नाम",
+    "updateAcc":"अद्यतन खाता",
+    "forgotPassword":"पासवर्ड भूल गए",
+    "noWorries":"कोई चिंता नहीं! नीचे अपना ईमेल पता दर्ज करें और हम आपको पासवर्ड रीसेट करने के लिए एक कोड भेजेंगे।",
+    "email":"ई-मेल",
+    "enterYourEmail":"अपना ईमेल दर्ज करें",
+    "sendResetInst":"रीसेट निर्देश भेजें"
+
+}

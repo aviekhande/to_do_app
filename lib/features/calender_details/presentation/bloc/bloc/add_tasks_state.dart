@@ -11,6 +11,8 @@ class AddTaskSuccess extends AddTasksState {
   List<Tasks> task;
   AddTaskSuccess({required this.task});
 }
+class AddTaskSuccess1 extends AddTasksState {
+}
 
 class AddTaskFailed extends AddTasksState {}
 class TasksDeleteLoading extends AddTasksState {}

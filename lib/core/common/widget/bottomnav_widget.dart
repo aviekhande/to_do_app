@@ -11,6 +11,7 @@ import 'package:to_do_app/features/graph_screen/presentation/pages/blank_screen.
 import 'package:to_do_app/features/home_screen/presentation/pages/home_screen.dart';
 import 'package:to_do_app/features/profile_screen/presentation/pages/profile_screen.dart';
 
+import '../../../flutter_gen/gen_l10n/app_localizations.dart';
 import '../../routes/app_router.dart';
 import '../../services/network/bloc/internet_bloc/internet_bloc.dart';
 
@@ -85,13 +86,13 @@ class _CommonbottomnavigationbarState extends State<Commonbottomnavigationbar> {
             icon: Container(
                 padding: EdgeInsets.all(4.h),
                 child: const Icon(Icons.home_filled)),
-            label: 'Home',
+            label: AppLocalizations.of(context)!.home,
           ),
           BottomNavigationBarItem(
             icon: Container(
                 padding: EdgeInsets.all(4.h),
                 child: const Icon(Icons.calendar_month)),
-            label: 'calender',
+            label: AppLocalizations.of(context)!.cal,
           ),
           BottomNavigationBarItem(
             icon: Container(
@@ -107,12 +108,12 @@ class _CommonbottomnavigationbarState extends State<Commonbottomnavigationbar> {
             icon: Container(
                 padding: EdgeInsets.all(4.h),
                 child: const Icon(Icons.timelapse_outlined)),
-            label: 'Graph',
+            label: AppLocalizations.of(context)!.graph,
           ),
           BottomNavigationBarItem(
             icon: Container(
                 padding: EdgeInsets.all(4.h), child: const Icon(Icons.person)),
-            label: 'Profile',
+            label: AppLocalizations.of(context)!.profile,
           ),
         ],
         showUnselectedLabels: true,

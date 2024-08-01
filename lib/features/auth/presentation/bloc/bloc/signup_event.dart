@@ -1,6 +1,3 @@
-
-import 'dart:io';
-
 class SignUpEvent {}
 
 class SignUpRequest extends SignUpEvent {
@@ -17,8 +14,10 @@ class SignUpRequest extends SignUpEvent {
     required this.image,
   });
 }
+
 class ProfileImageSelect extends SignUpEvent {
   String image;
   ProfileImageSelect({required this.image});
 }
+
 class ProfileImageSuccessEvent extends SignUpEvent {}

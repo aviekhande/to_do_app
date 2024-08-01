@@ -2,11 +2,12 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:to_do_app/core/common/widget/bottomnav_widget.dart';
-import 'package:to_do_app/features/auth/presentation/pages/login.dart';
-import 'package:to_do_app/features/home_screen/presentation/pages/home_screen.dart';
-
+// import 'package:lottie/lottie.dart';
+// import 'package:to_do_app/core/common/widget/bottomnav_widget.dart';
+// import 'package:to_do_app/features/auth/presentation/pages/login.dart';
+// import 'package:to_do_app/features/home_screen/presentation/pages/home_screen.dart';
 import '../../../../core/common/widget/session_controller.dart';
 import '../../../../core/routes/app_router.dart';
 
@@ -35,39 +36,30 @@ class _SplashScreenState extends State<SplashScreen> {
         const Duration(seconds: 2),
         () => Timer(const Duration(seconds: 2), () {
               AutoRouter.of(context).replace(isLogin() != null
-                  ? const HomeScreenRoute()
+                  ? const CommonbottomnavigationbarRoute()
                   : const LoginScreenRoute());
             }));
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-                // child: Lottie.asset(
-                //   'assets/images/Signing document.gif',
-                //   fit: BoxFit.cover,
-                //   width: 400,
-                //   height: 400,
-                //   repeat: true,
-                // ),
-                ),
-            const Center(
-              child: Text(
-                "Splash Screen",
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent),
-              ),
-            )
-          ],
-        ),
+    return Scaffold(
+      //  AnimatedSplashScreen(
+      //   nextScreen: isLogin() != null
+      //       ? const Commonbottomnavigationbar()
+      //       : const LoginScreen(),
+      backgroundColor: const Color.fromARGB(255, 214, 232, 215),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: LottieBuilder.asset(
+              'assets/lottie/Animation - 1722508581590.json',
+              height: 350.h,
+              width: 350.w,
+            ),
+          ),
+        ],
       ),
     );
   }

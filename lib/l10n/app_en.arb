@@ -1,0 +1,28 @@
+{
+    "translate":"Translate",
+    "logout":"Logout",
+    "home":"Home",
+    "cal":"Calendar",
+    "graph":"Graph",
+    "profile":"Profile",
+    "addYourTask":"Add your task",
+    "enterYourTask":"Enter your task",
+    "date":"Date",
+    "time":"Time (Optional)",
+    "addTask":"Add Task",
+    "completedTasks":"Completed Tasks",
+    "incompleteTask":"inCompleted Task",
+    "myAcc":"My Account",     
+    "makeChangesToYourAcc":"Make changes to your account",
+    "changePass":"Change Password",
+    "manageYourPass":"Manage your password",
+    "firstName":"First Name",
+    "lastName":"Last Name",
+    "updateAcc":"Update Account",
+    "forgotPassword":"Forgot Password",
+    "noWorries":"No Worries! Enter your email address below and we will send you a code to reset password.",
+    "email":"E-mail",
+    "enterYourEmail":"Enter your email",
+    "sendResetInst":"Send Reset Instruction"
+
+}

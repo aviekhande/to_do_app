@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:to_do_app/core/common/widget/snackbar_widget.dart';
+// import 'package:to_do_app/core/common/widget/snackbar_widget.dart';
 import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/bloc/signup_bloc.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/forgotpassbloc/forgotpass_bloc.dart';
@@ -13,9 +13,11 @@ import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginbloc.da
 import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
 import 'package:to_do_app/features/profile_screen/presentation/bloc/bloc/profile_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'core/services/localizationbloc/locbloc_bloc.dart';
 import 'core/services/network/bloc/internet_bloc/internet_bloc.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/bloc/theme_bloc_bloc.dart';
+import 'flutter_gen/gen_l10n/app_localizations.dart';
 import 'injection.dart';
 
 void main() async {
@@ -69,6 +71,9 @@ class _MainAppState extends State<MainApp> {
             create: (context) => AddTasksBloc(taskRepo: getIt()),
           ),
           BlocProvider(
+            create: (context) => LocBloc(),
+          ),
+          BlocProvider(
             create: (context) => InternetBloc(),
           ),
         ],
@@ -84,12 +89,21 @@ class _MainAppState extends State<MainApp> {
                   log("@@@@@@");
                   th = state.themeData;
                 }
-                return MaterialApp.router(
-                  // darkTheme: state is ThemeChangeBloc ? ThemeData.dark() : th,
-                  theme: th,
-                  routerConfig: _appRouter.config(),
-                  debugShowCheckedModeBanner: false,
-                  // home: OptionScreen()
+                return BlocBuilder<LocBloc, LocState>(
+                  builder: (context, state) {
+                    return MaterialApp.router(
+                      theme: th,
+                      darkTheme:
+                          state is ThemeChangeBloc ? ThemeData.dark() : th,
+                      locale:
+                          state is ChangeState ? state.loc : const Locale("en"),
+                      localizationsDelegates:
+                          AppLocalizations.localizationsDelegates,
+                      supportedLocales: AppLocalizations.supportedLocales,
+                      debugShowCheckedModeBanner: false,
+                      routerConfig: _appRouter.config(),
+                    );
+                  },
                 );
               });
             }));

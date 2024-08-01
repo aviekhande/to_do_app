@@ -21,6 +21,7 @@ class AddTasksBloc extends Bloc<AddTasksEvent, AddTasksState> {
   void _onDeleteTask(TaskDelete event, Emitter<AddTasksState> emit) async {
     emit(TasksDeleteLoading());
     List<Tasks> res = await taskRepo.removeTask(event.id);
+    emit(TasksDeleteSuccess());
     emit(AddTaskSuccess(task: res));
   }
 
@@ -45,6 +46,7 @@ class AddTasksBloc extends Bloc<AddTasksEvent, AddTasksState> {
     emit(AddTaskLoading());
     log("In OnTaskAdd");
     List<Tasks> res = await taskRepo.addTask(event.task);
+    emit(AddTaskSuccess1());
     emit(AddTaskSuccess(task: res));
   }
 }

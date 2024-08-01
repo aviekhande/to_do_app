@@ -10,6 +10,8 @@ import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginbloc.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginstate.dart';
 import '../../../features/profile_screen/presentation/bloc/bloc/profile_bloc.dart';
+import '../../../flutter_gen/gen_l10n/app_localizations.dart';
+import '../../services/localizationbloc/locbloc_bloc.dart';
 import '../../theme/app_theme.dart';
 import '../../theme/bloc/theme_bloc_bloc.dart';
 
@@ -109,7 +111,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                   width: 250.w,
                 ),
                 Text(
-                  "Translate",
+                  AppLocalizations.of(context)!.translate,
                   style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w600, fontSize: 16.sp),
                 ),
@@ -122,27 +124,46 @@ class _CommonDrawerState extends State<CommonDrawer> {
                     SizedBox(
                       width: 10.w,
                     ),
-                    DropdownButton(
-                        isDense: true,
-                        autofocus: true,
-                        value: selectedValue,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedValue = newValue!;
-                          });
-                        },
-                        items: [
-                          DropdownMenuItem(
-                              value: "English",
-                              child: Text(
-                                "English",
-                                style: GoogleFonts.poppins(fontSize: 12.sp),
-                              )),
-                          DropdownMenuItem(
-                              value: "Hindi",
-                              child: Text("Hindi",
-                                  style: GoogleFonts.poppins(fontSize: 12.sp))),
-                        ])
+                    BlocBuilder<LocBloc, LocState>(
+                      builder: (context, state) {
+                         final Locale currentLocale = state is ChangeState
+                            ? state.loc
+                            : const Locale('en');
+                          selectedValue=  currentLocale ==
+                                                        const Locale("en")
+                                                    ?"English":"Hindi";
+                        return DropdownButton(
+                            isDense: true,
+                            autofocus: true,
+                            value: selectedValue,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedValue = newValue!;
+                                log(newValue);
+                                if (newValue == "English") {
+                                  BlocProvider.of<LocBloc>(context)
+                                      .add(ChangeLang(loc: const Locale('en')));
+                                } else {
+                                  BlocProvider.of<LocBloc>(context)
+                                      .add(ChangeLang(loc: const Locale('hi')));
+                                }
+                              });
+                            },
+                            items: [
+                              DropdownMenuItem(
+                                  value: "English",
+                                  child: Text(
+                                    "English",
+                                    style: GoogleFonts.poppins(fontSize: 12.sp),
+                                  )),
+                              DropdownMenuItem(
+                                  value: "Hindi",
+                                  child: Text("Hindi",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 12.sp))),
+                            ]);
+                      },
+                    )
                   ],
                 ),
                 SizedBox(
@@ -236,7 +257,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                           width: 10.w,
                         ),
                         Text(
-                          "Logout",
+                          AppLocalizations.of(context)!.logout,
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w600, fontSize: 16.sp),
                         )

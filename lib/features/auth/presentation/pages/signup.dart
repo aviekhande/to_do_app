@@ -1,15 +1,14 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:loader_overlay/loader_overlay.dart';
+// import 'package:image_picker/image_picker.dart';
+// import 'package:loader_overlay/loader_overlay.dart';
 import 'package:to_do_app/core/common/widget/loader_widget.dart';
 import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/bloc/signup_event.dart';

@@ -1,12 +1,11 @@
 import 'dart:developer';
-
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/theme/colors.dart';
 import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
-
 import '../../data/model/task_model.dart';
 
 class TaskContainer extends StatefulWidget {
@@ -19,6 +18,16 @@ class TaskContainer extends StatefulWidget {
 }
 
 class _TaskContainerState extends State<TaskContainer> {
+  Color getPriorityColor(String? priority) {
+    if (priority == null || priority == "Low") {
+      return Colors.green;
+    } else if (priority == "High") {
+      return Colors.red;
+    } else {
+      return Colors.yellow;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,8 +50,13 @@ class _TaskContainerState extends State<TaskContainer> {
             width: 10.w,
           ),
           GestureDetector(
-            onTap: () {
+            onTap: () async {
               log("msg");
+              if (!widget.taskData.done!) {
+                final player = AudioPlayer();
+                var assetSource = AssetSource('done.mp3');
+                await player.play(assetSource);
+              }
               !widget.taskData.done!
                   ? context
                       .read<AddTasksBloc>()
@@ -68,16 +82,33 @@ class _TaskContainerState extends State<TaskContainer> {
                 widget.taskData.task!,
                 style: GoogleFonts.poppins(fontSize: 16.sp),
               ),
-              widget.taskData.time != null
-                  ? Text(
-                      "${widget.taskData.date}" +
-                          "     ${widget.taskData.time}",
-                      style: GoogleFonts.poppins(fontSize: 12.sp),
-                    )
-                  : Text(
-                      "${widget.taskData.date}",
-                      style: GoogleFonts.poppins(),
-                    )
+              Row(
+                children: [
+                  widget.taskData.time != null
+                      ? Text(
+                          "${widget.taskData.date}" +
+                              "     ${widget.taskData.time}",
+                          style: GoogleFonts.poppins(fontSize: 12.sp),
+                        )
+                      : Text(
+                          "${widget.taskData.date}",
+                          style: GoogleFonts.poppins(),
+                        ),
+                  SizedBox(
+                    width: 20.w,
+                  ),
+                  Container(
+                    height: 12.h,
+                    width: 12.w,
+                    decoration: BoxDecoration(
+                        color: getPriorityColor(widget.taskData.priority)
+                            .withOpacity(0.2),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color: getPriorityColor(widget.taskData.priority))),
+                  )
+                ],
+              ),
             ],
           ),
           const Spacer(),

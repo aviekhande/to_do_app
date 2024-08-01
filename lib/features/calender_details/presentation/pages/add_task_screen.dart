@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +10,7 @@ import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_t
 import 'package:to_do_app/features/home_screen/data/model/task_model.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/theme/colors.dart';
+import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class AddTaskScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class AddTaskScreen extends StatefulWidget {
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
-  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+  // final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   TextEditingController taskController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
@@ -121,7 +122,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 children: [
                   SizedBox(height: 80.h),
                   Text(
-                    "Add your task",
+                    AppLocalizations.of(context)!.addYourTask,
                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                   ),
                   SizedBox(height: 10.h),
@@ -143,13 +144,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       ),
                       focusColor: kColorPrimary,
                       fillColor: Colors.white,
-                      hintText: "Enter your task",
+                      hintText: AppLocalizations.of(context)!.enterYourTask,
                       hintStyle: GoogleFonts.poppins(color: kColorLightBlack),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         log("Enter Task");
-                        return "Enter Task";
+                        return AppLocalizations.of(context)!.enterYourTask;
                       }
                       return null;
                     },
@@ -278,7 +279,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       ),
                       focusColor: kColorPrimary,
                       fillColor: Colors.white,
-                      hintText: "Date",
+                      hintText: AppLocalizations.of(context)!.date,
                       hintStyle: GoogleFonts.poppins(color: kColorLightBlack),
                       border: const OutlineInputBorder(),
                       suffixIcon: IconButton(
@@ -318,7 +319,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       ),
                       focusColor: kColorPrimary,
                       fillColor: Colors.white,
-                      hintText: "Time (Optional)",
+                      hintText: AppLocalizations.of(context)!.time,
                       hintStyle: GoogleFonts.poppins(color: kColorLightBlack),
                       border: const OutlineInputBorder(),
                       suffixIcon: IconButton(
@@ -356,7 +357,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       ),
                       child: Center(
                         child: Text(
-                          "Add Task",
+                          AppLocalizations.of(context)!.addTask,
                           style: GoogleFonts.poppins(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,

@@ -11,6 +11,7 @@ import 'package:to_do_app/core/common/widget/snackbar_widget.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/forgotpassbloc/forgotpass_bloc.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class ForgotPasswordScreen extends StatefulWidget {
@@ -54,7 +55,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
                 Center(
                   child: Text(
-                    "Forgot password",
+                    AppLocalizations.of(context)!.forgotPassword,
                     style: GoogleFonts.poppins(
                         fontSize: 28.sp, fontWeight: FontWeight.w600),
                   ),
@@ -63,14 +64,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   height: 10.h,
                 ),
                 Text(
-                  "No Worries! Enter your email address below and we will send you a code to reset password.",
+                  AppLocalizations.of(context)!.noWorries,
                   style: GoogleFonts.poppins(fontSize: 12.sp),
                 ),
                 SizedBox(
                   height: 30.h,
                 ),
                 Text(
-                  "E-mail",
+                  AppLocalizations.of(context)!.email,
                   style: GoogleFonts.poppins(fontSize: 16.sp),
                 ),
                 SizedBox(
@@ -95,7 +96,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                         focusColor: kColorPrimary,
                         fillColor: Colors.white,
-                        hintText: "Enter your email",
+                        hintText: AppLocalizations.of(context)!.enterYourEmail,
                         hintStyle: GoogleFonts.poppins(
                             color: kColorLightBlack, fontSize: 16.sp)),
                     validator: (value) {
@@ -137,7 +138,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           borderRadius: BorderRadius.circular(30)),
                       child: Center(
                           child: Text(
-                        "Send Reset Instruction",
+                        AppLocalizations.of(context)!.sendResetInst,
                         style: GoogleFonts.poppins(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,

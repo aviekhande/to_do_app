@@ -9,6 +9,7 @@ import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/features/profile_screen/presentation/bloc/bloc/profile_bloc.dart';
 import '../../../../core/common/widget/loader_widget.dart';
 import '../../../../core/theme/colors.dart';
+import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
@@ -33,6 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       // backgroundColor: Theme.of(context).colorScheme.surface,
       // appBar: AppBar(
       //   automaticallyImplyLeading: false,
@@ -60,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 60.h,
                 ),
                 Text(
-                  "Profile",
+                  AppLocalizations.of(context)!.profile,
                   style: GoogleFonts.poppins(
                       fontSize: 20.sp, fontWeight: FontWeight.w700),
                 ),
@@ -162,11 +164,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("My Account",
+                                  Text(AppLocalizations.of(context)!.myAcc,
                                       style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16.sp)),
-                                  Text("Make changes to your account",
+                                  Text(
+                                      AppLocalizations.of(context)!
+                                          .makeChangesToYourAcc,
                                       style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 10.sp))
@@ -201,11 +205,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Change Password",
+                                Text(AppLocalizations.of(context)!.changePass,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16.sp)),
-                                Text("Manage your password",
+                                Text(
+                                    AppLocalizations.of(context)!
+                                        .manageYourPass,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 10.sp))
@@ -232,7 +238,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           })
         ],
       ),
-
     );
   }
 }

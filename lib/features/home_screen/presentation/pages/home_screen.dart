@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:to_do_app/core/common/widget/snackbar_widget.dart';
 import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
 import 'package:to_do_app/features/home_screen/presentation/widgets/task_container.dart';
 import '../../../../core/common/widget/drawer_widget.dart';
@@ -65,10 +66,18 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: EdgeInsets.all(15.w),
         child: Column(
           children: [
-            BlocBuilder<AddTasksBloc, AddTasksState>(
+            BlocConsumer<AddTasksBloc, AddTasksState>(
+              listener: (context, state) {
+                if (state is TasksDeleteSuccess) {
+                  showSnackBarWidget(context, "Task deleted");
+                }
+              },
               builder: (context, state) {
                 if (state is AddTaskLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                      child: CircularProgressIndicator(
+                    color: Colors.blueAccent,
+                  ));
                 } else if (state is AddTaskSuccess) {
                   return state.task.isEmpty
                       ? Center(
@@ -112,15 +121,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                 } else {
-                  return Center(
-                    child: Text(
-                      "Something went wrong!",
-                      style: GoogleFonts.poppins(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  );
+                  return const Center(
+                      child: Center(child: CircularProgressIndicator()));
                 }
               },
             ),
