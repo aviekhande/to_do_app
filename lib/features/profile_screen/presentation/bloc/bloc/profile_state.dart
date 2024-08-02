@@ -8,7 +8,6 @@ final class ProfileLoadFailed extends ProfileState {}
 
 class ProfileFetch extends ProfileState {
   DocumentSnapshot docSnap;
-
   ProfileFetch({required this.docSnap});
 }
 

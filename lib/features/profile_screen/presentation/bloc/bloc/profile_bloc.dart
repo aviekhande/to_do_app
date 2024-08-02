@@ -10,7 +10,7 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileInitial()) {
-    on<ProfileEvent>(_onFetchProfileData);
+    on<ProfileFetchEvent>(_onFetchProfileData);
     on<UpdateRequest>(_onProfileUp);
   }
 
@@ -33,7 +33,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           image: imageUrl);
       if (res[0]) {
         log("Profile updated successfully");
-        add(ProfileEvent());
+        add(ProfileFetchEvent());
       } else {
         log("Profile update failed: ${res[1]}");
         emit(UpdateProfileFailed(res: res[1]));
@@ -45,7 +45,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   void _onFetchProfileData(
-      ProfileEvent event, Emitter<ProfileState> emit) async {
+      ProfileFetchEvent event, Emitter<ProfileState> emit) async {
     log("INONFetchProf");
     try {
       emit(ProfileLoading());

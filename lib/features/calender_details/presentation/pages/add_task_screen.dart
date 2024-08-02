@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/common/widget/loader_widget.dart';
 import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
@@ -20,12 +21,25 @@ class AddTaskScreen extends StatefulWidget {
   State<AddTaskScreen> createState() => _AddTaskScreenState();
 }
 
+enum PriorityLabel {
+  low('Low', Colors.green),
+  medium('Medium', Colors.yellow),
+  high('High', Colors.red);
+
+  const PriorityLabel(this.label, this.color);
+  final String label;
+  final Color color;
+}
+
 class _AddTaskScreenState extends State<AddTaskScreen> {
   // final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   TextEditingController taskController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
+  TextEditingController alarmController = TextEditingController();
+  TextEditingController colorController = TextEditingController();
   GlobalKey<FormState> addKey = GlobalKey();
+  PriorityLabel? selectedPriority;
   DateTime? selectedDate;
   String? _formattedDate;
   TimeOfDay? _selectedTime;
@@ -80,7 +94,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     }
   }
 
-  Future<void> _selectTime(BuildContext context) async {
+  Future<void> _selectTime(BuildContext context, bool isReminder) async {
     final pickedTime = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.now(),
@@ -101,7 +115,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       setState(() {
         _selectedTime = pickedTime;
         _formattedTime = _formatTime(_selectedTime!);
-        timeController.text = _formattedTime!;
+        isReminder
+            ? alarmController.text = _formattedTime!
+            : timeController.text = _formattedTime!;
       });
     }
   }
@@ -120,7 +136,20 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 80.h),
+                  SizedBox(height: 30.h),
+                  GestureDetector(
+                    onTap: () {
+                      FocusScope.of(context).unfocus();
+                      AutoRouter.of(context).popForced();
+                    },
+                    child: Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: kColorWhite,
+                        ),
+                        child: SvgPicture.asset("assets/icons/back_ic.svg")),
+                  ),
+                  SizedBox(height: 30.h),
                   Text(
                     AppLocalizations.of(context)!.addYourTask,
                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
@@ -155,7 +184,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 16.h),
                   // GestureDetector(
                   //   onTap: () async {
                   //     DateTime? pickedDate = await showDatePicker(
@@ -301,7 +330,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   SizedBox(height: 16.0.h),
                   TextFormField(
                     onTap: () {
-                      _selectTime(context);
+                      _selectTime(context, false);
                     },
                     style: GoogleFonts.poppins(color: Colors.black),
                     controller: timeController,
@@ -327,11 +356,117 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           Icons.alarm,
                           color: Colors.black,
                         ),
-                        onPressed: () => _selectTime(context),
+                        onPressed: () => _selectTime(context, false),
                       ),
                     ),
                     readOnly: true,
                   ),
+                  SizedBox(height: 16.0.h),
+                  TextFormField(
+                    onTap: () {
+                      _selectTime(context, true);
+                    },
+                    style: GoogleFonts.poppins(color: Colors.black),
+                    controller: alarmController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            color: kColorTextfieldBordered, width: 1.0),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            color: kColorLightBlack, width: 1.0),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      focusColor: kColorPrimary,
+                      fillColor: Colors.white,
+                      hintText: AppLocalizations.of(context)!.alarm,
+                      hintStyle: GoogleFonts.poppins(color: kColorLightBlack),
+                      border: const OutlineInputBorder(),
+                      suffixIcon: IconButton(
+                        icon: const Icon(
+                          Icons.alarm,
+                          color: Colors.black,
+                        ),
+                        onPressed: () => _selectTime(context, true),
+                      ),
+                    ),
+                    readOnly: true,
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  DropdownMenu<PriorityLabel>(
+                    initialSelection: PriorityLabel.low,
+                    controller: colorController,
+                    label: const Text('Priority'),
+                    onSelected: (PriorityLabel? color) {
+                      setState(() {
+                        selectedPriority = color;
+                      });
+                    },
+                    dropdownMenuEntries: PriorityLabel.values
+                        .map<DropdownMenuEntry<PriorityLabel>>(
+                            (PriorityLabel color) {
+                      return DropdownMenuEntry<PriorityLabel>(
+                        value: color,
+                        label: color.label,
+                        enabled: color.label != 'Grey',
+                        style: MenuItemButton.styleFrom(
+                          foregroundColor: color.color,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+
+                  if (selectedPriority != null)
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.h),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: selectedPriority!.color.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Selected Priority: ${selectedPriority!.label}',
+                              style: GoogleFonts.poppins(
+                                color: selectedPriority!.color == Colors.yellow
+                                    ? Colors.black45
+                                    : selectedPriority!.color,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const Spacer(),
+                            Container(
+                              height: 20,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    selectedPriority = null;
+                                  });
+                                },
+                                borderRadius: BorderRadius.circular(50),
+                                child: Icon(
+                                  Icons.close,
+                                  size: 20.sp,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  SizedBox(height: 30.h),
+
                   SizedBox(height: 100.h),
                   GestureDetector(
                     onTap: () async {

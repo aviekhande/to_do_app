@@ -28,6 +28,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Padding(
@@ -114,7 +115,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 BlocListener<ForgotPassBloc, ForgotPassState>(
                   listener: (context, state) {
                     if (state is ForgotPassSuccess) {
-                      showSnackBarWidget(context, "Code send on Email");
+                      showSnackBarWidget(context, "Code send on Email",);
                     }
                     if (state is ForgotPassFailed) {
                       showSnackBarWidget(context, "Something went wrong");

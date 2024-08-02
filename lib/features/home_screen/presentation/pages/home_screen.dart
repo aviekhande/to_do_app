@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
             BlocConsumer<AddTasksBloc, AddTasksState>(
               listener: (context, state) {
                 if (state is TasksDeleteSuccess) {
-                  showSnackBarWidget(context, "Task deleted");
+                  showSnackBarWidget(context, "Task deleted",Colors.red.shade700);
                 }
               },
               builder: (context, state) {

@@ -32,16 +32,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get date => 'Date';
 
   @override
-  String get time => 'Time (Optional)';
+  String get time => 'Due Time';
+
+  @override
+  String get alarm => 'Reminder Time';
 
   @override
   String get addTask => 'Add Task';
 
   @override
-  String get completedTasks => 'Completed Tasks';
+  String get completedTasks => 'Complete Tasks';
 
   @override
-  String get incompleteTask => 'inCompleted Task';
+  String get incompleteTask => 'Incomplete Tasks';
 
   @override
   String get myAcc => 'My Account';

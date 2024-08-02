@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:to_do_app/core/theme/colors.dart';
 
-showSnackBarWidget(BuildContext context, String text) {
+showSnackBarWidget(BuildContext context, String text,
+    [Color color = Colors.black45]) {
   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    backgroundColor: kColorPrimary,
+    backgroundColor: color,
+    behavior: SnackBarBehavior.floating,
     content: Text(
       text,
       style: GoogleFonts.poppins(color: Colors.white),

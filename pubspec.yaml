@@ -35,6 +35,9 @@ dependencies:
   rename_app: ^1.6.1
   textfield_tags: ^3.0.1
   l10n_flutter: ^1.0.7
+  android_alarm_manager_plus: ^4.0.4
+  android_alarm_manager: ^2.0.2
+  alarm: ^3.1.5
 flutter_icons:
   android: "launcher_icon"
   ios: true

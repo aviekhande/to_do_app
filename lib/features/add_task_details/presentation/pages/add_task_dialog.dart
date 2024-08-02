@@ -446,7 +446,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
               BlocConsumer<AddTasksBloc, AddTasksState>(
                 listener: (context, state) {
                   if (state is AddTaskSuccess1) {
-                    showSnackBarWidget(context, "Task Added");
+                    showSnackBarWidget(context, "Task Added", kColorPrimary);
                     Navigator.pop(context); // Pop AddTaskScreen
                     taskController.clear();
                     clearDateTime();

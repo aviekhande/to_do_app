@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:alarm/alarm.dart';
+import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,7 @@ void main() async {
     projectId: 'todo-4e307',
     storageBucket: 'todo-4e307.appspot.com',
   ));
+
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorage.webStorageDirectory
@@ -37,6 +40,7 @@ void main() async {
   );
   locatior();
   runApp(const MainApp());
+  await Alarm.init();
 }
 
 class MainApp extends StatefulWidget {

@@ -35,10 +35,12 @@ class _TaskContainerState extends State<TaskContainer> {
       margin: EdgeInsets.only(bottom: 20.h),
       decoration: BoxDecoration(
           boxShadow: [
-            BoxShadow(
-                color: Theme.of(context).colorScheme.shadow,
-                blurRadius: 5,
-                offset: const Offset(0, 3))
+            if (Theme.of(context).colorScheme.shadow !=
+                const Color.fromARGB(255, 111, 109, 109))
+              BoxShadow(
+                  color: Theme.of(context).colorScheme.shadow,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3))
           ],
           color: Theme.of(context).colorScheme.surface == Colors.grey.shade700
               ? Theme.of(context).colorScheme.surface
@@ -78,10 +80,18 @@ class _TaskContainerState extends State<TaskContainer> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                widget.taskData.task!,
-                style: GoogleFonts.poppins(fontSize: 16.sp),
-              ),
+              !widget.taskData.done!
+                  ? Text(
+                      widget.taskData.task!,
+                      style: GoogleFonts.poppins(
+                        fontSize: 16.sp,
+                      ),
+                    )
+                  : Text(widget.taskData.task!,
+                      style: GoogleFonts.poppins(
+                          fontSize: 16.sp,
+                          decoration: TextDecoration.lineThrough,
+                          decorationThickness: 2)),
               Row(
                 children: [
                   widget.taskData.time != null

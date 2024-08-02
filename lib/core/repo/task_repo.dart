@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:to_do_app/features/home_screen/data/model/task_model.dart';
 import '../../features/home_screen/data/datasource/remote_get_tasks_datasource.dart';
@@ -9,14 +8,15 @@ class ProductRepo {
   List<Tasks> taskList = [];
   Future<List<Tasks>> addTask(Tasks model) async {
     log("id:${model.id}");
-    taskList = [];
     taskList.add(model);
-    List<Tasks> task = await getTodoData();
-    taskList.addAll(task);
     addData();
     return taskList;
   }
-
+  Future<List<Tasks>> fetchTask()async{
+      List<Tasks> task = await getTodoData();
+      taskList.addAll(task);
+      return task;
+  }
   void addData() async {
     await FirebaseFirestore.instance
         .collection("todo")
@@ -29,8 +29,7 @@ class ProductRepo {
                   time: e.time,
                   id: e.id,
                   done: e.done,
-                  priority: e.priority
-                  )
+                  priority: e.priority)
               .toJson())
           .toList()
     });

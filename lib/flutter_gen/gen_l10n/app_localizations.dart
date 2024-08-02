@@ -150,8 +150,14 @@ abstract class AppLocalizations {
   /// No description provided for @time.
   ///
   /// In en, this message translates to:
-  /// **'Time (Optional)'**
+  /// **'Due Time'**
   String get time;
+
+  /// No description provided for @alarm.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder Time'**
+  String get alarm;
 
   /// No description provided for @addTask.
   ///
@@ -162,13 +168,13 @@ abstract class AppLocalizations {
   /// No description provided for @completedTasks.
   ///
   /// In en, this message translates to:
-  /// **'Completed Tasks'**
+  /// **'Complete Tasks'**
   String get completedTasks;
 
   /// No description provided for @incompleteTask.
   ///
   /// In en, this message translates to:
-  /// **'inCompleted Task'**
+  /// **'Incomplete Tasks'**
   String get incompleteTask;
 
   /// No description provided for @myAcc.

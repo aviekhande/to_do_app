@@ -32,7 +32,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get date => 'तारीख';
 
   @override
-  String get time => 'समय (वैकल्पिक)';
+  String get time => 'देय समय';
+
+  @override
+  String get alarm => 'अनुस्मारक समय';
 
   @override
   String get addTask => 'कार्य जोड़ें';
@@ -56,7 +59,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get manageYourPass => 'अपना पासवर्ड प्रबंधित करें';
 
   @override
-  String get firstName => 'पहला नाम पहला नाम';
+  String get firstName => 'पहला नाम';
 
   @override
   String get lastName => 'अंतिम नाम';

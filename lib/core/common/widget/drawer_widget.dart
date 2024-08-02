@@ -38,7 +38,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
   @override
   void initState() {
     super.initState();
-    context.read<ProfileBloc>().add(ProfileEvent());
+    context.read<ProfileBloc>().add(ProfileFetchEvent());
   }
 
   @override
@@ -126,12 +126,12 @@ class _CommonDrawerState extends State<CommonDrawer> {
                     ),
                     BlocBuilder<LocBloc, LocState>(
                       builder: (context, state) {
-                         final Locale currentLocale = state is ChangeState
+                        final Locale currentLocale = state is ChangeState
                             ? state.loc
                             : const Locale('en');
-                          selectedValue=  currentLocale ==
-                                                        const Locale("en")
-                                                    ?"English":"Hindi";
+                        selectedValue = currentLocale == const Locale("en")
+                            ? "English"
+                            : "Hindi";
                         return DropdownButton(
                             isDense: true,
                             autofocus: true,
@@ -172,9 +172,11 @@ class _CommonDrawerState extends State<CommonDrawer> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.sunny,
-                      color: Colors.amber,
+                      color: isDarkTheme
+                          ? const Color.fromARGB(255, 205, 203, 203)
+                          : Colors.amber,
                     ),
                     GestureDetector(
                       onTap: () {

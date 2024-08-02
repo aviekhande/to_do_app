@@ -2,6 +2,8 @@ part of 'profile_bloc.dart';
 
 class ProfileEvent {}
 
+class ProfileFetchEvent extends ProfileEvent{}
+
 class UpdateRequest extends ProfileEvent {
   String name;
   String lastName;
