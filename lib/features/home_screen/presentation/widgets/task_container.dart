@@ -28,6 +28,28 @@ class _TaskContainerState extends State<TaskContainer> {
     }
   }
 
+  Text getPriority(String? priority) {
+    if (priority == null || priority == "Low") {
+      return Text(
+        " P3",
+        style: GoogleFonts.poppins(
+            color: Colors.green, fontSize: 12.sp, fontWeight: FontWeight.w600),
+      );
+    } else if (priority == "High") {
+      return Text(
+        " P1",
+        style: GoogleFonts.poppins(
+            color: Colors.red, fontSize: 12.sp, fontWeight: FontWeight.w600),
+      );
+    } else {
+      return Text(
+        " P3",
+        style: GoogleFonts.poppins(
+            color: Colors.yellow, fontSize: 12.sp, fontWeight: FontWeight.w600),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -116,7 +138,8 @@ class _TaskContainerState extends State<TaskContainer> {
                         shape: BoxShape.circle,
                         border: Border.all(
                             color: getPriorityColor(widget.taskData.priority))),
-                  )
+                  ),
+                  getPriority(widget.taskData.priority)
                 ],
               ),
             ],

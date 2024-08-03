@@ -39,7 +39,7 @@ class _CommonbottomnavigationbarState extends State<Commonbottomnavigationbar> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    AddTaskScreen(),
+    CalendarScreen(),
     AddTaskScreen(),
     GraphScreen(),
     ProfileScreen()

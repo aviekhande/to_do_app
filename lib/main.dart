@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:alarm/alarm.dart';
-import 'package:android_alarm_manager/android_alarm_manager.dart';
+// import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +41,20 @@ void main() async {
   locatior();
   runApp(const MainApp());
   await Alarm.init();
+  final alarmSettings = AlarmSettings(
+    id: 42,
+    dateTime: DateTime.now(),
+    assetAudioPath: 'assets/done.mp3',
+    loopAudio: true,
+    vibrate: false,
+    volume: 0.9,
+    fadeDuration: 3.0,
+    notificationTitle: 'This is the title',
+    notificationBody: 'This is the body',
+    // enableNotificationOnKill: Platform.isIOS,
+  );
+  await Alarm.set(alarmSettings: alarmSettings);
+  await Alarm.stop(alarmSettings.id);
 }
 
 class MainApp extends StatefulWidget {

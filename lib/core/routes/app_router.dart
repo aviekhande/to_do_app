@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:to_do_app/features/auth/presentation/pages/forgot_password_screen.dart';
 import 'package:to_do_app/features/profile_screen/presentation/pages/profile_screen.dart';
-import '../../features/calender_details/presentation/pages/add_task_screen.dart';
+import '../../features/add_task_details/presentation/pages/add_task_dialog.dart';
 import '../../features/auth/presentation/pages/login.dart';
 import '../../features/auth/presentation/pages/mobile_number_login_screen.dart';
 import '../../features/auth/presentation/pages/options_to_login.dart';
