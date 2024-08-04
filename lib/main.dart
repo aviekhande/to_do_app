@@ -41,20 +41,7 @@ void main() async {
   locatior();
   runApp(const MainApp());
   await Alarm.init();
-  final alarmSettings = AlarmSettings(
-    id: 42,
-    dateTime: DateTime.now(),
-    assetAudioPath: 'assets/done.mp3',
-    loopAudio: true,
-    vibrate: false,
-    volume: 0.9,
-    fadeDuration: 3.0,
-    notificationTitle: 'This is the title',
-    notificationBody: 'This is the body',
-    // enableNotificationOnKill: Platform.isIOS,
-  );
-  await Alarm.set(alarmSettings: alarmSettings);
-  await Alarm.stop(alarmSettings.id);
+  await Alarm.stop(24808885);
 }
 
 class MainApp extends StatefulWidget {
@@ -75,7 +62,7 @@ class _MainAppState extends State<MainApp> {
           ),
           BlocProvider(
             create: (context) => SignUpBloc(),
-          ),
+          ), 
           BlocProvider(
             create: (context) => ProfileBloc(),
           ),

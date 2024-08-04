@@ -1,6 +1,6 @@
 // import 'dart:developer';
 // // import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart'
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:google_fonts/google_fonts.dart';
@@ -464,6 +464,7 @@
 //   }
 // }
 import 'dart:developer';
+import 'package:alarm/alarm.dart';
 import 'package:auto_route/auto_route.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -509,6 +510,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   String? _formattedDate;
   TimeOfDay? _selectedTime;
   String? _formattedTime;
+  TimeOfDay? alarm1;
   void clearDateTime() {
     setState(() {
       taskController.clear();
@@ -519,6 +521,34 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       _selectedTime = null;
       _formattedTime = null;
     });
+  }
+
+  int? uniqIdAlarm;
+  int generateUniqueId() {
+    DateTime now = DateTime.now();
+
+    // Extract date components
+    int year = now.year % 100; // Last two digits of the year
+    int month = now.month; // 1-12
+    int day = now.day; // 1-31
+
+    // Calculate milliseconds since midnight
+    int millisecondsSinceMidnight = now.millisecondsSinceEpoch -
+        DateTime(now.year, now.month, now.day).millisecondsSinceEpoch;
+
+    // Extract last 4 digits of milliseconds to fit into 10 digits
+    int timePart = millisecondsSinceMidnight % 10000;
+
+    // Combine components into a unique ID
+    // Year (2 digits), Month (1 digit), Day (2 digits), Time (4 digits)
+    int uniqueId = year * 1000000 + month * 100000 + day * 1000 + timePart;
+
+    // Ensure the ID does not exceed 2147483647
+    if (uniqueId > 2147483647) {
+      uniqueId %= 2147483647; // Wrap around if it exceeds the limit
+    }
+    uniqIdAlarm = uniqueId;
+    return uniqueId;
   }
 
   String _formatTime(TimeOfDay time) {
@@ -559,6 +589,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     }
   }
 
+  DateTime convertTimeOfDayToDateTime(DateTime date, TimeOfDay time) {
+    final now = DateTime.now();
+    final dateTime =
+        DateTime(date.year, date.month, date.day, time.hour, time.minute);
+    return dateTime;
+  }
+
   Future<void> _selectTime(BuildContext context, bool isReminder) async {
     final pickedTime = await showTimePicker(
         context: context,
@@ -576,6 +613,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             child: child!,
           );
         });
+    if (isReminder) {
+      alarm1 = pickedTime;
+    }
     if (pickedTime != null) {
       setState(() {
         _selectedTime = pickedTime;
@@ -962,10 +1002,25 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                   task: taskController.text,
                                   date: _formattedDate,
                                   time: _formattedTime,
-                                  id: DateTime.now().toString(),
+                                  id: generateUniqueId().toString(),
                                   done: false),
                             ));
-                        // context.read<TaskBloc>().add(TaskAdd());
+                        AutoRouter.of(context).back();
+                        final alarmSettings = AlarmSettings(
+                          id: uniqIdAlarm!,
+                          dateTime: convertTimeOfDayToDateTime(
+                              selectedDate!, alarm1!),
+                          assetAudioPath: 'assets/done.mp3',
+                          loopAudio: true,
+                          vibrate: true,
+                          volume: 0.8,
+                          fadeDuration: 3.0,
+                          notificationTitle: 'Reminder',
+                          notificationBody: 'Complete your task',
+                          androidFullScreenIntent: true,
+                          enableNotificationOnKill: false,
+                        );
+                        await Alarm.set(alarmSettings: alarmSettings);
                       }
                     },
                     child: Container(

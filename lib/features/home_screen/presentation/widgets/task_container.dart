@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:alarm/alarm.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -145,6 +146,11 @@ class _TaskContainerState extends State<TaskContainer> {
             ],
           ),
           const Spacer(),
+          GestureDetector(
+              onTap: () {
+                Alarm.stop(int.parse(widget.taskData.id!));
+              },
+              child: const Icon(Icons.alarm)),
           GestureDetector(
               onTap: () {
                 context
