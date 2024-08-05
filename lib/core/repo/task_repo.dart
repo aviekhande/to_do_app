@@ -7,16 +7,17 @@ import '../common/widget/session_controller.dart';
 class ProductRepo {
   List<Tasks> taskList = [];
   Future<List<Tasks>> addTask(Tasks model) async {
-    log("id:${model.id}");
     taskList.add(model);
     addData();
     return taskList;
   }
-  Future<List<Tasks>> fetchTask()async{
-      List<Tasks> task = await getTodoData();
-      taskList.addAll(task);
-      return task;
+
+  Future<List<Tasks>> fetchTask() async {
+    List<Tasks> task = await getTodoData();
+    taskList.addAll(task);
+    return task;
   }
+
   void addData() async {
     await FirebaseFirestore.instance
         .collection("todo")
@@ -29,7 +30,8 @@ class ProductRepo {
                   time: e.time,
                   id: e.id,
                   done: e.done,
-                  priority: e.priority)
+                  priority: e.priority,
+                  alarm: e.alarm)
               .toJson())
           .toList()
     });
@@ -43,6 +45,7 @@ class ProductRepo {
     taskList.forEach((element) {
       if (element.id == id) {
         element.done = true;
+        element.alarm = false;
       }
     });
     addData();

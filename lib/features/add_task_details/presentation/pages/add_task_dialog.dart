@@ -472,6 +472,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:to_do_app/core/common/widget/loader_widget.dart';
 import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
 import 'package:to_do_app/features/home_screen/data/model/task_model.dart';
@@ -489,7 +490,7 @@ class AddTaskScreen extends StatefulWidget {
 
 enum PriorityLabel {
   low(' P3  Low', Colors.green),
-  medium(' P2  Medium', Colors.yellow),
+  medium(' P2  Medium', Colors.orange),
   high(' P1  High', Colors.red);
 
   const PriorityLabel(this.label, this.color);
@@ -527,23 +528,18 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   int generateUniqueId() {
     DateTime now = DateTime.now();
 
-    // Extract date components
+    //  date components
     int year = now.year % 100; // Last two digits of the year
     int month = now.month; // 1-12
     int day = now.day; // 1-31
 
-    // Calculate milliseconds since midnight
     int millisecondsSinceMidnight = now.millisecondsSinceEpoch -
         DateTime(now.year, now.month, now.day).millisecondsSinceEpoch;
 
-    // Extract last 4 digits of milliseconds to fit into 10 digits
     int timePart = millisecondsSinceMidnight % 10000;
 
-    // Combine components into a unique ID
-    // Year (2 digits), Month (1 digit), Day (2 digits), Time (4 digits)
     int uniqueId = year * 1000000 + month * 100000 + day * 1000 + timePart;
 
-    // Ensure the ID does not exceed 2147483647
     if (uniqueId > 2147483647) {
       uniqueId %= 2147483647; // Wrap around if it exceeds the limit
     }
@@ -552,12 +548,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   }
 
   String _formatTime(TimeOfDay time) {
-    final hour = time.hourOfPeriod == 0
-        ? 12
-        : time.hourOfPeriod; // Convert 0 to 12 for AM times
+    final hour = time.hourOfPeriod == 0 ? 12 : time.hourOfPeriod;
     final minute = time.minute;
     final period = time.period == DayPeriod.am ? 'AM' : 'PM';
-    return '$hour:${minute.toString().padLeft(2, '0')} $period'; // Add leading zero to minute
+    return '$hour:${minute.toString().padLeft(2, '0')} $period';
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -682,7 +676,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       hintStyle: GoogleFonts.poppins(color: kColorLightBlack),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          value.trim() == "") {
                         log("Enter Task");
                         return AppLocalizations.of(context)!.enterYourTask;
                       }
@@ -690,109 +686,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     },
                   ),
                   SizedBox(height: 16.h),
-                  // GestureDetector(
-                  //   onTap: () async {
-                  //     DateTime? pickedDate = await showDatePicker(
-                  //         context: context,
-                  //         initialDate: DateTime.now(),
-                  //         firstDate: DateTime(2000),
-                  //         lastDate: DateTime(2101),
-                  //         builder: (BuildContext context, Widget? child) {
-                  //           return Theme(
-                  //             data: ThemeData.light().copyWith(
-                  //               colorScheme: const ColorScheme.light(
-                  //                 primary: Colors.blue,
-                  //                 onPrimary: Colors.white,
-                  //                 onSurface: Colors.black,
-                  //               ),
-                  //               dialogBackgroundColor: Colors.white,
-                  //             ),
-                  //             child: child!,
-                  //           );
-                  //         });
-                  //     log("Selected Date: $pickedDate");
-                  //     if (pickedDate != null) {
-                  //       setState(() {
-                  //         selectedDate = pickedDate;
-                  //         _formattedDate =
-                  //             DateFormat('d MMM yyyy').format(selectedDate!);
-                  //       });
-                  //     }
-                  //   },
-                  //   child: Container(
-                  //     height: 45.h,
-                  //     padding: EdgeInsets.all(10.h),
-                  //     decoration: BoxDecoration(
-                  //       color: kColorWhite,
-                  //       borderRadius: BorderRadius.circular(8),
-                  //       border: Border.all(color: kColorTextfieldBordered),
-                  //     ),
-                  //     child: Row(
-                  //       children: [
-                  //         const Icon(
-                  //           Icons.calendar_month,
-                  //           color: kColorLightBlack,
-                  //         ),
-                  //         SizedBox(width: 10.w),
-                  //         Text(
-                  //           _formattedDate ?? "Date",
-                  //           style: GoogleFonts.poppins(
-                  //               fontWeight: FontWeight.w500),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-                  // SizedBox(height: 20.h),
-                  // GestureDetector(
-                  //   onTap: () async {
-                  //     final pickedTime = await showTimePicker(
-                  //         context: context,
-                  //         initialTime: TimeOfDay.now(),
-                  //         builder: (BuildContext context, Widget? child) {
-                  //           return Theme(
-                  //             data: ThemeData.light().copyWith(
-                  //               colorScheme: const ColorScheme.light(
-                  //                 primary: Colors.blue,
-                  //                 onPrimary: Colors.white,
-                  //                 onSurface: Colors.black,
-                  //               ),
-                  //               dialogBackgroundColor: Colors.white,
-                  //             ),
-                  //             child: child!,
-                  //           );
-                  //         });
-                  //     if (pickedTime != null) {
-                  //       setState(() {
-                  //         _selectedTime = pickedTime;
-                  //         _formattedTime = _formatTime(_selectedTime!);
-                  //       });
-                  //     }
-                  //   },
-                  //   child: Container(
-                  //     height: 45.h,
-                  //     padding: EdgeInsets.all(10.h),
-                  //     decoration: BoxDecoration(
-                  //       color: kColorWhite,
-                  //       borderRadius: BorderRadius.circular(8),
-                  //       border: Border.all(color: kColorTextfieldBordered),
-                  //     ),
-                  //     child: Row(
-                  //       children: [
-                  //         const Icon(
-                  //           Icons.alarm,
-                  //           color: kColorLightBlack,
-                  //         ),
-                  //         SizedBox(width: 10.w),
-                  //         Text(
-                  //           _formattedTime ?? "Time",
-                  //           style: GoogleFonts.poppins(
-                  //               fontWeight: FontWeight.w500),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                   TextFormField(
                     onTap: () {
                       _selectDate(context);
@@ -864,6 +757,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         onPressed: () => _selectTime(context, false),
                       ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select a time';
+                      }
+                      return null;
+                    },
                     readOnly: true,
                   ),
                   SizedBox(height: 16.0.h),
@@ -903,28 +802,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   SizedBox(
                     height: 16.h,
                   ),
-                  // DropdownMenu<PriorityLabel>(
-                  //   initialSelection: PriorityLabel.low,
-                  //   controller: colorController,
-                  //   label: const Text('Priority'),
-                  //   onSelected: (PriorityLabel? color) {
-                  //     setState(() {
-                  //       selectedPriority = color;
-                  //     });
-                  //   },
-                  //   dropdownMenuEntries: PriorityLabel.values
-                  //       .map<DropdownMenuEntry<PriorityLabel>>(
-                  //           (PriorityLabel color) {
-                  //     return DropdownMenuEntry<PriorityLabel>(
-                  //       value: color,
-                  //       label: color.label,
-                  //       enabled: color.label != 'Grey',
-                  //       style: MenuItemButton.styleFrom(
-                  //         foregroundColor: color.color,
-                  //       ),
-                  //     );
-                  //   }).toList(),
-                  // ),
                   CustomDropdownButtonFormField(
                     hint: 'Priority',
                     items: PriorityLabel.values,
@@ -959,11 +836,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                       color: selectedPriority!.color)),
                             ),
                             Text(
-                              '${selectedPriority!.label}',
+                              selectedPriority!.label,
                               style: GoogleFonts.poppins(
-                                color: selectedPriority!.color == Colors.yellow
-                                    ? Colors.black45
-                                    : selectedPriority!.color,
+                                color: selectedPriority!.color,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -991,36 +866,41 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       ),
                     ),
                   SizedBox(height: 30.h),
-
                   SizedBox(height: 100.h),
                   GestureDetector(
                     onTap: () async {
-                      if (addKey.currentState!.validate() &&
-                          (_formattedDate != null)) {
+                      // log("selectedPriority: ${selectedPriority!.label}");
+                      if ((addKey.currentState!.validate() &&
+                              (_formattedDate != null)) &&
+                          taskController.text.trim() != "") {
                         context.read<AddTasksBloc>().add(TaskAdd1(
                               task: Tasks(
+                                  alarm: alarmController.text.isNotEmpty,
                                   task: taskController.text,
                                   date: _formattedDate,
                                   time: _formattedTime,
+                                  priority: selectedPriority?.label,
                                   id: generateUniqueId().toString(),
                                   done: false),
                             ));
                         AutoRouter.of(context).back();
-                        final alarmSettings = AlarmSettings(
-                          id: uniqIdAlarm!,
-                          dateTime: convertTimeOfDayToDateTime(
-                              selectedDate!, alarm1!),
-                          assetAudioPath: 'assets/done.mp3',
-                          loopAudio: true,
-                          vibrate: true,
-                          volume: 0.8,
-                          fadeDuration: 3.0,
-                          notificationTitle: 'Reminder',
-                          notificationBody: 'Complete your task',
-                          androidFullScreenIntent: true,
-                          enableNotificationOnKill: false,
-                        );
-                        await Alarm.set(alarmSettings: alarmSettings);
+                        if (alarm1 != null) {
+                          final alarmSettings = AlarmSettings(
+                            id: uniqIdAlarm!,
+                            dateTime: convertTimeOfDayToDateTime(
+                                selectedDate!, alarm1!),
+                            assetAudioPath: 'assets/done.mp3',
+                            loopAudio: true,
+                            vibrate: true,
+                            volume: 0.8,
+                            fadeDuration: 3.0,
+                            notificationTitle: 'Reminder',
+                            notificationBody: 'Complete your task',
+                            androidFullScreenIntent: true,
+                            enableNotificationOnKill: false,
+                          );
+                          await Alarm.set(alarmSettings: alarmSettings);
+                        }
                       }
                     },
                     child: Container(
@@ -1048,7 +928,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           ),
           BlocConsumer<AddTasksBloc, AddTasksState>(
             listener: (context, state) {
-              if (state is AddTaskSuccess) {
+              if (state is AddTaskSuccess1) {
+                // AutoRouter.of(context).back();
+                taskController.clear();
                 clearDateTime();
               }
             },
@@ -1118,5 +1000,39 @@ class CustomDropdownButtonFormField extends StatelessWidget {
       }).toList(),
       onChanged: onChanged,
     );
+  }
+}
+
+DateTime getDateTime(String dateString, String timeString) {
+  DateTime parsedDate = DateFormat("dd MMM yyyy").parse(dateString);
+  DateTime parsedTime = DateFormat("h:mm a").parse(timeString);
+
+  DateTime combinedDateTime = DateTime(
+    parsedDate.year,
+    parsedDate.month,
+    parsedDate.day,
+    parsedTime.hour,
+    parsedTime.minute,
+  );
+  return combinedDateTime;
+}
+
+List<Appointment> getAppointments(List task) {
+  List<Appointment> meetings = <Appointment>[];
+  for (int i = 0; i < task.length; i++) {
+    final DateTime startTime = getDateTime(task[i].date, task[i].time);
+    final endTime = startTime.add(const Duration(hours: 1));
+    meetings.add(Appointment(
+        startTime: startTime,
+        endTime: endTime,
+        subject: task[i].task,
+        color: kColorPrimary));
+  }
+  return meetings;
+}
+
+class TodoDataSource extends CalendarDataSource {
+  TodoDataSource(List<Appointment> source) {
+    appointments = source;
   }
 }

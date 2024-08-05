@@ -56,7 +56,7 @@ class _GraphScreenState extends State<GraphScreen> {
                 Color.fromARGB(255, 94, 185, 125),
                 Color.fromARGB(255, 242, 136, 129)
               ],
-              ringStrokeWidth: 30.w,
+              ringStrokeWidth: 40.w,
               animationDuration: const Duration(milliseconds: 5000),
               chartRadius: MediaQuery.of(context).size.width / 2,
               chartType: ChartType.ring,

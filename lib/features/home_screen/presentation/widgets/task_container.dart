@@ -20,23 +20,24 @@ class TaskContainer extends StatefulWidget {
 
 class _TaskContainerState extends State<TaskContainer> {
   Color getPriorityColor(String? priority) {
-    if (priority == null || priority == "Low") {
+    if (priority == null || priority == " P3  Low") {
       return Colors.green;
-    } else if (priority == "High") {
+    } else if (priority == " P1  High") {
+      log(priority);
       return Colors.red;
     } else {
-      return Colors.yellow;
+      return Colors.orange;
     }
   }
 
   Text getPriority(String? priority) {
-    if (priority == null || priority == "Low") {
+    if (priority == null || priority == " P3  Low") {
       return Text(
         " P3",
         style: GoogleFonts.poppins(
             color: Colors.green, fontSize: 12.sp, fontWeight: FontWeight.w600),
       );
-    } else if (priority == "High") {
+    } else if (priority == " P1  High") {
       return Text(
         " P1",
         style: GoogleFonts.poppins(
@@ -46,7 +47,7 @@ class _TaskContainerState extends State<TaskContainer> {
       return Text(
         " P3",
         style: GoogleFonts.poppins(
-            color: Colors.yellow, fontSize: 12.sp, fontWeight: FontWeight.w600),
+            color: Colors.orange, fontSize: 12.sp, fontWeight: FontWeight.w600),
       );
     }
   }
@@ -81,6 +82,7 @@ class _TaskContainerState extends State<TaskContainer> {
                 final player = AudioPlayer();
                 var assetSource = AssetSource('done.mp3');
                 await player.play(assetSource);
+                Alarm.stop(int.parse(widget.taskData.id!));
               }
               !widget.taskData.done!
                   ? context
@@ -100,57 +102,66 @@ class _TaskContainerState extends State<TaskContainer> {
           SizedBox(
             width: 20.w,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              !widget.taskData.done!
-                  ? Text(
-                      widget.taskData.task!,
-                      style: GoogleFonts.poppins(
-                        fontSize: 16.sp,
-                      ),
-                    )
-                  : Text(widget.taskData.task!,
-                      style: GoogleFonts.poppins(
-                          fontSize: 16.sp,
-                          decoration: TextDecoration.lineThrough,
-                          decorationThickness: 2)),
-              Row(
+          Expanded(
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  widget.taskData.time != null
+                  !widget.taskData.done!
                       ? Text(
-                          "${widget.taskData.date}" +
-                              "     ${widget.taskData.time}",
-                          style: GoogleFonts.poppins(fontSize: 12.sp),
+                          widget.taskData.task!,
+                          style: GoogleFonts.poppins(
+                            fontSize: 16.sp,
+                          ),
                         )
-                      : Text(
-                          "${widget.taskData.date}",
-                          style: GoogleFonts.poppins(),
-                        ),
-                  SizedBox(
-                    width: 20.w,
+                      : Text(widget.taskData.task!,
+                          style: GoogleFonts.poppins(
+                              fontSize: 16.sp,
+                              decoration: TextDecoration.lineThrough,
+                              decorationThickness: 2)),
+                  Row(
+                    children: [
+                      widget.taskData.time != null
+                          ? Text(
+                              "${widget.taskData.date}" +
+                                  "     ${widget.taskData.time}",
+                              style: GoogleFonts.poppins(fontSize: 12.sp),
+                            )
+                          : Text(
+                              "${widget.taskData.date}",
+                              style: GoogleFonts.poppins(),
+                            ),
+                      SizedBox(
+                        width: 20.w,
+                      ),
+                      Container(
+                        height: 12.h,
+                        width: 12.w,
+                        decoration: BoxDecoration(
+                            color: getPriorityColor(widget.taskData.priority)
+                                .withOpacity(0.2),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                                color: getPriorityColor(
+                                    widget.taskData.priority))),
+                      ),
+                      getPriority(widget.taskData.priority)
+                    ],
                   ),
-                  Container(
-                    height: 12.h,
-                    width: 12.w,
-                    decoration: BoxDecoration(
-                        color: getPriorityColor(widget.taskData.priority)
-                            .withOpacity(0.2),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            color: getPriorityColor(widget.taskData.priority))),
-                  ),
-                  getPriority(widget.taskData.priority)
                 ],
               ),
-            ],
+            ),
           ),
-          const Spacer(),
-          GestureDetector(
-              onTap: () {
-                Alarm.stop(int.parse(widget.taskData.id!));
-              },
-              child: const Icon(Icons.alarm)),
+          widget.taskData.alarm!
+              ? GestureDetector(
+                  onTap: () {
+                    Alarm.stop(int.parse(widget.taskData.id!));
+                  },
+                  child: const Icon(Icons.alarm))
+              : const SizedBox(),
+          SizedBox(
+            width: 5.w,
+          ),
           GestureDetector(
               onTap: () {
                 context

@@ -10,6 +10,7 @@ import 'package:to_do_app/features/home_screen/presentation/widgets/task_contain
 import '../../../../core/common/widget/drawer_widget.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/bloc/theme_bloc_bloc.dart';
+import '../../../../core/theme/colors.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -63,13 +64,21 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(15.w),
+        padding: EdgeInsets.only(
+          top: 15.w,
+          right: 15.w,
+          left: 15.w,
+        ),
         child: Column(
           children: [
             BlocConsumer<AddTasksBloc, AddTasksState>(
               listener: (context, state) {
                 if (state is TasksDeleteSuccess) {
-                  showSnackBarWidget(context, "Task deleted",Colors.red.shade700);
+                  showSnackBarWidget(
+                      context, "Task deleted", Colors.red.shade700);
+                }
+                if (state is AddTaskSuccess1) {
+                  showSnackBarWidget(context, "Task Added", kColorPrimary);
                 }
               },
               builder: (context, state) {
