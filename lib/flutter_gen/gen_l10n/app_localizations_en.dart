@@ -93,4 +93,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get theme => 'Theme';
+
+  @override
+  String get editTask => 'Edit Task';
+
+  @override
+  String get imp => 'Important';
 }

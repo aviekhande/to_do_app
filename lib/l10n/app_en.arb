@@ -28,6 +28,8 @@
     "sendResetInst":"Send Reset Instruction",
     "recycle":"Recycle Bin",
     "set":"Settings",
-    "theme":"Theme"
+    "theme":"Theme",
+    "editTask":"Edit Task",
+    "imp":"Important"
 
 }

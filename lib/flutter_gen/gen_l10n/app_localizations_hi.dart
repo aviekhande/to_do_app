@@ -93,4 +93,10 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get theme => 'थीम';
+
+  @override
+  String get editTask => 'कार्य संपादित करें';
+
+  @override
+  String get imp => 'महत्वपूर्ण';
 }

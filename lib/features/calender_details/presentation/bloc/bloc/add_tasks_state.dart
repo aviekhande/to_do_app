@@ -20,3 +20,4 @@ class TasksDeleteLoading extends AddTasksState {}
 class TasksDeleteSuccess extends AddTasksState {}
 
 class TasksDeleteFailure extends AddTasksState {}
+

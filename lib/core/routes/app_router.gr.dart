@@ -27,6 +27,17 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const Commonbottomnavigationbar(),
       );
     },
+    EditTaskPageRoute.name: (routeData) {
+      final args = routeData.argsAs<EditTaskPageRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: EditTaskPage(
+          key: args.key,
+          task: args.task,
+          index: args.index,
+        ),
+      );
+    },
     ForgotPasswordScreenRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -37,6 +48,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const HomeScreen(),
+      );
+    },
+    ImportantPageRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ImportantPage(),
       );
     },
     LoginScreenRoute.name: (routeData) {
@@ -125,6 +142,49 @@ class CommonbottomnavigationbarRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [EditTaskPage]
+class EditTaskPageRoute extends PageRouteInfo<EditTaskPageRouteArgs> {
+  EditTaskPageRoute({
+    Key? key,
+    Tasks? task,
+    required int index,
+    List<PageRouteInfo>? children,
+  }) : super(
+          EditTaskPageRoute.name,
+          args: EditTaskPageRouteArgs(
+            key: key,
+            task: task,
+            index: index,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'EditTaskPageRoute';
+
+  static const PageInfo<EditTaskPageRouteArgs> page =
+      PageInfo<EditTaskPageRouteArgs>(name);
+}
+
+class EditTaskPageRouteArgs {
+  const EditTaskPageRouteArgs({
+    this.key,
+    this.task,
+    required this.index,
+  });
+
+  final Key? key;
+
+  final Tasks? task;
+
+  final int index;
+
+  @override
+  String toString() {
+    return 'EditTaskPageRouteArgs{key: $key, task: $task, index: $index}';
+  }
+}
+
+/// generated route for
 /// [ForgotPasswordScreen]
 class ForgotPasswordScreenRoute extends PageRouteInfo<void> {
   const ForgotPasswordScreenRoute({List<PageRouteInfo>? children})
@@ -148,6 +208,20 @@ class HomeScreenRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'HomeScreenRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ImportantPage]
+class ImportantPageRoute extends PageRouteInfo<void> {
+  const ImportantPageRoute({List<PageRouteInfo>? children})
+      : super(
+          ImportantPageRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ImportantPageRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

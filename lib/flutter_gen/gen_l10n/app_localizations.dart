@@ -272,6 +272,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Theme'**
   String get theme;
+
+  /// No description provided for @editTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Task'**
+  String get editTask;
+
+  /// No description provided for @imp.
+  ///
+  /// In en, this message translates to:
+  /// **'Important'**
+  String get imp;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

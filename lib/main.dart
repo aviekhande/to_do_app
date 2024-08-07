@@ -21,6 +21,7 @@ import 'core/services/localizationbloc/locbloc_bloc.dart';
 import 'core/services/network/bloc/internet_bloc/internet_bloc.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/bloc/theme_bloc_bloc.dart';
+import 'features/important_details/presentation/bloc/important_task_bloc.dart';
 import 'flutter_gen/gen_l10n/app_localizations.dart';
 import 'injection.dart';
 
@@ -88,6 +89,9 @@ class _MainAppState extends State<MainApp> {
           ),
           BlocProvider(
             create: (context) => RecycleBinBloc(taskRepo: getIt()),
+          ),
+          BlocProvider(
+            create: (context) => ImportantTaskBloc(taskRepo: getIt()),
           ),
         ],
         child: ScreenUtilInit(

@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:to_do_app/features/auth/presentation/pages/forgot_password_screen.dart';
+import 'package:to_do_app/features/important_details/presentation/pages/important_page.dart';
 import 'package:to_do_app/features/profile_screen/presentation/pages/profile_screen.dart';
 import 'package:to_do_app/features/settings_details/presentation/pages/settings_page.dart';
 import '../../features/add_task_details/presentation/pages/add_task_dialog.dart';
@@ -8,6 +10,8 @@ import '../../features/auth/presentation/pages/login.dart';
 import '../../features/auth/presentation/pages/mobile_number_login_screen.dart';
 import '../../features/auth/presentation/pages/options_to_login.dart';
 import '../../features/auth/presentation/pages/signup.dart';
+import '../../features/edit_task_details/presentation/pages/edit_task_page.dart';
+import '../../features/home_screen/data/model/task_model.dart';
 import '../../features/home_screen/presentation/pages/home_screen.dart';
 import '../../features/recycle_details/presentation/pages/recycle_page.dart';
 import '../../features/splash/presentation/pages/splash_screen.dart';
@@ -47,6 +51,8 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: MobileNumberLoginScreenRoute.page),
         AutoRoute(page: SettingsPageRoute.page),
         AutoRoute(page: RecyclePageRoute.page),
+        AutoRoute(page: EditTaskPageRoute.page),
+        AutoRoute(page: ImportantPageRoute.page),
         isLogin() != null
             ? AutoRoute(
                 page: OptionScreenRoute.page,

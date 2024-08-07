@@ -11,10 +11,20 @@ class ProductRepo1 {
     addData();
     return taskList;
   }
+   Future<List<Tasks>> editTask(Tasks model,int index) async {
+    taskList[index]= model;
+    addData();
+    return taskList;
+  }
 
   Future<List<Tasks>> fetchTask() async {
     List<Tasks> task = await getTodoData();
     taskList.addAll(task);
+    return task;
+  }
+  Future<List<Tasks>> fetchTask1() async {
+    List<Tasks> task = await getTodoData();
+
     return task;
   }
 
@@ -31,6 +41,7 @@ class ProductRepo1 {
                   id: e.id,
                   done: e.done,
                   priority: e.priority,
+                  imp: e.imp,
                   alarm: e.alarm)
               .toJson())
           .toList()
@@ -45,13 +56,36 @@ class ProductRepo1 {
     taskList.forEach((element) {
       if (element.id == id) {
         element.done = true;
-        element.alarm = false;
+        element.alarm = "";
       }
     });
     addData();
     return taskList;
   }
-
+   Future<List<Tasks>> impTask(String? id) async {
+    List<Tasks> task = await getTodoData();
+    taskList = [];
+    taskList.addAll(task);
+    taskList.forEach((element) {
+      if (element.id == id) {
+       element.imp=true; 
+      }
+    });
+    addData();
+    return taskList;
+  }
+Future<List<Tasks>> unImpTask(String? id) async {
+    List<Tasks> task = await getTodoData();
+    taskList = [];
+    taskList.addAll(task);
+    taskList.forEach((element) {
+      if (element.id == id) {
+        element.imp = false;
+      }
+    });
+    addData();
+    return taskList;
+  }
   Future<List<Tasks>> unDoneTask(String? id) async {
     List<Tasks> task = await getTodoData();
     taskList = [];

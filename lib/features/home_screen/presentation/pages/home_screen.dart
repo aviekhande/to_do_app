@@ -31,7 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return 
+    Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
         preferredSize: Size(double.maxFinite.w, 50.h),
@@ -155,5 +156,6 @@ class _HomeScreenState extends State<HomeScreen> {
         page: "Home",
       ),
     );
+ 
   }
 }

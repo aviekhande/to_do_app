@@ -268,6 +268,44 @@ class _CommonDrawerState extends State<CommonDrawer> {
               ),
               GestureDetector(
                 onTap: () {
+                  AutoRouter.of(context).push(const ImportantPageRoute());
+                  AutoRouter.of(context).popForced();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 10.w),
+                  padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 30.w),
+                  decoration: BoxDecoration(
+                      color: widget.page != "Imp" ? kColorPrimary : kColorWhite,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          bottomLeft: Radius.circular(25))),
+                  child: Row(
+                    children: [
+                      Icon(Icons.star_border_purple500_sharp,
+                          color: widget.page == "Imp"
+                              ? kColorPrimary
+                              : kColorWhite),
+                      SizedBox(
+                        width: 30.w,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.imp,
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16.sp,
+                            color: widget.page == "Imp"
+                                ? kColorPrimary
+                                : kColorWhite),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              GestureDetector(
+                onTap: () {
                   AutoRouter.of(context).push(const RecyclePageRoute());
                   AutoRouter.of(context).popForced();
                 },

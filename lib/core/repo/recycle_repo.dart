@@ -13,7 +13,7 @@ class ProductRepo {
 
   Future<List<Tasks>> fetchTask() async {
     List<Tasks> task = await getRecycleData();
-    taskList.addAll(task);
+    taskList = task;
     return task;
   }
 
@@ -24,6 +24,7 @@ class ProductRepo {
         .set({
       "data": taskList
           .map((e) => Tasks(
+                  imp: e.imp,
                   task: e.task,
                   date: e.date,
                   time: e.time,
@@ -42,5 +43,4 @@ class ProductRepo {
     addData();
     return taskList;
   }
-
 }
