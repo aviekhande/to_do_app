@@ -1,22 +1,17 @@
-import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:to_do_app/core/common/widget/logout_alert_dialog_box.dart';
-import 'package:to_do_app/core/theme/colors.dart';
+import 'package:to_do_app/core/common/widget/bloc/bottom_nav_bloc.dart';
 import 'package:to_do_app/core/routes/app_router.dart';
-import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginbloc.dart';
-import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginstate.dart';
+import 'package:to_do_app/core/theme/colors.dart';
+import 'package:to_do_app/flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../features/profile_screen/presentation/bloc/bloc/profile_bloc.dart';
-import '../../../flutter_gen/gen_l10n/app_localizations.dart';
-import '../../services/localizationbloc/locbloc_bloc.dart';
-import '../../theme/app_theme.dart';
-import '../../theme/bloc/theme_bloc_bloc.dart';
 
 class CommonDrawer extends StatefulWidget {
-  const CommonDrawer({super.key});
+  final String page;
+  const CommonDrawer({super.key, required this.page});
 
   @override
   State<CommonDrawer> createState() => _CommonDrawerState();
@@ -45,6 +40,12 @@ class _CommonDrawerState extends State<CommonDrawer> {
   Widget build(BuildContext context) {
     isDarkTheme = Theme.of(context).colorScheme.surface == Colors.grey.shade700;
     return Drawer(
+      elevation: 100,
+      backgroundColor: kColorPrimary,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(35), bottomRight: Radius.circular(35)),
+      ),
       child: Column(
         children: [
           Container(
@@ -54,13 +55,11 @@ class _CommonDrawerState extends State<CommonDrawer> {
               child: BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
                   if (state is ProfileFetch) {
-                    log("${state.docSnap['email']}");
-                    email = state.docSnap['email'];
                     name = state.docSnap['name'];
                     imageUrl = state.docSnap['image'];
                   }
                   return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         height: 50.h,
@@ -84,191 +83,263 @@ class _CommonDrawerState extends State<CommonDrawer> {
                         height: 10.h,
                       ),
                       Text(
-                        "$name ",
+                        "Welcome $name ",
                         style: GoogleFonts.poppins(
-                            color: kColorWhite, fontSize: 16.sp),
+                            color: kColorWhite,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
                       ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: 10.h,
                       ),
-                      Text(
-                        "$email ",
-                        style: GoogleFonts.poppins(
-                            color: kColorWhite, fontSize: 16.sp),
-                      )
+                      // Text(
+                      //   "$email ",
+                      //   style: GoogleFonts.poppins(
+                      //       color: kColorWhite, fontSize: 16.sp),
+                      // )
                     ],
                   );
                 },
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(10.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 250.w,
-                ),
-                Text(
-                  AppLocalizations.of(context)!.translate,
-                  style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600, fontSize: 16.sp),
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.g_translate_sharp),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    BlocBuilder<LocBloc, LocState>(
-                      builder: (context, state) {
-                        final Locale currentLocale = state is ChangeState
-                            ? state.loc
-                            : const Locale('en');
-                        selectedValue = currentLocale == const Locale("en")
-                            ? "English"
-                            : "Hindi";
-                        return DropdownButton(
-                            isDense: true,
-                            autofocus: true,
-                            value: selectedValue,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedValue = newValue!;
-                                log(newValue);
-                                if (newValue == "English") {
-                                  BlocProvider.of<LocBloc>(context)
-                                      .add(ChangeLang(loc: const Locale('en')));
-                                } else {
-                                  BlocProvider.of<LocBloc>(context)
-                                      .add(ChangeLang(loc: const Locale('hi')));
-                                }
-                              });
-                            },
-                            items: [
-                              DropdownMenuItem(
-                                  value: "English",
-                                  child: Text(
-                                    "English",
-                                    style: GoogleFonts.poppins(fontSize: 12.sp),
-                                  )),
-                              DropdownMenuItem(
-                                  value: "Hindi",
-                                  child: Text("Hindi",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 12.sp))),
-                            ]);
-                      },
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 30.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(
-                      Icons.sunny,
-                      color: isDarkTheme
-                          ? const Color.fromARGB(255, 205, 203, 203)
-                          : Colors.amber,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        isDarkTheme
-                            ? context
-                                .read<ThemeBlocBloc>()
-                                .add(ThemeBlocEvent(themeData: lightMode))
-                            : context
-                                .read<ThemeBlocBloc>()
-                                .add(ThemeBlocEvent(themeData: darkMode));
-                        changeTheme();
-                        log("changeTheme");
-                      },
-                      child: Container(
-                        height: 23.h,
-                        width: 45.w,
-                        decoration: BoxDecoration(
-                            // color: const Color.fromARGB(255, 205, 203, 203),
-                            color: isDarkTheme
-                                ? const Color.fromARGB(255, 54, 14, 135)
-                                : const Color.fromARGB(255, 205, 203, 203),
-                            borderRadius: BorderRadius.circular(20),
-                            border:
-                                Border.all(color: kColorLightBlack, width: 2)),
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.all(4.h),
-                              width: 12.w,
-                              height: 12.h,
-                              decoration: BoxDecoration(
-                                  // color: kColorLightBlack,
-                                  color: isDarkTheme
-                                      ? const Color.fromARGB(255, 54, 14, 135)
-                                      : kColorLightBlack,
-                                  shape: BoxShape.circle),
-                            ),
-                            Container(
-                              margin: EdgeInsets.all(1.h),
-                              width: 17.w,
-                              height: 17.h,
-                              decoration: BoxDecoration(
-                                  color: isDarkTheme
-                                      ? kColorWhite
-                                      : const Color.fromARGB(
-                                          255, 205, 203, 203),
-                                  shape: BoxShape.circle),
-                            )
-                          ],
-                        ),
+          const Divider(
+            color: kColorWhite,
+          ),
+          SizedBox(
+            height: 30.h,
+          ),
+          Column(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  context.read<BottomNavBloc>().add(ChangeTab(index: 0));
+                  AutoRouter.of(context).popForced();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 10.w),
+                  padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 30.w),
+                  decoration: BoxDecoration(
+                      color:
+                          widget.page == "Home" ? Colors.white : kColorPrimary,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          bottomLeft: Radius.circular(25))),
+                  child: Row(
+                    children: [
+                      Icon(Icons.home,
+                          color: widget.page == "Home"
+                              ? kColorPrimary
+                              : kColorWhite),
+                      SizedBox(
+                        width: 30.w,
                       ),
-                    ),
-                    Icon(
-                      Icons.dark_mode,
-                      color: isDarkTheme
-                          ? const Color.fromARGB(255, 54, 14, 135)
-                          : kColorLightBlack,
-                    )
-                  ],
+                      Text(
+                        AppLocalizations.of(context)!.home,
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16.sp,
+                            color: widget.page == "Home"
+                                ? kColorPrimary
+                                : kColorWhite),
+                      )
+                    ],
+                  ),
                 ),
-                SizedBox(
-                  height: 20.h,
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              GestureDetector(
+                onTap: () {
+                  context.read<BottomNavBloc>().add(ChangeTab(index: 1));
+                  AutoRouter.of(context).popForced();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 10.w),
+                  padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 30.w),
+                  decoration: BoxDecoration(
+                      color: widget.page != "Cal" ? kColorPrimary : kColorWhite,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          bottomLeft: Radius.circular(25))),
+                  child: Row(
+                    children: [
+                      Icon(Icons.calendar_month,
+                          color: widget.page == "Cal"
+                              ? kColorPrimary
+                              : kColorWhite),
+                      SizedBox(
+                        width: 30.w,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.cal,
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16.sp,
+                            color: widget.page == "Cal"
+                                ? kColorPrimary
+                                : kColorWhite),
+                      )
+                    ],
+                  ),
                 ),
-                BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-                  if (state is Logout) {
-                    log("IN LogoutState");
-                    AutoRouter.of(context)
-                        .replaceAll([const OptionScreenRoute()]);
-                  }
-                  return GestureDetector(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => const LogoutAlertDialogBox());
-                    },
-                    child: Row(
-                      children: [
-                        const Icon(Icons.logout),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.logout,
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600, fontSize: 16.sp),
-                        )
-                      ],
-                    ),
-                  );
-                })
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              GestureDetector(
+                onTap: () {
+                  context.read<BottomNavBloc>().add(ChangeTab(index: 3));
+                  AutoRouter.of(context).popForced();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 10.w),
+                  padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 30.w),
+                  decoration: BoxDecoration(
+                      color:
+                          widget.page != "Graph" ? kColorPrimary : kColorWhite,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          bottomLeft: Radius.circular(25))),
+                  child: Row(
+                    children: [
+                      Icon(Icons.timelapse_outlined,
+                          color: widget.page == "Graph"
+                              ? kColorPrimary
+                              : kColorWhite),
+                      SizedBox(
+                        width: 30.w,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.graph,
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16.sp,
+                            color: widget.page == "Graph"
+                                ? kColorPrimary
+                                : kColorWhite),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              GestureDetector(
+                onTap: () {
+                  context.read<BottomNavBloc>().add(ChangeTab(index: 4));
+                  AutoRouter.of(context).popForced();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 10.w),
+                  padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 30.w),
+                  decoration: BoxDecoration(
+                      color:
+                          widget.page != "Prof" ? kColorPrimary : kColorWhite,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          bottomLeft: Radius.circular(25))),
+                  child: Row(
+                    children: [
+                      Icon(Icons.person,
+                          color: widget.page == "Prof"
+                              ? kColorPrimary
+                              : kColorWhite),
+                      SizedBox(
+                        width: 30.w,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.profile,
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16.sp,
+                            color: widget.page == "Prof"
+                                ? kColorPrimary
+                                : kColorWhite),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              GestureDetector(
+                onTap: () {
+                  AutoRouter.of(context).push(const RecyclePageRoute());
+                  AutoRouter.of(context).popForced();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 10.w),
+                  padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 30.w),
+                  decoration: BoxDecoration(
+                      color: widget.page != "Rec" ? kColorPrimary : kColorWhite,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          bottomLeft: Radius.circular(25))),
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete_forever,
+                          color: widget.page == "Rec"
+                              ? kColorPrimary
+                              : kColorWhite),
+                      SizedBox(
+                        width: 30.w,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.recycle,
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16.sp,
+                            color: widget.page == "Rec"
+                                ? kColorPrimary
+                                : kColorWhite),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              GestureDetector(
+                onTap: () {
+                  AutoRouter.of(context).push(const SettingsPageRoute());
+                  AutoRouter.of(context).popForced();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 10.w),
+                  padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 30.w),
+                  decoration: BoxDecoration(
+                      color: widget.page != "Set" ? kColorPrimary : kColorWhite,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          bottomLeft: Radius.circular(25))),
+                  child: Row(
+                    children: [
+                      Icon(Icons.settings,
+                          color: widget.page == "Set"
+                              ? kColorPrimary
+                              : kColorWhite),
+                      SizedBox(
+                        width: 30.w,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.set,
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16.sp,
+                            color: widget.page == "Set"
+                                ? kColorPrimary
+                                : kColorWhite),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
           )
         ],
       ),

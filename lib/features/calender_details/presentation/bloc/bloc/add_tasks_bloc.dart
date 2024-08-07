@@ -6,7 +6,7 @@ part 'add_tasks_event.dart';
 part 'add_tasks_state.dart';
 
 class AddTasksBloc extends Bloc<AddTasksEvent, AddTasksState> {
-  final ProductRepo taskRepo;
+  final ProductRepo1 taskRepo;
   AddTasksBloc({required this.taskRepo}) : super(AddTasksInitial()) {
     on<TaskAdd1>(_onTaskAdd);
     on<TaskAdd>(_onFetchTask);

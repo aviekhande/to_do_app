@@ -13,8 +13,10 @@ import 'package:to_do_app/features/auth/presentation/bloc/bloc/signup_bloc.dart'
 import 'package:to_do_app/features/auth/presentation/bloc/forgotpassbloc/forgotpass_bloc.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginbloc.dart';
 import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
+import 'package:to_do_app/features/calender_details/presentation/bloc/recyclebloc/recyclebin_bloc.dart';
 import 'package:to_do_app/features/profile_screen/presentation/bloc/bloc/profile_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'core/common/widget/bloc/bottom_nav_bloc.dart';
 import 'core/services/localizationbloc/locbloc_bloc.dart';
 import 'core/services/network/bloc/internet_bloc/internet_bloc.dart';
 import 'core/theme/app_theme.dart';
@@ -81,6 +83,12 @@ class _MainAppState extends State<MainApp> {
           BlocProvider(
             create: (context) => InternetBloc(),
           ),
+          BlocProvider(
+            create: (context) => BottomNavBloc(),
+          ),
+          BlocProvider(
+            create: (context) => RecycleBinBloc(taskRepo: getIt()),
+          ),
         ],
         child: ScreenUtilInit(
             designSize: const Size(411.42857142857144, 867.4285714285714),
@@ -97,6 +105,7 @@ class _MainAppState extends State<MainApp> {
                 return BlocBuilder<LocBloc, LocState>(
                   builder: (context, state) {
                     return MaterialApp.router(
+                  
                       theme: th,
                       darkTheme:
                           state is ThemeChangeBloc ? ThemeData.dark() : th,

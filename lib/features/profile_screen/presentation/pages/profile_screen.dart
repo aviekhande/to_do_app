@@ -7,6 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/features/profile_screen/presentation/bloc/bloc/profile_bloc.dart';
+import '../../../../core/common/widget/appbar_widget.dart';
+import '../../../../core/common/widget/drawer_widget.dart';
 import '../../../../core/common/widget/loader_widget.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
@@ -34,23 +36,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CommonDrawer(
+        page: "Prof",
+      ),
       resizeToAvoidBottomInset: false,
-      // backgroundColor: Theme.of(context).colorScheme.surface,
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   title: GestureDetector(
-      //     onTap: () {
-      //       // AutoRouter.of(context).popForced();
-      //     },
-      //     child: Container(
-      //         decoration: const BoxDecoration(
-      //           shape: BoxShape.circle,
-      //           color: kColorWhite,
-      //         ),
-      //         child: SvgPicture.asset("assets/icons/back_ic.svg")),
-      //   ),
-
-      // ),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: PreferredSize(
+          preferredSize: Size(double.maxFinite.w, 50.h),
+          child: CustomAppBar(
+            title: AppLocalizations.of(context)!.profile,
+            isBack: false,
+          )),
       body: Stack(
         children: [
           Padding(
@@ -59,15 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 60.h,
-                ),
-                Text(
-                  AppLocalizations.of(context)!.profile,
-                  style: GoogleFonts.poppins(
-                      fontSize: 20.sp, fontWeight: FontWeight.w700),
-                ),
-                SizedBox(
-                  height: 20.h,
+                  height: 15.h,
                 ),
                 Container(
                   padding: EdgeInsets.all(15.h),
@@ -157,7 +145,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           AutoRouter.of(context)
                               .push(const UpdateAccountScreenRoute());
                         },
-                        child: SizedBox(
+                        child: Container(
+                          color: Colors.transparent,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -199,29 +188,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           AutoRouter.of(context)
                               .push(const ForgotPasswordScreenRoute());
                         },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(AppLocalizations.of(context)!.changePass,
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16.sp)),
-                                Text(
-                                    AppLocalizations.of(context)!
-                                        .manageYourPass,
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10.sp))
-                              ],
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 16.sp,
-                            )
-                          ],
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(AppLocalizations.of(context)!.changePass,
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16.sp)),
+                                  Text(
+                                      AppLocalizations.of(context)!
+                                          .manageYourPass,
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 10.sp))
+                                ],
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 16.sp,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ],

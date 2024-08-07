@@ -150,13 +150,19 @@ abstract class AppLocalizations {
   /// No description provided for @time.
   ///
   /// In en, this message translates to:
-  /// **'Due Time'**
+  /// **'Due By'**
   String get time;
+
+  /// No description provided for @tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get tasks;
 
   /// No description provided for @alarm.
   ///
   /// In en, this message translates to:
-  /// **'Reminder Time'**
+  /// **'Reminder'**
   String get alarm;
 
   /// No description provided for @addTask.
@@ -248,6 +254,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send Reset Instruction'**
   String get sendResetInst;
+
+  /// No description provided for @recycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recycle Bin'**
+  String get recycle;
+
+  /// No description provided for @set.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get set;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

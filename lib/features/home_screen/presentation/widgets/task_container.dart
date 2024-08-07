@@ -4,9 +4,11 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/theme/colors.dart';
 import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
+import '../../../calender_details/presentation/bloc/recyclebloc/recyclebin_bloc.dart';
 import '../../data/model/task_model.dart';
 
 class TaskContainer extends StatefulWidget {
@@ -45,7 +47,7 @@ class _TaskContainerState extends State<TaskContainer> {
       );
     } else {
       return Text(
-        " P3",
+        " P2",
         style: GoogleFonts.poppins(
             color: Colors.orange, fontSize: 12.sp, fontWeight: FontWeight.w600),
       );
@@ -54,122 +56,160 @@ class _TaskContainerState extends State<TaskContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10.w),
-      margin: EdgeInsets.only(bottom: 20.h),
-      decoration: BoxDecoration(
-          boxShadow: [
-            if (Theme.of(context).colorScheme.shadow !=
-                const Color.fromARGB(255, 111, 109, 109))
-              BoxShadow(
-                  color: Theme.of(context).colorScheme.shadow,
-                  blurRadius: 5,
-                  offset: const Offset(0, 3))
-          ],
-          color: Theme.of(context).colorScheme.surface == Colors.grey.shade700
-              ? Theme.of(context).colorScheme.surface
-              : const Color.fromARGB(255, 238, 245, 238),
-          borderRadius: BorderRadius.circular(10)),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 10.w,
+    return Dismissible(
+      background: Container(
+        decoration: BoxDecoration(
+            color: Colors.red, borderRadius: BorderRadius.circular(10)),
+        padding: EdgeInsets.all(10.w),
+        margin: EdgeInsets.only(
+          top: 15.w,
+          right: 15.w,
+          left: 15.w,
+        ),
+        child: Center(
+          child: Text(
+            "Delete",
+            style: GoogleFonts.poppins(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.white),
           ),
-          GestureDetector(
-            onTap: () async {
-              log("msg");
-              if (!widget.taskData.done!) {
-                final player = AudioPlayer();
-                var assetSource = AssetSource('done.mp3');
-                await player.play(assetSource);
-                Alarm.stop(int.parse(widget.taskData.id!));
-              }
-              !widget.taskData.done!
-                  ? context
-                      .read<AddTasksBloc>()
-                      .add(TaskDone(id: widget.taskData.id!))
-                  : context
-                      .read<AddTasksBloc>()
-                      .add(TaskUnDone(id: widget.taskData.id!));
-            },
-            child: !widget.taskData.done!
-                ? const Icon(Icons.check_box_outline_blank)
-                : const Icon(
-                    Icons.check_box,
-                    color: kColorPrimary,
-                  ),
-          ),
-          SizedBox(
-            width: 20.w,
-          ),
-          Expanded(
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  !widget.taskData.done!
-                      ? Text(
-                          widget.taskData.task!,
-                          style: GoogleFonts.poppins(
-                            fontSize: 16.sp,
-                          ),
-                        )
-                      : Text(widget.taskData.task!,
-                          style: GoogleFonts.poppins(
+        ),
+      ),
+      key: ObjectKey(widget.taskData),
+      onDismissed: (direction) async {
+        context.read<AddTasksBloc>().add(TaskDelete(id: widget.taskData.id!));
+
+        context
+            .read<RecycleBinBloc>()
+            .add(AddRecycleTask(tasks: widget.taskData));
+        setState(() {});
+      },
+      child: Container(
+        padding: EdgeInsets.all(10.w),
+        margin: EdgeInsets.only(
+          top: 15.w,
+          right: 15.w,
+          left: 15.w,
+        ),
+        decoration: BoxDecoration(
+            boxShadow: [
+              if (Theme.of(context).colorScheme.shadow !=
+                  const Color.fromARGB(255, 111, 109, 109))
+                BoxShadow(
+                    color: Theme.of(context).colorScheme.shadow,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3))
+            ],
+            color: Theme.of(context).colorScheme.surface == Colors.grey.shade700
+                ? Theme.of(context).colorScheme.surface
+                : const Color.fromARGB(255, 238, 245, 238),
+            borderRadius: BorderRadius.circular(10)),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 10.w,
+            ),
+            GestureDetector(
+              onTap: () async {
+                log("msg");
+                if (!widget.taskData.done!) {
+                  final player = AudioPlayer();
+                  var assetSource = AssetSource('done.mp3');
+                  await player.play(assetSource);
+                  Alarm.stop(int.parse(widget.taskData.id!));
+                }
+                !widget.taskData.done!
+                    ? context
+                        .read<AddTasksBloc>()
+                        .add(TaskDone(id: widget.taskData.id!))
+                    : context
+                        .read<AddTasksBloc>()
+                        .add(TaskUnDone(id: widget.taskData.id!));
+              },
+              child: !widget.taskData.done!
+                  ? const Icon(Icons.circle_outlined)
+                  : const Icon(
+                      Icons.check_circle_sharp,
+                      color: kColorPrimary,
+                    ),
+            ),
+            SizedBox(
+              width: 20.w,
+            ),
+            Expanded(
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    !widget.taskData.done!
+                        ? Text(
+                            widget.taskData.task!,
+                            style: GoogleFonts.poppins(
                               fontSize: 16.sp,
-                              decoration: TextDecoration.lineThrough,
-                              decorationThickness: 2)),
-                  Row(
-                    children: [
-                      widget.taskData.time != null
-                          ? Text(
-                              "${widget.taskData.date}" +
-                                  "     ${widget.taskData.time}",
-                              style: GoogleFonts.poppins(fontSize: 12.sp),
-                            )
-                          : Text(
-                              "${widget.taskData.date}",
-                              style: GoogleFonts.poppins(),
                             ),
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                      Container(
-                        height: 12.h,
-                        width: 12.w,
-                        decoration: BoxDecoration(
-                            color: getPriorityColor(widget.taskData.priority)
-                                .withOpacity(0.2),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                color: getPriorityColor(
-                                    widget.taskData.priority))),
-                      ),
-                      getPriority(widget.taskData.priority)
-                    ],
-                  ),
-                ],
+                          )
+                        : Text(widget.taskData.task!,
+                            style: GoogleFonts.poppins(
+                                fontSize: 16.sp,
+                                decoration: TextDecoration.lineThrough,
+                                decorationThickness: 2)),
+                    Row(
+                      children: [
+                        widget.taskData.time != null
+                            ? Text(
+                                "${widget.taskData.date}" +
+                                    "     ${widget.taskData.time}",
+                                style: GoogleFonts.poppins(fontSize: 12.sp),
+                              )
+                            : Text(
+                                "${widget.taskData.date}",
+                                style: GoogleFonts.poppins(),
+                              ),
+                        SizedBox(
+                          width: 20.w,
+                        ),
+                        Container(
+                          height: 12.h,
+                          width: 12.w,
+                          decoration: BoxDecoration(
+                              color: getPriorityColor(widget.taskData.priority)
+                                  .withOpacity(0.2),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                  color: getPriorityColor(
+                                      widget.taskData.priority))),
+                        ),
+                        getPriority(widget.taskData.priority)
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          widget.taskData.alarm!
-              ? GestureDetector(
-                  onTap: () {
-                    Alarm.stop(int.parse(widget.taskData.id!));
-                  },
-                  child: const Icon(Icons.alarm))
-              : const SizedBox(),
-          SizedBox(
-            width: 5.w,
-          ),
-          GestureDetector(
-              onTap: () {
-                context
-                    .read<AddTasksBloc>()
-                    .add(TaskDelete(id: widget.taskData.id!));
-              },
-              child: const Icon(Icons.delete))
-        ],
+            widget.taskData.alarm!
+                ? GestureDetector(
+                    onTap: () {
+                      Alarm.stop(int.parse(widget.taskData.id!));
+                    },
+                    child: const Icon(Icons.alarm))
+                : const SizedBox(),
+            SizedBox(
+              width: 5.w,
+            ),
+            GestureDetector(
+                onTap: () {
+                  context
+                      .read<AddTasksBloc>()
+                      .add(TaskDelete(id: widget.taskData.id!));
+
+                  context
+                      .read<RecycleBinBloc>()
+                      .add(AddRecycleTask(tasks: widget.taskData));
+                },
+                child: const Icon(Icons.star_border_outlined))
+          ],
+        ),
       ),
     );
   }

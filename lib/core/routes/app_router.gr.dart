@@ -63,6 +63,18 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ProfileScreen(),
       );
     },
+    RecyclePageRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const RecyclePage(),
+      );
+    },
+    SettingsPageRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SettingsPage(),
+      );
+    },
     SignUpScreenRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -192,6 +204,34 @@ class ProfileScreenRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ProfileScreenRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [RecyclePage]
+class RecyclePageRoute extends PageRouteInfo<void> {
+  const RecyclePageRoute({List<PageRouteInfo>? children})
+      : super(
+          RecyclePageRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RecyclePageRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SettingsPage]
+class SettingsPageRoute extends PageRouteInfo<void> {
+  const SettingsPageRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsPageRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsPageRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -8,8 +8,9 @@
     "addYourTask":"Add your task",
     "enterYourTask":"Enter your task",
     "date":"Date",
-    "time":"Due Time",
-    "alarm" :"Reminder Time",
+    "time":"Due By",
+    "tasks":"Tasks",
+    "alarm" :"Reminder",
     "addTask":"Add Task",
     "completedTasks":"Complete Tasks",
     "incompleteTask":"Incomplete Tasks",
@@ -24,6 +25,9 @@
     "noWorries":"No Worries! Enter your email address below and we will send you a code to reset password.",
     "email":"E-mail",
     "enterYourEmail":"Enter your email",
-    "sendResetInst":"Send Reset Instruction"
+    "sendResetInst":"Send Reset Instruction",
+    "recycle":"Recycle Bin",
+    "set":"Settings",
+    "theme":"Theme"
 
 }

@@ -2,77 +2,45 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:to_do_app/core/common/widget/snackbar_widget.dart';
-import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
-import 'package:to_do_app/features/home_screen/presentation/widgets/task_container.dart';
-import 'package:to_do_app/flutter_gen/gen_l10n/app_localizations.dart';
-import '../../../../core/common/widget/drawer_widget.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../../../core/theme/bloc/theme_bloc_bloc.dart';
+import 'package:to_do_app/core/common/widget/appbar_widget.dart';
+import 'package:to_do_app/features/calender_details/presentation/bloc/recyclebloc/recyclebin_bloc.dart';
+import 'package:to_do_app/features/recycle_details/presentation/widgets/shimmer_widget.dart';
+import 'package:to_do_app/features/recycle_details/presentation/widgets/task_container.dart';
+
+import '../../../../core/common/widget/snackbar_widget.dart';
 import '../../../../core/theme/colors.dart';
-import '../widgets/shimmer_widget.dart';
+import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
 
 @RoutePage()
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class RecyclePage extends StatefulWidget {
+  const RecyclePage({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<RecyclePage> createState() => _RecyclePageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _RecyclePageState extends State<RecyclePage> {
   @override
   void initState() {
+    context.read<RecycleBinBloc>().add((GetBin()));
     super.initState();
-    context.read<AddTasksBloc>().add(TaskAdd()); // Initial fetch of tasks
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
-        preferredSize: Size(double.maxFinite.w, 50.h),
-        child: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-          title: Text(
-            AppLocalizations.of(context)!.tasks,
-            style: GoogleFonts.poppins(
-                fontSize: 20.sp, fontWeight: FontWeight.w500),
-          ),
-          actions: [
-            GestureDetector(
-              onTap: () {
-                Theme.of(context).colorScheme.surface == Colors.grey.shade700
-                    ? context
-                        .read<ThemeBlocBloc>()
-                        .add(ThemeBlocEvent(themeData: lightMode))
-                    : context
-                        .read<ThemeBlocBloc>()
-                        .add(ThemeBlocEvent(themeData: darkMode));
-              },
-              child: Icon(
-                Theme.of(context).colorScheme.surface != Colors.grey.shade700
-                    ? Icons.sunny
-                    : Icons.dark_mode,
-                size: 18.h,
-                color: Theme.of(context).colorScheme.surface ==
-                        Colors.grey.shade700
-                    ? Theme.of(context).colorScheme.surface
-                    : Colors.amber,
-              ),
-            ),
-            SizedBox(
-              width: 20.w,
-            )
-          ],
-        ),
-      ),
+          preferredSize: Size(double.maxFinite, 50.h),
+          child: CustomAppBar(
+            title: AppLocalizations.of(context)!.recycle,
+            isBack: true,
+          )),
       body: Column(
         children: [
-          BlocConsumer<AddTasksBloc, AddTasksState>(
+          BlocConsumer<RecycleBinBloc, RecycleBinState>(
             listener: (context, state) {
               if (state is TasksDeleteSuccess) {
                 showSnackBarWidget(
@@ -92,8 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         return const ShimmerWidget();
                       }),
                 );
-              } else if (state is AddTaskSuccess) {
-                return state.task.isEmpty
+              } else if (state is AddRecycleTaskState) {
+                return state.tasks.isEmpty
                     ? Center(
                         child: Column(
                           children: [
@@ -106,18 +74,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             Text(
-                              "What do you want to do today?",
+                              "Recycle Bin Empty !!!",
                               style: GoogleFonts.poppins(
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(height: 15.h),
-                            Text(
-                              "Tap + to add your tasks",
-                              style: GoogleFonts.poppins(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w400,
                               ),
                             ),
                           ],
@@ -128,10 +88,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           physics: const ScrollPhysics(),
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
-                          itemCount: state.task.length,
+                          itemCount: state.tasks.length,
                           itemBuilder: (context, index) {
                             return TaskContainer(
-                              taskData: state.task[index],
+                              taskData: state.tasks[index],
                               index: index,
                             );
                           },
@@ -150,9 +110,6 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ],
-      ),
-      drawer: const CommonDrawer(
-        page: "Home",
       ),
     );
   }

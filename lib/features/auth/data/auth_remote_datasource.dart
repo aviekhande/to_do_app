@@ -32,6 +32,10 @@ class AuthMethod {
             .collection("todo")
             .doc(SessionController().userId)
             .set({"data": {}});
+            await FirebaseFirestore.instance
+            .collection("recycle")
+            .doc(SessionController().userId)
+            .set({"data": {}});
         await _fireStore.collection("users").doc(cred.user!.uid).set({
           'name': name,
           'lastName': lastName,

@@ -32,10 +32,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get date => 'Date';
 
   @override
-  String get time => 'Due Time';
+  String get time => 'Due By';
 
   @override
-  String get alarm => 'Reminder Time';
+  String get tasks => 'Tasks';
+
+  @override
+  String get alarm => 'Reminder';
 
   @override
   String get addTask => 'Add Task';
@@ -81,4 +84,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sendResetInst => 'Send Reset Instruction';
+
+  @override
+  String get recycle => 'Recycle Bin';
+
+  @override
+  String get set => 'Settings';
+
+  @override
+  String get theme => 'Theme';
 }

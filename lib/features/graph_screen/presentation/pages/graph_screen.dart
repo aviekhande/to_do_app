@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pie_chart/pie_chart.dart';
+import '../../../../core/common/widget/appbar_widget.dart';
+import '../../../../core/common/widget/drawer_widget.dart';
 import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
 
@@ -22,17 +24,14 @@ class _GraphScreenState extends State<GraphScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CommonDrawer(page: "Graph",),
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor:
-            Theme.of(context).colorScheme.surface == Colors.grey.shade700
-                ? Theme.of(context).colorScheme.secondary
-                : const Color.fromARGB(255, 214, 232, 215),
-        title: Text(
-          AppLocalizations.of(context)!.graph,
-          style: GoogleFonts.poppins(fontSize: 20.sp),
-        ),
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size(double.maxFinite.w, 50.h),
+          child: CustomAppBar(
+            title: AppLocalizations.of(context)!.graph,
+            isBack: false,
+          )),
       body: Center(
         child: BlocBuilder<AddTasksBloc, AddTasksState>(
           builder: (context, state) {

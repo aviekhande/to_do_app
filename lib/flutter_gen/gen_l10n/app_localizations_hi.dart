@@ -35,7 +35,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get time => 'देय समय';
 
   @override
-  String get alarm => 'अनुस्मारक समय';
+  String get tasks => 'कार्य';
+
+  @override
+  String get alarm => 'अनुस्मारक';
 
   @override
   String get addTask => 'कार्य जोड़ें';
@@ -81,4 +84,13 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get sendResetInst => 'रीसेट निर्देश भेजें';
+
+  @override
+  String get recycle => 'रीसायकल बिन';
+
+  @override
+  String get set => 'समायोजन';
+
+  @override
+  String get theme => 'थीम';
 }
