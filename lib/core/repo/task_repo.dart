@@ -19,6 +19,7 @@ class ProductRepo1 {
 
   Future<List<Tasks>> fetchTask() async {
     List<Tasks> task = await getTodoData();
+    taskList=[];
     taskList.addAll(task);
     return task;
   }
@@ -48,14 +49,14 @@ class ProductRepo1 {
     });
   }
 
-  Future<List<Tasks>> doneTask(String? id) async {
+  Future<List<Tasks>> doneTask(String? id,bool isDone) async {
     List<Tasks> task = await getTodoData();
     taskList = [];
     taskList.addAll(task);
     log("IN task Done");
     taskList.forEach((element) {
       if (element.id == id) {
-        element.done = true;
+        element.done = isDone;
         element.alarm = "";
       }
     });

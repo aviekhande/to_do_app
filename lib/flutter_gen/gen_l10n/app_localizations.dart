@@ -284,6 +284,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Important'**
   String get imp;
+
+  /// No description provided for @submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submit;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -30,6 +30,7 @@
     "set":"Settings",
     "theme":"Theme",
     "editTask":"Edit Task",
-    "imp":"Important"
+    "imp":"Important",
+    "submit":"Submit"
 
 }

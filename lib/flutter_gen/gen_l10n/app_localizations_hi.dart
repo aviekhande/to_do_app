@@ -99,4 +99,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get imp => 'महत्वपूर्ण';
+
+  @override
+  String get submit => 'सबमिट करें';
 }

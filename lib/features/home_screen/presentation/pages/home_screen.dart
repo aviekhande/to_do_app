@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:alarm/alarm.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,17 +25,26 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+int? alarmId1;
+
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    Alarm.ringStream.stream.listen(
+      (event) {
+        alarmId1 = event.id;
+        log("alarmId:${event.id}");
+        showSnackBarWidget(context, "Alarm on of red card", kColorPrimary);
+        context.read<AddTasksBloc>().add(TaskAdd());
+      },
+    );
     context.read<AddTasksBloc>().add(TaskAdd()); // Initial fetch of tasks
   }
 
   @override
   Widget build(BuildContext context) {
-    return 
-    Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
         preferredSize: Size(double.maxFinite.w, 50.h),
@@ -129,12 +141,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           physics: const ScrollPhysics(),
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
-                          itemCount: state.task.length,
+                          itemCount: state.task1.length,
                           itemBuilder: (context, index) {
                             return TaskContainer(
-                              taskData: state.task[index],
-                              index: index,
-                            );
+                              allList: state.task,
+                                tasksMap: state.task1,
+                                taskData: state.task[index],
+                                index1: index,
+                                alarmId: alarmId1);
                           },
                         ),
                       );
@@ -156,6 +170,5 @@ class _HomeScreenState extends State<HomeScreen> {
         page: "Home",
       ),
     );
- 
   }
 }

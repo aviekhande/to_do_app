@@ -9,7 +9,8 @@ class AddTaskLoading extends AddTasksState {}
 
 class AddTaskSuccess extends AddTasksState {
   List<Tasks> task;
-  AddTaskSuccess({required this.task});
+  Map<String, List<Tasks>> task1;
+  AddTaskSuccess({required this.task,required this.task1});
 }
 class AddTaskSuccess1 extends AddTasksState {
 }

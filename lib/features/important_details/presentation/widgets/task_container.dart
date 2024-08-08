@@ -224,7 +224,7 @@ class _TaskContainerState extends State<TaskContainer> {
                     ? const Icon(Icons.star_border_outlined)
                     : const Icon(
                         Icons.star_outlined,
-                        color: Colors.amber,
+                        color: kColorPrimary,
                       ))
           ],
         ),

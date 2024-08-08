@@ -893,6 +893,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             enableNotificationOnKill: false,
                           );
                           await Alarm.set(alarmSettings: alarmSettings);
+                          Alarm.ringStream;
                         }
                       }
                     },
@@ -1031,6 +1032,25 @@ List<Appointment> getAppointments(List task) {
   }
   return meetings;
 }
+// List<Appointment> getAppointments(Map<String, List<Tasks>> tasksByDate) {
+//   List<Appointment> meetings = <Appointment>[];
+
+//   tasksByDate.forEach((date, tasks) {
+//     for (var task in tasks) {
+//       final DateTime startTime = getDateTime(task.date!, task.time!);
+//       final DateTime endTime = startTime.add(const Duration(hours: 1));
+//       meetings.add(Appointment(
+//         startTime: startTime,
+//         endTime: endTime,
+//         subject: task.task ?? '', // Handle null safety
+//         color: kColorPrimary,
+//       ));
+//     }
+//   });
+
+//   return meetings;
+// }
+
 
 class TodoDataSource extends CalendarDataSource {
   TodoDataSource(List<Appointment> source) {

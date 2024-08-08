@@ -275,8 +275,8 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                                           name: firstNameController.text,
                                           isImage: true));
                             }
-                            imageUrl1 = imageUrl;
-                            uploadImage = "";
+                            imageUrl1 = "";
+
                             context
                                 .read<SignUpBloc>()
                                 .add(ProfileImageSuccessEvent());

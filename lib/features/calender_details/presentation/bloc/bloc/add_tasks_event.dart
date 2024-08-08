@@ -15,7 +15,8 @@ class TaskDelete extends AddTasksEvent {
 }
 class TaskDone extends AddTasksEvent {
    String id;
-  TaskDone({required this.id});
+   bool isDone;
+  TaskDone({required this.id,required this.isDone});
 }
 class TaskUnDone extends AddTasksEvent {
   String id;

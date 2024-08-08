@@ -99,4 +99,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get imp => 'Important';
+
+  @override
+  String get submit => 'Submit';
 }

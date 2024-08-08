@@ -146,11 +146,19 @@ class _EditTaskPageState extends State<EditTaskPage> {
     }
   }
 
-  DateTime convertTimeOfDayToDateTime(DateTime date, TimeOfDay time) {
-    final now = DateTime.now();
-    final dateTime =
-        DateTime(date.year, date.month, date.day, time.hour, time.minute);
-    return dateTime;
+  DateTime convertTimeOfDayToDateTime(String dateStr, String timeStr) {
+    DateFormat dateFormat = DateFormat('d MMM yyyy');
+    DateTime date = dateFormat.parse(dateStr);
+
+    TimeOfDay time = TimeOfDay.fromDateTime(DateFormat.jm().parse(timeStr));
+
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+    );
   }
 
   Future<void> _selectTime(BuildContext context, bool isReminder) async {
@@ -429,20 +437,21 @@ class _EditTaskPageState extends State<EditTaskPage> {
                           taskController.text.trim() != "") {
                         context.read<AddTasksBloc>().add(EditTask(
                             task: Tasks(
+                                imp: widget.task!.imp,
                                 alarm: alarmController.text,
                                 task: taskController.text,
                                 date: dateController.text,
                                 time: timeController.text,
                                 priority: selectedPriority?.label,
-                                id: generateUniqueId().toString(),
+                                id: widget.task!.id,
                                 done: widget.task!.done),
                             index: widget.index));
                         AutoRouter.of(context).back();
                         if (alarm1 != null) {
                           final alarmSettings = AlarmSettings(
-                            id: uniqIdAlarm!,
+                            id: int.parse(widget.task!.id!),
                             dateTime: convertTimeOfDayToDateTime(
-                                selectedDate!, alarm1!),
+                                dateController.text, alarmController.text),
                             assetAudioPath: 'assets/done.mp3',
                             loopAudio: true,
                             vibrate: true,
@@ -466,7 +475,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
                       ),
                       child: Center(
                         child: Text(
-                          AppLocalizations.of(context)!.editTask,
+                          AppLocalizations.of(context)!.submit,
                           style: GoogleFonts.poppins(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
