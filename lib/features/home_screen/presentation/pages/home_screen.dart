@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'dart:developer';
-
 import 'package:alarm/alarm.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +12,7 @@ import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_t
 import 'package:to_do_app/features/home_screen/presentation/widgets/task_container.dart';
 import 'package:to_do_app/flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../core/common/widget/drawer_widget.dart';
+import '../../../../core/services/alarm_services/alarm_services.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/bloc/theme_bloc_bloc.dart';
 import '../../../../core/theme/colors.dart';
@@ -28,18 +29,44 @@ class HomeScreen extends StatefulWidget {
 int? alarmId1;
 
 class _HomeScreenState extends State<HomeScreen> {
+  static StreamSubscription<AlarmSettings>? subscription;
+  // @override
+  // void initState() {
+  //   log("In Init");
+  //   super.initState();
+  //   subscription ??= Alarm.ringStream.stream.asBroadcastStream().listen(
+  //     (event) {
+  //       alarmId1 = event.id;
+  //       log("alarmId:${event.id}");
+  //       showSnackBarWidget(context, "Please complete task which is in red card",
+  //           kColorPrimary);
+  //       context.read<AddTasksBloc>().add(TaskAdd());
+  //     },
+  //   );
+  //   context.read<AddTasksBloc>().add(TaskAdd()); // Initial fetch of tasks
+  // }
+
+  // @override
+  // void dispose() {
+  //   subscription?.cancel();
+  //   super.dispose();
+  // }
   @override
   void initState() {
     super.initState();
-    Alarm.ringStream.stream.listen(
-      (event) {
-        alarmId1 = event.id;
-        log("alarmId:${event.id}");
-        showSnackBarWidget(context, "Alarm on of red card", kColorPrimary);
-        context.read<AddTasksBloc>().add(TaskAdd());
-      },
-    );
+    log("In Init");
+
+    // Initialize the AlarmService and start listening to the stream
+    AlarmService().initialize();
+    AlarmService().startListening(context);
+
     context.read<AddTasksBloc>().add(TaskAdd()); // Initial fetch of tasks
+  }
+
+  @override
+  void dispose() {
+    AlarmService().stopListening();
+    super.dispose();
   }
 
   @override
@@ -143,9 +170,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: EdgeInsets.zero,
                           itemCount: state.task1.length,
                           itemBuilder: (context, index) {
+                            List<String> keys = state.task1.keys.toList();
                             return TaskContainer(
-                              allList: state.task,
-                                tasksMap: state.task1,
+                                allList: state.task,
+                                tasksMap: state.task1[keys[index]]!,
                                 taskData: state.task[index],
                                 index1: index,
                                 alarmId: alarmId1);

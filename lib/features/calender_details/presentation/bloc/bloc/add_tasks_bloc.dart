@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -23,40 +22,46 @@ class AddTasksBloc extends Bloc<AddTasksEvent, AddTasksState> {
 
   void _onImpTask(ImpTask event, Emitter<AddTasksState> emit) async {
     List<Tasks> res = await taskRepo.impTask(event.id);
+    res = sortTasksByDate(res);
+    log("${groupTasksByDate(res)}");
     emit(AddTaskSuccess(task: res, task1: groupTasksByDate(res)));
-    // emit(AddTaskSuccess(task: groupTasksByDate(res)));
   }
 
   void _onUnImpTask(TaskUnImp event, Emitter<AddTasksState> emit) async {
     List<Tasks> res = await taskRepo.unImpTask(event.id);
+    res = sortTasksByDate(res);
+    log("${groupTasksByDate(res)}");
     emit(AddTaskSuccess(task: res, task1: groupTasksByDate(res)));
-    // emit(AddTaskSuccess(task: groupTasksByDate(res)));
   }
 
   void _onTaskEdit(EditTask event, Emitter<AddTasksState> emit) async {
     List<Tasks> res = await taskRepo.editTask(event.task, event.index);
+    res = sortTasksByDate(res);
+    log("${groupTasksByDate(res)}");
     emit(AddTaskSuccess(task: res, task1: groupTasksByDate(res)));
-    // emit(AddTaskSuccess(task: groupTasksByDate(res)));
   }
 
   void _onDeleteTask(TaskDelete event, Emitter<AddTasksState> emit) async {
     emit(TasksDeleteLoading());
     List<Tasks> res = await taskRepo.removeTask(event.id);
     emit(TasksDeleteSuccess());
-   emit(AddTaskSuccess(task: res, task1: groupTasksByDate(res)));
-    // emit(AddTaskSuccess(task: groupTasksByDate(res)));
+    res = sortTasksByDate(res);
+    log("${groupTasksByDate(res)}");
+    emit(AddTaskSuccess(task: res, task1: groupTasksByDate(res)));
   }
 
   void _onDoneTask(TaskDone event, Emitter<AddTasksState> emit) async {
     List<Tasks> res = await taskRepo.doneTask(event.id, event.isDone);
+    res = sortTasksByDate(res);
+    log("${groupTasksByDate(res)}");
     emit(AddTaskSuccess(task: res, task1: groupTasksByDate(res)));
-    // emit(AddTaskSuccess(task: groupTasksByDate(res)));
   }
 
   void _onUnDoneTask(TaskUnDone event, Emitter<AddTasksState> emit) async {
     List<Tasks> res = await taskRepo.unDoneTask(event.id);
+    res = sortTasksByDate(res);
+    log("${groupTasksByDate(res)}");
     emit(AddTaskSuccess(task: res, task1: groupTasksByDate(res)));
-    // emit(AddTaskSuccess(task: groupTasksByDate(res)));
   }
 
   DateTime parseDate(String date) {
@@ -65,18 +70,15 @@ class AddTasksBloc extends Bloc<AddTasksEvent, AddTasksState> {
   }
 
   Map<String, List<Tasks>> groupTasksByDate(List<Tasks> tasks) {
-    // Create a map to hold the grouped tasks
     Map<String, List<Tasks>> tasksByDate = {};
 
     for (var task in tasks) {
       String date = task.date ?? "1 Jan 1970";
 
-      // If the date is not already a key, add it with an empty list
       if (!tasksByDate.containsKey(date)) {
         tasksByDate[date] = [];
       }
 
-      // Add the task to the list corresponding to the date
       tasksByDate[date]!.add(task);
     }
 
@@ -101,7 +103,7 @@ class AddTasksBloc extends Bloc<AddTasksEvent, AddTasksState> {
     List<Tasks> task = await taskRepo.fetchTask();
     task = sortTasksByDate(task);
     log("${groupTasksByDate(task)}");
-    emit(AddTaskSuccess(task: task ,task1: groupTasksByDate(task)));
+    emit(AddTaskSuccess(task: task, task1: groupTasksByDate(task)));
   }
 
   void _onTaskAdd(TaskAdd1 event, Emitter<AddTasksState> emit) async {
@@ -109,7 +111,7 @@ class AddTasksBloc extends Bloc<AddTasksEvent, AddTasksState> {
     List<Tasks> res = await taskRepo.addTask(event.task);
     res = sortTasksByDate(res);
     emit(AddTaskSuccess1());
+    log("${groupTasksByDate(res)}");
     emit(AddTaskSuccess(task: res, task1: groupTasksByDate(res)));
-    // emit(AddTaskSuccess(task: groupTasksByDate(res)));
   }
 }

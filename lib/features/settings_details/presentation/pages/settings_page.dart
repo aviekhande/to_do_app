@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:alarm/alarm.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:to_do_app/core/common/widget/appbar_widget.dart';
 
 import '../../../../core/common/widget/logout_alert_dialog_box.dart';
 import '../../../../core/routes/app_router.dart';
+import '../../../../core/services/alarm_services/alarm_services.dart';
 import '../../../../core/services/localizationbloc/locbloc_bloc.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/bloc/theme_bloc_bloc.dart';
@@ -16,6 +18,7 @@ import '../../../../core/theme/colors.dart';
 import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../auth/presentation/bloc/loginbloc/loginbloc.dart';
 import '../../../auth/presentation/bloc/loginbloc/loginstate.dart';
+import '../../../home_screen/presentation/pages/home_screen.dart';
 
 @RoutePage()
 class SettingsPage extends StatefulWidget {
@@ -260,6 +263,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         showDialog(
                             context: context,
                             builder: (context) => const LogoutAlertDialogBox());
+                       AlarmService().resetService();
                       },
                       child: Row(
                         children: [

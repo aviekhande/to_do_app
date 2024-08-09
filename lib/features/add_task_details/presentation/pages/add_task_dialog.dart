@@ -466,7 +466,6 @@
 import 'dart:developer';
 import 'package:alarm/alarm.dart';
 import 'package:auto_route/auto_route.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -512,6 +511,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   TimeOfDay? _selectedTime;
   String? _formattedTime;
   TimeOfDay? alarm1;
+  AlarmSettings? alarmSettings;
   void clearDateTime() {
     setState(() {
       taskController.clear();
@@ -581,6 +581,23 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         dateController.text = _formattedDate!;
       });
     }
+  }
+
+  Future<void> setAlarm() async {
+    final alarmSettings = AlarmSettings(
+      id: uniqIdAlarm!,
+      dateTime: convertTimeOfDayToDateTime(selectedDate!, alarm1!),
+      assetAudioPath: 'assets/done.mp3',
+      loopAudio: true,
+      vibrate: true,
+      volume: 0.8,
+      fadeDuration: 3.0,
+      notificationTitle: 'Reminder',
+      notificationBody: 'Complete your task',
+      androidFullScreenIntent: true,
+      enableNotificationOnKill: false,
+    );
+    await Alarm.set(alarmSettings: alarmSettings);
   }
 
   DateTime convertTimeOfDayToDateTime(DateTime date, TimeOfDay time) {
@@ -867,7 +884,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           taskController.text.trim() != "") {
                         context.read<AddTasksBloc>().add(TaskAdd1(
                               task: Tasks(
-                                imp:false,
+                                  imp: false,
                                   alarm: alarmController.text,
                                   task: taskController.text,
                                   date: _formattedDate,
@@ -878,22 +895,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             ));
                         AutoRouter.of(context).back();
                         if (alarm1 != null) {
-                          final alarmSettings = AlarmSettings(
-                            id: uniqIdAlarm!,
-                            dateTime: convertTimeOfDayToDateTime(
-                                selectedDate!, alarm1!),
-                            assetAudioPath: 'assets/done.mp3',
-                            loopAudio: true,
-                            vibrate: true,
-                            volume: 0.8,
-                            fadeDuration: 3.0,
-                            notificationTitle: 'Reminder',
-                            notificationBody: 'Complete your task',
-                            androidFullScreenIntent: true,
-                            enableNotificationOnKill: false,
-                          );
-                          await Alarm.set(alarmSettings: alarmSettings);
-                          Alarm.ringStream;
+                          setAlarm();
                         }
                       }
                     },
@@ -1050,7 +1052,6 @@ List<Appointment> getAppointments(List task) {
 
 //   return meetings;
 // }
-
 
 class TodoDataSource extends CalendarDataSource {
   TodoDataSource(List<Appointment> source) {

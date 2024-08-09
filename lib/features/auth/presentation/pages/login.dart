@@ -10,6 +10,7 @@ import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginbloc.da
 import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginevent.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/loginbloc/loginstate.dart';
 import '../../../../core/common/widget/snackbar_widget.dart';
+import '../../../../core/services/alarm_services/alarm_services.dart';
 import '../../../../core/theme/colors.dart';
 
 @RoutePage()
@@ -196,6 +197,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (state is LoginSuccess) {
                         AutoRouter.of(context).replaceAll(
                             [const CommonbottomnavigationbarRoute()]);
+                              AlarmService().initialize();
+                        AlarmService().startListening(context);
                         clearController();
                       } else if (state is LoginFailure) {
                         showSnackBarWidget(context, state.res);

@@ -12,7 +12,13 @@ class ProductRepo1 {
     return taskList;
   }
    Future<List<Tasks>> editTask(Tasks model,int index) async {
-    taskList[index]= model;
+    int? find;
+    for(int i=0; i <taskList.length;i++){
+      if( int.parse(taskList[i].id!) == index){
+          find=i;
+      }
+    }
+    taskList[find!]= model;
     addData();
     return taskList;
   }

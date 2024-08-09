@@ -388,7 +388,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: kColorLightBlack, fontSize: 16.sp),
                       // contentPadding: const EdgeInsets.only(
                       //     left: 15, bottom: 20, top: 8, right: 10),
-                      hintText: "*********",
+                      hintText: "Enter Password",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
@@ -442,7 +442,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: kColorLightBlack, fontSize: 16.sp),
                       // contentPadding: const EdgeInsets.only(
                       //     left: 15, bottom: 10, top: 25, right: 10),
-                      hintText: "**********",
+                      hintText: "Enter Confirm Password",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),

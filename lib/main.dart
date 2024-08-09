@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:to_do_app/core/common/widget/snackbar_widget.dart';
 // import 'package:to_do_app/core/common/widget/snackbar_widget.dart';
 import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/bloc/signup_bloc.dart';
@@ -43,8 +42,8 @@ void main() async {
         : await getApplicationDocumentsDirectory(),
   );
   locatior();
-  runApp(const MainApp());
   await Alarm.init();
+  runApp(const MainApp());
 }
 
 class MainApp extends StatefulWidget {
@@ -55,11 +54,6 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   final _appRouter = AppRouter();
   @override
   Widget build(BuildContext context) {

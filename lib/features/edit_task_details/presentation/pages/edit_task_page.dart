@@ -445,7 +445,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
                                 priority: selectedPriority?.label,
                                 id: widget.task!.id,
                                 done: widget.task!.done),
-                            index: widget.index));
+                            index: int.parse(widget.task!.id!)));
                         AutoRouter.of(context).back();
                         if (alarm1 != null) {
                           final alarmSettings = AlarmSettings(
