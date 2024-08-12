@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:alarm/alarm.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +17,6 @@ import '../../../../core/theme/colors.dart';
 import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../auth/presentation/bloc/loginbloc/loginbloc.dart';
 import '../../../auth/presentation/bloc/loginbloc/loginstate.dart';
-import '../../../home_screen/presentation/pages/home_screen.dart';
 
 @RoutePage()
 class SettingsPage extends StatefulWidget {
@@ -37,8 +35,12 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   String selectedValue = "English";
+
   @override
   Widget build(BuildContext context) {
+    isDarkTheme = Theme.of(context).colorScheme.surface == Colors.grey.shade700
+        ? true
+        : false;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.maxFinite, 50.h),
@@ -57,15 +59,16 @@ class _SettingsPageState extends State<SettingsPage> {
             padding: EdgeInsets.all(8.0.h),
             margin: EdgeInsets.all(15.w),
             decoration: BoxDecoration(
-              color: isDarkTheme ? Colors.grey[850] : Colors.white,
+              color:
+                  Theme.of(context).colorScheme.surface == Colors.grey.shade700
+                      ? Theme.of(context).colorScheme.surface
+                      : const Color.fromARGB(255, 238, 245, 238),
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: const Offset(0, 4),
-                ),
+                    color: Theme.of(context).colorScheme.shadow,
+                    offset: const Offset(0, 3),
+                    blurRadius: 10)
               ],
             ),
             child: Column(
@@ -135,15 +138,16 @@ class _SettingsPageState extends State<SettingsPage> {
             padding: EdgeInsets.all(8.0.h),
             margin: EdgeInsets.all(15.w),
             decoration: BoxDecoration(
-              color: isDarkTheme ? Colors.grey[850] : Colors.white,
+              color:
+                  Theme.of(context).colorScheme.surface == Colors.grey.shade700
+                      ? Theme.of(context).colorScheme.surface
+                      : const Color.fromARGB(255, 238, 245, 238),
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: const Offset(0, 4),
-                ),
+                    color: Theme.of(context).colorScheme.shadow,
+                    offset: const Offset(0, 3),
+                    blurRadius: 10)
               ],
             ),
             child: Column(
@@ -181,7 +185,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         width: 45.w,
                         decoration: BoxDecoration(
                           color: isDarkTheme
-                              ? const Color.fromARGB(255, 54, 14, 135)
+                              ? Colors.black
                               : const Color.fromARGB(255, 205, 203, 203),
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: kColorLightBlack, width: 2),
@@ -189,17 +193,20 @@ class _SettingsPageState extends State<SettingsPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            SizedBox(
+                              width: 2.w,
+                            ),
                             Container(
                               width: 12.w,
                               height: 12.h,
                               decoration: BoxDecoration(
                                 color: isDarkTheme
-                                    ? const Color.fromARGB(255, 54, 14, 135)
+                                    ? Colors.black
                                     : kColorLightBlack,
                                 shape: BoxShape.circle,
                               ),
                             ),
-                            SizedBox(width: 4.w),
+                            SizedBox(width: 9.w),
                             Container(
                               width: 17.w,
                               height: 17.h,
@@ -218,8 +225,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     Icon(
                       Icons.dark_mode,
                       color: isDarkTheme
-                          ? const Color.fromARGB(255, 54, 14, 135)
-                          : kColorLightBlack,
+                          ? Colors.black
+                          : const Color.fromARGB(255, 205, 203, 203),
                     ),
                   ],
                 ),
@@ -231,15 +238,16 @@ class _SettingsPageState extends State<SettingsPage> {
             padding: EdgeInsets.all(8.0.h),
             margin: EdgeInsets.all(15.w),
             decoration: BoxDecoration(
-              color: isDarkTheme ? Colors.grey[850] : Colors.white,
+              color:
+                  Theme.of(context).colorScheme.surface == Colors.grey.shade700
+                      ? Theme.of(context).colorScheme.surface
+                      : const Color.fromARGB(255, 238, 245, 238),
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: const Offset(0, 4),
-                ),
+                    color: Theme.of(context).colorScheme.shadow,
+                    offset: const Offset(0, 3),
+                    blurRadius: 10)
               ],
             ),
             child: Column(
@@ -263,7 +271,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         showDialog(
                             context: context,
                             builder: (context) => const LogoutAlertDialogBox());
-                       AlarmService().resetService();
+                        AlarmService().resetService();
                       },
                       child: Row(
                         children: [

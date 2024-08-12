@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:alarm/alarm.dart';
 // import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,8 +20,10 @@ import 'package:path_provider/path_provider.dart';
 import 'core/common/widget/bloc/bottom_nav_bloc.dart';
 import 'core/services/localizationbloc/locbloc_bloc.dart';
 import 'core/services/network/bloc/internet_bloc/internet_bloc.dart';
+import 'core/services/notification_service/notification_service.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/bloc/theme_bloc_bloc.dart';
+import 'features/auth/presentation/bloc/login_number_bloc/log_in_with_number_bloc.dart';
 import 'features/important_details/presentation/bloc/important_task_bloc.dart';
 import 'flutter_gen/gen_l10n/app_localizations.dart';
 import 'injection.dart';
@@ -41,6 +44,8 @@ void main() async {
         ? HydratedStorage.webStorageDirectory
         : await getApplicationDocumentsDirectory(),
   );
+  await LocalNotificationService().requestPermission();
+  await LocalNotificationService().init();
   locatior();
   await Alarm.init();
   runApp(const MainApp());
@@ -54,6 +59,29 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
+  late FirebaseMessaging messaging;
+  @override
+  void initState() {
+    super.initState();
+    notificationHandler();
+      messaging = FirebaseMessaging.instance;
+
+    // Request permission for iOS
+    messaging.requestPermission();
+
+    // Get the token
+    
+    messaging.getToken().then((token) {
+      print("FCM Token: $token");
+    });
+  }
+
+  void notificationHandler() {
+    FirebaseMessaging.onMessage.listen((event) async {
+      LocalNotificationService().showNotification(event);
+    });
+  }
+
   final _appRouter = AppRouter();
   @override
   Widget build(BuildContext context) {
@@ -91,6 +119,9 @@ class _MainAppState extends State<MainApp> {
           ),
           BlocProvider(
             create: (context) => ImportantTaskBloc(taskRepo: getIt()),
+          ),
+          BlocProvider(
+            create: (context) => LogInWithNumberBloc(),
           ),
         ],
         child: ScreenUtilInit(

@@ -220,6 +220,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             SizedBox(
                               // width: 150.w,
                               child: TextFormField(
+                                style: GoogleFonts.poppins(color: Colors.black),
                                 // key: checkkey,
                                 controller: firstNameController,
                                 decoration: InputDecoration(
@@ -272,6 +273,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             SizedBox(
                               // width: 150.w,
                               child: TextFormField(
+                                style: GoogleFonts.poppins(color: Colors.black),
                                 // key: checkkey,
                                 controller: lastNameController,
                                 decoration: InputDecoration(
@@ -320,6 +322,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 5.h,
                   ),
                   TextFormField(
+                    style: GoogleFonts.poppins(color: Colors.black),
                     // key: checkkey,
                     controller: emailController,
                     decoration: InputDecoration(
@@ -359,6 +362,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 5.h,
                   ),
                   TextFormField(
+                    style: GoogleFonts.poppins(color: Colors.black),
                     // key: checkkey,
                     obscureText: unShowPass1,
                     obscuringCharacter: "*",
@@ -413,6 +417,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 5.h,
                   ),
                   TextFormField(
+                    style: GoogleFonts.poppins(color: Colors.black),
                     // key: checkkey,
                     obscureText: unShowPass,
                     obscuringCharacter: "*",

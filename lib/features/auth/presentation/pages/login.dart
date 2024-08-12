@@ -88,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 5.h,
                   ),
                   TextFormField(
+                    style: GoogleFonts.poppins(color: Colors.black),
                     controller: emailController,
                     decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
@@ -125,6 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 5.h,
                   ),
                   TextFormField(
+                    style: GoogleFonts.poppins(color: Colors.black),
                     obscureText: unshowpass,
                     obscuringCharacter: "*",
                     controller: passwordController,
@@ -197,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (state is LoginSuccess) {
                         AutoRouter.of(context).replaceAll(
                             [const CommonbottomnavigationbarRoute()]);
-                              AlarmService().initialize();
+                        AlarmService().initialize();
                         AlarmService().startListening(context);
                         clearController();
                       } else if (state is LoginFailure) {
@@ -241,7 +243,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         "Don't have an account? ",
                         style: GoogleFonts.poppins(
-                            color: kColorLightBlack, fontSize: 16.sp),
+                            color: Theme.of(context).colorScheme.surface ==
+                                    Colors.grey.shade700
+                                ? Colors.white
+                                : kColorLightBlack,
+                            fontSize: 16.sp),
                       ),
                       Container(
                         decoration: BoxDecoration(

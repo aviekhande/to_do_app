@@ -9,6 +9,7 @@ import '../../features/add_task_details/presentation/pages/add_task_dialog.dart'
 import '../../features/auth/presentation/pages/login.dart';
 import '../../features/auth/presentation/pages/mobile_number_login_screen.dart';
 import '../../features/auth/presentation/pages/options_to_login.dart';
+import '../../features/auth/presentation/pages/otp_page.dart';
 import '../../features/auth/presentation/pages/signup.dart';
 import '../../features/edit_task_details/presentation/pages/edit_task_page.dart';
 import '../../features/home_screen/data/model/task_model.dart';
@@ -53,6 +54,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: RecyclePageRoute.page),
         AutoRoute(page: EditTaskPageRoute.page),
         AutoRoute(page: ImportantPageRoute.page),
+        AutoRoute(page: OtpPageRoute.page),
         isLogin() != null
             ? AutoRoute(
                 page: OptionScreenRoute.page,

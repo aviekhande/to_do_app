@@ -1,14 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:to_do_app/core/theme/colors.dart';
 
-showSnackBarWidget(BuildContext context, String text,
-    [Color color = Colors.black45]) {
+import '../../../features/calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
+import '../../../features/home_screen/data/model/task_model.dart';
+
+showSnackBarWidget(
+  BuildContext context,
+  String text, [
+  Color color = Colors.black45,
+  Tasks? taskData,
+]) {
   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     backgroundColor: color,
     behavior: SnackBarBehavior.floating,
-    content: Text(
-      text,
-      style: GoogleFonts.poppins(color: Colors.white),
+    content: Row(
+      children: [
+        Text(
+          text,
+          style: GoogleFonts.poppins(color: Colors.white),
+        ),
+        const Spacer(),
+        taskData != null
+            ? GestureDetector(
+                onTap: () {
+                  context.read<AddTasksBloc>().add(TaskAdd1(task: taskData));
+                },
+                child: const Icon(
+                  Icons.undo_rounded,
+                  color: kColorWhite,
+                ),
+              )
+            : const SizedBox()
+      ],
     ),
   ));
 }

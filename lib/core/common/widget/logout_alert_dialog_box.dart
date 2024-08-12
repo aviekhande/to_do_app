@@ -12,7 +12,10 @@ class LogoutAlertDialogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Theme.of(context).colorScheme.secondary,
+      backgroundColor:
+          Theme.of(context).colorScheme.surface == Colors.grey.shade700
+              ? Theme.of(context).colorScheme.surface
+              : const Color.fromARGB(255, 238, 245, 238),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

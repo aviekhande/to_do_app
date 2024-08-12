@@ -74,6 +74,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const OptionScreen(),
       );
     },
+    OtpPageRoute.name: (routeData) {
+      final args = routeData.argsAs<OtpPageRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: OtpPage(
+          key: args.key,
+          mobile: args.mobile,
+        ),
+      );
+    },
     ProfileScreenRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -266,6 +276,44 @@ class OptionScreenRoute extends PageRouteInfo<void> {
   static const String name = 'OptionScreenRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [OtpPage]
+class OtpPageRoute extends PageRouteInfo<OtpPageRouteArgs> {
+  OtpPageRoute({
+    Key? key,
+    required String mobile,
+    List<PageRouteInfo>? children,
+  }) : super(
+          OtpPageRoute.name,
+          args: OtpPageRouteArgs(
+            key: key,
+            mobile: mobile,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'OtpPageRoute';
+
+  static const PageInfo<OtpPageRouteArgs> page =
+      PageInfo<OtpPageRouteArgs>(name);
+}
+
+class OtpPageRouteArgs {
+  const OtpPageRouteArgs({
+    this.key,
+    required this.mobile,
+  });
+
+  final Key? key;
+
+  final String mobile;
+
+  @override
+  String toString() {
+    return 'OtpPageRouteArgs{key: $key, mobile: $mobile}';
+  }
 }
 
 /// generated route for

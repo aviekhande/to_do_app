@@ -42,7 +42,12 @@ class _OptionScreenState extends State<OptionScreen> {
                     padding: EdgeInsets.only(
                         left: 48.w, right: 48.w, top: 10.h, bottom: 10.h),
                     decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 2.w),
+                        border: Border.all(
+                            color: Theme.of(context).colorScheme.surface ==
+                                    Colors.grey.shade700
+                                ? kColorWhite
+                                : Colors.black,
+                            width: 2.w),
                         borderRadius: BorderRadius.circular(30)),
                     child: Center(
                         child: Text(
@@ -86,7 +91,12 @@ class _OptionScreenState extends State<OptionScreen> {
                 padding: EdgeInsets.only(
                     left: 50.w, right: 50.w, top: 10.h, bottom: 10.h),
                 decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black38, width: 2.w),
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.surface ==
+                                Colors.grey.shade700
+                            ? kColorWhite
+                            : Colors.black,
+                        width: 2.w),
                     borderRadius: BorderRadius.circular(30)),
                 child: Center(
                     child: Text(

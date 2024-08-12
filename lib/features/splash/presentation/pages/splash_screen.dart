@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
         () => Timer(const Duration(seconds: 2), () {
               AutoRouter.of(context).replace(isLogin() != null
                   ? const CommonbottomnavigationbarRoute()
-                  : const LoginScreenRoute());
+                  : const OptionScreenRoute());
             }));
   }
 

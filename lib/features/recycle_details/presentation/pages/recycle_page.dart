@@ -44,7 +44,7 @@ class _RecyclePageState extends State<RecyclePage> {
             listener: (context, state) {
               if (state is TasksDeleteSuccess) {
                 showSnackBarWidget(
-                    context, "Task deleted", Colors.red.shade700);
+                    context, "Task deleted", kColorPrimary);
               }
               if (state is AddTaskSuccess1) {
                 showSnackBarWidget(context, "Task Added", kColorPrimary);

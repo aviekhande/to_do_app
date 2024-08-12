@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:alarm/alarm.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,7 +34,6 @@ class TaskContainer extends StatefulWidget {
 class _TaskContainerState extends State<TaskContainer> {
   @override
   void initState() {
-    log("IN COntainer: ${widget.alarmId}");
     super.initState();
   }
 
@@ -85,8 +83,6 @@ class _TaskContainerState extends State<TaskContainer> {
 
   @override
   Widget build(BuildContext context) {
-    log("In build");
-    log('In build${widget.alarmId}');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -148,8 +144,9 @@ class _TaskContainerState extends State<TaskContainer> {
                           ),
                         ),
                       ),
-                      key: ObjectKey(widget.taskData),
+                      key: Key(widget.tasksMap[index].id!),
                       onDismissed: (direction) async {
+                        currentTask = widget.tasksMap[index];
                         context
                             .read<AddTasksBloc>()
                             .add(TaskDelete(id: widget.tasksMap[index].id!));
@@ -174,8 +171,11 @@ class _TaskContainerState extends State<TaskContainer> {
                                     blurRadius: 5,
                                     offset: const Offset(0, 3))
                             ],
-                            color: widget.alarmId != int.parse(widget.tasksMap[index].id!)
-                                ? Theme.of(context).colorScheme.surface == Colors.grey.shade700 ? Theme.of(context).colorScheme.surface
+                            color: widget.alarmId !=
+                                    int.parse(widget.tasksMap[index].id!)
+                                ? Theme.of(context).colorScheme.surface ==
+                                        Colors.grey.shade700
+                                    ? Theme.of(context).colorScheme.surface
                                     : const Color.fromARGB(255, 238, 245, 238)
                                 : const Color.fromARGB(255, 224, 174, 170),
                             borderRadius: BorderRadius.circular(10)),
@@ -315,7 +315,7 @@ class _TaskContainerState extends State<TaskContainer> {
                     ),
                   );
                 })
-            : SizedBox(),
+            : const SizedBox(),
       ],
     );
   }

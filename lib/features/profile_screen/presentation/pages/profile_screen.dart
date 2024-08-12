@@ -40,7 +40,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         page: "Prof",
       ),
       resizeToAvoidBottomInset: false,
-      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: PreferredSize(
           preferredSize: Size(double.maxFinite.w, 50.h),
           child: CustomAppBar(

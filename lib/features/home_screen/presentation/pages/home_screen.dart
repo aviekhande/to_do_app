@@ -16,6 +16,7 @@ import '../../../../core/services/alarm_services/alarm_services.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/bloc/theme_bloc_bloc.dart';
 import '../../../../core/theme/colors.dart';
+import '../../data/model/task_model.dart';
 import '../widgets/shimmer_widget.dart';
 
 @RoutePage()
@@ -27,30 +28,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 int? alarmId1;
+Tasks? currentTask;
 
 class _HomeScreenState extends State<HomeScreen> {
   static StreamSubscription<AlarmSettings>? subscription;
-  // @override
-  // void initState() {
-  //   log("In Init");
-  //   super.initState();
-  //   subscription ??= Alarm.ringStream.stream.asBroadcastStream().listen(
-  //     (event) {
-  //       alarmId1 = event.id;
-  //       log("alarmId:${event.id}");
-  //       showSnackBarWidget(context, "Please complete task which is in red card",
-  //           kColorPrimary);
-  //       context.read<AddTasksBloc>().add(TaskAdd());
-  //     },
-  //   );
-  //   context.read<AddTasksBloc>().add(TaskAdd()); // Initial fetch of tasks
-  // }
-
-  // @override
-  // void dispose() {
-  //   subscription?.cancel();
-  //   super.dispose();
-  // }
   @override
   void initState() {
     super.initState();
@@ -116,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
             listener: (context, state) {
               if (state is TasksDeleteSuccess) {
                 showSnackBarWidget(
-                    context, "Task deleted", Colors.red.shade700);
+                    context, "Task deleted", kColorPrimary, currentTask);
               }
               if (state is AddTaskSuccess1) {
                 showSnackBarWidget(context, "Task Added", kColorPrimary);
@@ -171,6 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemCount: state.task1.length,
                           itemBuilder: (context, index) {
                             List<String> keys = state.task1.keys.toList();
+
                             return TaskContainer(
                                 allList: state.task,
                                 tasksMap: state.task1[keys[index]]!,
