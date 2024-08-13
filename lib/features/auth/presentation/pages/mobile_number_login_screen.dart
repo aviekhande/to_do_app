@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,9 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/core/common/widget/loader_widget.dart';
-import 'package:to_do_app/core/routes/app_router.dart';
-import 'package:to_do_app/features/auth/data/auth_remote_datasource.dart';
-
+import 'package:to_do_app/core/common/widget/snackbar_widget.dart';
+import '../../../../core/routes/app_router.dart';
 import '../../../../core/theme/colors.dart';
 import '../bloc/login_number_bloc/log_in_with_number_bloc.dart';
 
@@ -78,6 +76,16 @@ class _MobileNumberLoginScreenState extends State<MobileNumberLoginScreen> {
                     keyboardType: TextInputType.number,
                     controller: numberController,
                     decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            color: kColorTextfieldBordered, width: 1.0),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            color: kColorLightBlack, width: 1.0),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                       prefixIcon: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -114,7 +122,6 @@ class _MobileNumberLoginScreenState extends State<MobileNumberLoginScreen> {
                     if (mobileKey.currentState!.validate()) {
                       context.read<LogInWithNumberBloc>().add(LoginRequest(
                           number: numberController.text, context: context));
-                      numberController.clear();
                     }
                   },
                   child: Container(
@@ -136,8 +143,18 @@ class _MobileNumberLoginScreenState extends State<MobileNumberLoginScreen> {
               ],
             ),
           ),
-          BlocBuilder<LogInWithNumberBloc, LogInWithNumberState>(
-              builder: (context, state) {
+          BlocConsumer<LogInWithNumberBloc, LogInWithNumberState>(
+              listener: (context, state) {
+            if (state is LoginSuccess) {
+              AutoRouter.of(context).push(OtpPageRoute(
+                  mobile: numberController.text,
+                  verificationId: state.verificationId));
+              numberController.clear();
+            }
+            if (state is LoginFailed) {
+              showSnackBarWidget(context, state.response, kColorPrimary);
+            }
+          }, builder: (context, state) {
             if (state is LoginLoading) {
               log("Loading");
               return const LoaderWidget();

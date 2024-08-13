@@ -48,6 +48,7 @@ class ProductRepo1 {
                   id: e.id,
                   done: e.done,
                   priority: e.priority,
+                  note: e.note,
                   imp: e.imp,
                   alarm: e.alarm)
               .toJson())

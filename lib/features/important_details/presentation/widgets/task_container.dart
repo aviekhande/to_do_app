@@ -1,17 +1,10 @@
 import 'dart:developer';
 import 'package:alarm/alarm.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/core/theme/colors.dart';
-import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
-import '../../../calender_details/presentation/bloc/recyclebloc/recyclebin_bloc.dart';
 import '../../../home_screen/data/model/task_model.dart';
-import '../bloc/important_task_bloc.dart';
 
 class TaskContainer extends StatefulWidget {
   final Tasks taskData;

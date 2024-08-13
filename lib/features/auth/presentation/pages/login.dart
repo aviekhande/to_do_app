@@ -136,8 +136,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: kColorTextfieldBordered, width: 1.0),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      fillColor: kColorWhite,
-                      filled: true,
+                      // fillColor: kColorWhite,
+                      // filled: true,
                       focusedBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
                             color: kColorLightBlack, width: 1.0),

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:alarm/alarm.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:file_picker/file_picker.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,11 +10,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:to_do_app/core/common/widget/appbar_widget.dart';
 import 'package:to_do_app/core/common/widget/loader_widget.dart';
+import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/features/calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
 import 'package:to_do_app/features/home_screen/data/model/task_model.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
+import '../widgets/bottomsheet_widget.dart';
 
 @RoutePage()
 class EditTaskPage extends StatefulWidget {
@@ -49,6 +52,9 @@ class _EditTaskPageState extends State<EditTaskPage> {
   TimeOfDay? _selectedTime;
   String? _formattedTime;
   TimeOfDay? alarm1;
+  String? _fileName;
+  String? _filePath;
+  String note = "Add note";
 
   @override
   void initState() {
@@ -189,6 +195,21 @@ class _EditTaskPageState extends State<EditTaskPage> {
             ? alarmController.text = _formattedTime!
             : timeController.text = _formattedTime!;
       });
+    }
+  }
+
+  Future<void> _pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      PlatformFile file = result.files.first;
+
+      setState(() {
+        _fileName = file.name;
+        _filePath = file.path;
+      });
+    } else {
+      // User canceled the picker
     }
   }
 
@@ -354,7 +375,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
                       border: const OutlineInputBorder(),
                       suffixIcon: IconButton(
                         icon: const Icon(
-                          Icons.add_alarm_outlined,
+                          Icons.notifications_active_outlined,
                           color: Colors.black,
                         ),
                         onPressed: () => _selectTime(context, true),
@@ -429,6 +450,87 @@ class _EditTaskPageState extends State<EditTaskPage> {
                       ),
                     ),
                   SizedBox(height: 30.h),
+                  GestureDetector(
+                    onTap: () {
+                      showOptionBottomSheet(context);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.0.w, vertical: 12.0.h),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(
+                          color: kColorTextfieldBordered,
+                          width: 1.0,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Add file",
+                            style: GoogleFonts.poppins(
+                              color: alarmController.text.isNotEmpty
+                                  ? Colors.black
+                                  : kColorLightBlack,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                          const Icon(Icons.attach_file,
+                              color: kColorLightBlack),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      AutoRouter.of(context)
+                          .push(TodoNotePageRoute(task: widget.task!));
+                    },
+                    child: Container(
+                      height: 100.h,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.0.w, vertical: 12.0.h),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(
+                          color: kColorTextfieldBordered,
+                          width: 1.0,
+                        ),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          BlocBuilder<AddTasksBloc, AddTasksState>(
+                            builder: (context, state) {
+                              if (state is AddTaskSuccess) {
+                                if (state.task[widget.index].note != null) {
+                                  note = state.task[widget.index].note!;
+                                  widget.task!.note = note;
+                                }
+                              }
+                              return Expanded(
+                                child: Text(
+                                  note,
+                                  style: GoogleFonts.poppins(
+                                    color: alarmController.text.isNotEmpty
+                                        ? Colors.grey
+                                        : kColorLightBlack,
+                                    fontSize: 16.sp,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 100.h),
                   GestureDetector(
                     onTap: () async {

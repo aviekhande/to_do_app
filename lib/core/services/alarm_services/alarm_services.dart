@@ -37,8 +37,8 @@ class AlarmService {
         (event) {
           alarmId1 = event.id;
           log("alarmId:${event.id}");
-          showSnackBarWidget(context,
-              "Please complete the task which is in red card", kColorPrimary);
+          showSnackBarWidget(
+              context, "Please complete the task", kColorPrimary);
           context.read<AddTasksBloc>().add(TaskAdd());
         },
       );

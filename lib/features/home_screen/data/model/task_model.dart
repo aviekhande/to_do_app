@@ -7,8 +7,9 @@ class Tasks {
   String? priority;
   String? alarm;
   bool? imp;
+  String? note;
 
-  Tasks({this.task, this.date, this.time ,required this.id, this.done ,this.priority,this.alarm,this.imp});
+  Tasks({this.task, this.date, this.time ,required this.id, this.done ,this.priority,this.alarm,this.imp,this.note});
 
   Tasks.fromJson(Map<String, dynamic> json) {
     task = json['task'];
@@ -19,6 +20,7 @@ class Tasks {
     priority = json['priority'];
     alarm = json['alarm'];
     imp = json['imp'];
+    note = json['note'];
   }
 
   Map<String, dynamic> toJson() {
@@ -31,6 +33,7 @@ class Tasks {
     data['priority'] = priority;
     data['alarm']= alarm;
     data['imp']=imp;
+    data['note']=note;
     return data;
   }
 }

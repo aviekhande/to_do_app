@@ -81,6 +81,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: OtpPage(
           key: args.key,
           mobile: args.mobile,
+          verificationId: args.verificationId,
         ),
       );
     },
@@ -112,6 +113,16 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const SplashScreen(),
+      );
+    },
+    TodoNotePageRoute.name: (routeData) {
+      final args = routeData.argsAs<TodoNotePageRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TodoNotePage(
+          key: args.key,
+          task: args.task,
+        ),
       );
     },
     UpdateAccountScreenRoute.name: (routeData) {
@@ -284,12 +295,14 @@ class OtpPageRoute extends PageRouteInfo<OtpPageRouteArgs> {
   OtpPageRoute({
     Key? key,
     required String mobile,
+    required String verificationId,
     List<PageRouteInfo>? children,
   }) : super(
           OtpPageRoute.name,
           args: OtpPageRouteArgs(
             key: key,
             mobile: mobile,
+            verificationId: verificationId,
           ),
           initialChildren: children,
         );
@@ -304,15 +317,18 @@ class OtpPageRouteArgs {
   const OtpPageRouteArgs({
     this.key,
     required this.mobile,
+    required this.verificationId,
   });
 
   final Key? key;
 
   final String mobile;
 
+  final String verificationId;
+
   @override
   String toString() {
-    return 'OtpPageRouteArgs{key: $key, mobile: $mobile}';
+    return 'OtpPageRouteArgs{key: $key, mobile: $mobile, verificationId: $verificationId}';
   }
 }
 
@@ -384,6 +400,44 @@ class SplashScreenRoute extends PageRouteInfo<void> {
   static const String name = 'SplashScreenRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TodoNotePage]
+class TodoNotePageRoute extends PageRouteInfo<TodoNotePageRouteArgs> {
+  TodoNotePageRoute({
+    Key? key,
+    required Tasks task,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TodoNotePageRoute.name,
+          args: TodoNotePageRouteArgs(
+            key: key,
+            task: task,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TodoNotePageRoute';
+
+  static const PageInfo<TodoNotePageRouteArgs> page =
+      PageInfo<TodoNotePageRouteArgs>(name);
+}
+
+class TodoNotePageRouteArgs {
+  const TodoNotePageRouteArgs({
+    this.key,
+    required this.task,
+  });
+
+  final Key? key;
+
+  final Tasks task;
+
+  @override
+  String toString() {
+    return 'TodoNotePageRouteArgs{key: $key, task: $task}';
+  }
 }
 
 /// generated route for

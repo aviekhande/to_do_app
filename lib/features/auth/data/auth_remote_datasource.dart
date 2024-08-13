@@ -4,8 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:counterapp/features/auth/domain/usecases/sessioncontroller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app/core/common/widget/session_controller.dart';
 import 'package:to_do_app/core/routes/app_router.dart';
+import 'package:to_do_app/features/auth/presentation/bloc/login_number_bloc/log_in_with_number_bloc.dart';
 
 class AuthMethod {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
@@ -104,41 +106,53 @@ class AuthMethod {
     return [true, "success"];
   }
 
-  Future<void> verifyPhoneNumber(String _phone, BuildContext context) async {
+  Future<String> verifyPhoneNumber(String _phone, BuildContext context) async {
+    String res = "failed";
     await _auth.verifyPhoneNumber(
       phoneNumber: '+91' + _phone,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        // await _auth.signInWithCredential(credential);
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //   content: Text(
-        //       "Phone number automatically verified and user signed in: ${_auth.currentUser!.uid}"),
-        // ));
-      },
+      verificationCompleted: (PhoneAuthCredential credential) async {},
       verificationFailed: (FirebaseAuthException e) {
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //   content: Text(
-        //       "Phone number verification failed. Code: ${e.code}. Message: ${e.message}"),
-        // ));
+        context.read<LogInWithNumberBloc>().add(VerificationFailed(res: e.toString()));
+    
       },
       codeSent: (String verificationId, int? resendToken) {
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //   content: Text("Please check your phone for the verification code."),
-        // ));
-        AutoRouter.of(context).push(OtpPageRoute(mobile: _phone));
+        context
+            .read<LogInWithNumberBloc>()
+            .add(CodeSent(verificationId: verificationId));
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
+    return res;
   }
 
-  void signInWithOTP(
+  Future<String> signInWithOTP(
       String _verificationId, String _otp, BuildContext context) async {
+        String res="failed";
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
       verificationId: _verificationId,
       smsCode: _otp,
     );
-    await _auth.signInWithCredential(credential);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("Successfully signed in UID: ${_auth.currentUser!.uid}"),
-    ));
+    try{
+        await _auth.signInWithCredential(credential);
+    SessionController().userId = _auth.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection("todo")
+        .doc(_auth.currentUser!.uid)
+        .set({"data": {}});
+    await FirebaseFirestore.instance
+        .collection("recycle")
+        .doc(_auth.currentUser!.uid)
+        .set({"data": {}});
+    await _fireStore.collection("users").doc(_auth.currentUser!.uid).set({
+      'name': "name",
+      'lastName': "lastName",
+      'email': "",
+      "image": "",
+    });
+    res="success";
+    }catch(e){
+      res = "failed";
+    }
+    return res;
   }
 }

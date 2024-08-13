@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:alarm/alarm.dart';
-// import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-// import 'package:to_do_app/core/common/widget/snackbar_widget.dart';
 import 'package:to_do_app/core/routes/app_router.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/bloc/signup_bloc.dart';
 import 'package:to_do_app/features/auth/presentation/bloc/forgotpassbloc/forgotpass_bloc.dart';
@@ -48,6 +46,7 @@ void main() async {
   await LocalNotificationService().init();
   locatior();
   await Alarm.init();
+
   runApp(const MainApp());
 }
 
@@ -64,13 +63,13 @@ class _MainAppState extends State<MainApp> {
   void initState() {
     super.initState();
     notificationHandler();
-      messaging = FirebaseMessaging.instance;
+    messaging = FirebaseMessaging.instance;
 
     // Request permission for iOS
     messaging.requestPermission();
 
     // Get the token
-    
+
     messaging.getToken().then((token) {
       print("FCM Token: $token");
     });

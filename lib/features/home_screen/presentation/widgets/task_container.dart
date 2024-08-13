@@ -171,13 +171,10 @@ class _TaskContainerState extends State<TaskContainer> {
                                     blurRadius: 5,
                                     offset: const Offset(0, 3))
                             ],
-                            color: widget.alarmId !=
-                                    int.parse(widget.tasksMap[index].id!)
-                                ? Theme.of(context).colorScheme.surface ==
-                                        Colors.grey.shade700
-                                    ? Theme.of(context).colorScheme.surface
-                                    : const Color.fromARGB(255, 238, 245, 238)
-                                : const Color.fromARGB(255, 224, 174, 170),
+                            color: Theme.of(context).colorScheme.surface ==
+                                    Colors.grey.shade700
+                                ? Theme.of(context).colorScheme.surface
+                                : const Color.fromARGB(255, 238, 245, 238),
                             borderRadius: BorderRadius.circular(10)),
                         child: Row(
                           children: [
@@ -288,7 +285,11 @@ class _TaskContainerState extends State<TaskContainer> {
                                         log('In If${widget.alarmId}');
                                       }
                                     },
-                                    child: const Icon(Icons.alarm))
+                                    child: Icon(widget.alarmId !=
+                                            int.parse(
+                                                widget.tasksMap[index].id!)
+                                        ? Icons.notifications_active_outlined
+                                        : Icons.notifications_active_sharp))
                                 : const SizedBox(),
                             SizedBox(
                               width: 5.w,
