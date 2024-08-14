@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class Tasks {
   String? task;
   String? date;
@@ -8,8 +10,9 @@ class Tasks {
   String? alarm;
   bool? imp;
   String? note;
+  List? files;
 
-  Tasks({this.task, this.date, this.time ,required this.id, this.done ,this.priority,this.alarm,this.imp,this.note});
+  Tasks({this.task, this.date, this.time ,required this.id, this.done ,this.priority,this.alarm,this.imp,this.note,this.files});
 
   Tasks.fromJson(Map<String, dynamic> json) {
     task = json['task'];
@@ -21,6 +24,7 @@ class Tasks {
     alarm = json['alarm'];
     imp = json['imp'];
     note = json['note'];
+    files = json['files'];
   }
 
   Map<String, dynamic> toJson() {
@@ -34,6 +38,7 @@ class Tasks {
     data['alarm']= alarm;
     data['imp']=imp;
     data['note']=note;
+    data['files'] = files;
     return data;
   }
 }

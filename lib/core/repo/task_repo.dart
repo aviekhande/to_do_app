@@ -50,6 +50,7 @@ class ProductRepo1 {
                   priority: e.priority,
                   note: e.note,
                   imp: e.imp,
+                  files: e.files,
                   alarm: e.alarm)
               .toJson())
           .toList()

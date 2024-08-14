@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/common/widget/appbar_widget.dart';
 import '../../../calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
 import '../../../home_screen/data/model/task_model.dart';
@@ -17,23 +17,46 @@ class TodoNotePage extends StatefulWidget {
 }
 
 class _TodoNotePageState extends State<TodoNotePage> {
-  final TextEditingController _noteController = TextEditingController();
+  late quill.QuillController _quillController;
 
   @override
   void initState() {
-    _noteController.text = widget.task.note != null ? widget.task.note! : "";
     super.initState();
+
+    // Initialize the Quill controller with the existing note content as plain text
+    final doc = quill.Document()..insert(0, widget.task.note ?? "");
+
+    _quillController = quill.QuillController(
+      document: doc,
+      selection: const TextSelection.collapsed(offset: 0),
+    );
   }
 
   @override
   void dispose() {
-    _noteController.dispose();
+    _quillController.dispose();
     super.dispose();
   }
 
   void _saveNote() {
-    final String noteContent = _noteController.text;
+    // Convert the Quill document to plain text
+    final String noteContent = _quillController.document.toPlainText();
 
+    // Save the updated note content in the task
+    context.read<AddTasksBloc>().add(EditTask(
+        task: Tasks(
+            note: noteContent, // Store the plain text in note
+            imp: widget.task.imp,
+            alarm: widget.task.alarm,
+            task: widget.task.task,
+            date: widget.task.date,
+            time: widget.task.time,
+            priority: widget.task.priority,
+            id: widget.task.id,
+            done: widget.task.done),
+        index: int.parse(widget.task.id!)));
+
+    // Pop the screen
     context.router.pop();
   }
 
@@ -47,41 +70,35 @@ class _TodoNotePageState extends State<TodoNotePage> {
           isBack: true,
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.w),
-        child: Column(
-          children: [
-            Expanded(
-              child: TextFormField(
-                onChanged: (value) {
-                  context.read<AddTasksBloc>().add(EditTask(
-                      task: Tasks(
-                          note: _noteController.text,
-                          imp: widget.task.imp,
-                          alarm: widget.task.alarm,
-                          task: widget.task.task,
-                          date: widget.task.date,
-                          time: widget.task.time,
-                          priority: widget.task.priority,
-                          id: widget.task.id,
-                          done: widget.task.done),
-                      index: int.parse(widget.task.id!)));
-                },
-                cursorColor:
-                    Theme.of(context).colorScheme.surface == Colors.white
-                        ? Colors.black
-                        : Colors.white,
-                controller: _noteController,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Add note',
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.w),
+          child: Column(
+            children: [
+              Container(
+                height: 400.h, // Adjust this height as needed
+                padding: EdgeInsets.all(8.0),
+                color: Colors.white,
+                child: quill.QuillEditor.basic(
+                  controller: _quillController,
+                  configurations: const quill.QuillEditorConfigurations(
+                      floatingCursorDisabled: true),
+                  // true for view-only mode
                 ),
-                maxLines: null,
-                expands: true,
               ),
-            ),
-          ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: quill.QuillToolbar.simple(controller: _quillController),
+              ),
+              SizedBox(height: 10.h),
+            ],
+          ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _saveNote,
+        child: Icon(Icons.save),
       ),
     );
   }

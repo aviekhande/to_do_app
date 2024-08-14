@@ -452,7 +452,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
                   SizedBox(height: 30.h),
                   GestureDetector(
                     onTap: () {
-                      showOptionBottomSheet(context);
+                      showOptionBottomSheet(context,widget.task!,widget.index);
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
@@ -513,14 +513,17 @@ class _EditTaskPageState extends State<EditTaskPage> {
                                   note = state.task[widget.index].note!;
                                   widget.task!.note = note;
                                 }
+                                if (note == "") {
+                                  note = "Add note";
+                                }
                               }
                               return Expanded(
                                 child: Text(
                                   note,
                                   style: GoogleFonts.poppins(
-                                    color: alarmController.text.isNotEmpty
+                                    color: note == "Add note"
                                         ? Colors.grey
-                                        : kColorLightBlack,
+                                        : Colors.black,
                                     fontSize: 16.sp,
                                   ),
                                 ),

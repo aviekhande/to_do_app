@@ -1,15 +1,20 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:to_do_app/core/theme/colors.dart';
+import '../../../calender_details/presentation/bloc/bloc/add_tasks_bloc.dart';
+import '../../../home_screen/data/model/task_model.dart';
 
-Future<void> showOptionBottomSheet(BuildContext context) async {
+Future<void> showOptionBottomSheet(
+    BuildContext context, Tasks task, int index) async {
   showModalBottomSheet<void>(
     context: context,
     builder: (BuildContext context) {
@@ -25,7 +30,7 @@ Future<void> showOptionBottomSheet(BuildContext context) async {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  uploadPhoto("dev", context);
+                  uploadPhoto("dev", context, task, index);
                 },
                 child: Row(
                   children: [
@@ -47,7 +52,7 @@ Future<void> showOptionBottomSheet(BuildContext context) async {
               SizedBox(height: 25.w),
               GestureDetector(
                 onTap: () {
-                  uploadPhoto("cam", context);
+                  uploadPhoto("cam", context, task, index);
                 },
                 child: Row(
                   children: [
@@ -74,7 +79,9 @@ Future<void> showOptionBottomSheet(BuildContext context) async {
   );
 }
 
-Future<void> uploadPhoto(String option, BuildContext context) async {
+final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+Future<void> uploadPhoto(
+    String option, BuildContext context, Tasks task, int ind) async {
   try {
     String? filePath;
     String? fileName;
@@ -104,7 +111,11 @@ Future<void> uploadPhoto(String option, BuildContext context) async {
         FirebaseStorage.instance.ref().child('uploads/$fileName');
     await storageRef.putFile(File(filePath));
     String imageUrl = await storageRef.getDownloadURL();
-    
+    log(imageUrl);
+    task.files = [
+      {"name": "$fileName", "url": "$imageUrl"}
+    ];
+    context.read<AddTasksBloc>().add(EditTask(task: task, index: ind));
   } catch (e) {
     debugPrint('Error uploading photo: $e');
     ScaffoldMessenger.of(context).showSnackBar(
